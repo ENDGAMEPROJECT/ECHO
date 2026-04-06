@@ -103,8 +103,33 @@ export const Desktop = () => {
     (escapeTimerExpired || (challengeFinalCompleted && outroCompleted && finalCompletionStatus !== "success"));
   const isEndingFlowComplete = challengeFinalCompleted && outroCompleted;
 
-  const handleOpenSurvey = () => setShowSurveyModal(true);
-  const handleCloseSurvey = () => setShowSurveyModal(false);
+  const surveyReopenTimerRef = useRef(null);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
+
+  const handleDismissBanner = () => {
+    setBannerDismissed(true);
+    surveyReopenTimerRef.current = setTimeout(() => {
+      setBannerDismissed(false);
+    }, 30000);
+  };
+
+  const handleOpenSurvey = () => {
+    if (surveyReopenTimerRef.current) {
+      clearTimeout(surveyReopenTimerRef.current);
+      surveyReopenTimerRef.current = null;
+    }
+    setShowSurveyModal(true);
+  };
+
+  const handleCloseSurvey = () => {
+    setShowSurveyModal(false);
+    if (!surveyCompleted) {
+      surveyReopenTimerRef.current = setTimeout(() => {
+        setShowSurveyModal(true);
+      }, 30000);
+    }
+  };
+
   const handleCloseEndOptionsModal = () => setShowEndOptionsModal(false);
 
   const handleRestartSession = useCallback(async () => {
@@ -221,6 +246,7 @@ export const Desktop = () => {
       window.removeEventListener("closeDrawer", handleCloseDrawer);
       window.removeEventListener("openDrawer", handleOpenDrawer);
       window.removeEventListener("bossMessage", handleBossMessage);
+      if (surveyReopenTimerRef.current) clearTimeout(surveyReopenTimerRef.current);
     };
   }, []);
 
@@ -441,7 +467,7 @@ export const Desktop = () => {
 
       {/* Survey balloon - shows when game is complete and survey not done */}
       {/* Survey balloon - shows when game is complete OR timed out, and survey not done */}
-      {isSurveyAvailable && (
+      {isSurveyAvailable && !bannerDismissed && (
         <div className="survey-banner" onClick={handleOpenSurvey}>
           <span className="survey-banner-icon">🎉</span>
           <div className="survey-banner-content">
@@ -450,6 +476,16 @@ export const Desktop = () => {
           </div>
           <button className="survey-banner-btn">
             {t('survey.bannerButton', 'Take Survey')}
+          </button>
+          <button
+            className="survey-banner-close"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDismissBanner();
+            }}
+            aria-label="Dismiss"
+          >
+            ✕
           </button>
         </div>
       )}

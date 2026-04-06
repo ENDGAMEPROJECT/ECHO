@@ -3,9 +3,10 @@ import "./HintsApp.css";
 import { useOS } from "../../contexts/OSProvider";
 import { useStats } from "../../contexts/StatsProvider";
 import { useTranslation } from "react-i18next";
-import { FaTimes, FaMinus, FaLightbulb, FaChevronLeft } from "react-icons/fa";
+import { FaTimes, FaMinus, FaLightbulb, FaChevronLeft, FaPlay } from "react-icons/fa";
 import hintsDataRaw from "./HintsData.json";
 import { useXAPI, XAPI_VERBS } from "../../contexts/XAPIProvider";
+import { assetPath } from "../../utils/assetPath";
 
 /**
  * HintsApp – App de pistas del escape room.
@@ -21,6 +22,7 @@ export const HintsApp = () => {
   const { t, i18n } = useTranslation();
 
   const [selectedContext, setSelectedContext] = useState(null);
+  const [showIntroVideo, setShowIntroVideo] = useState(null); // null | 1 | 2
 
   // Determina el puzzle_id activo según el avance del jugador
   const currentPuzzleId = useMemo(() => {
@@ -68,6 +70,37 @@ export const HintsApp = () => {
       }
     );
   };
+
+  const introVideoSrc = showIntroVideo
+    ? assetPath(`/assets/intro${showIntroVideo}_${lang}.mp4`)
+    : null;
+
+  if (showIntroVideo) {
+    return (
+      <div className="hints-intro-overlay">
+        <video
+          className="hints-intro-video"
+          src={introVideoSrc}
+          autoPlay
+          playsInline
+          onEnded={() => {
+            if (showIntroVideo === 1) {
+              setShowIntroVideo(2);
+            } else {
+              setShowIntroVideo(null);
+            }
+          }}
+          onError={() => setShowIntroVideo(null)}
+        />
+        <button
+          className="hints-intro-skip"
+          onClick={() => setShowIntroVideo(null)}
+        >
+          {t("hintsApp.skipVideo", "Skip")} →
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="hints-app-backdrop" onClick={handleClose}>
@@ -150,6 +183,14 @@ export const HintsApp = () => {
             </div>
           </div>
         )}
+
+        <button
+          className="hints-rewatch-btn"
+          onClick={() => setShowIntroVideo(1)}
+        >
+          <FaPlay className="hints-rewatch-icon" />
+          {t("hintsApp.rewatchIntro", "Rewatch intro video")}
+        </button>
       </div>
     </div>
     </div>

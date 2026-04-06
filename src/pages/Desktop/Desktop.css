@@ -426,6 +426,28 @@ p {
   transform: scale(1.05);
 }
 
+.survey-banner-close {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.survey-banner-close:hover {
+  background: rgba(0, 0, 0, 0.85);
+}
+
 .outro-video-overlay {
   position: fixed;
   inset: 0;

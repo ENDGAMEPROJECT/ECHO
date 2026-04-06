@@ -261,3 +261,68 @@
   margin: 0;
   font-size: 14px;
 }
+
+/* ── Rewatch intro button ── */
+.hints-rewatch-btn {
+  margin-top: auto;
+  padding: 10px 16px;
+  background: #16120a;
+  border: 1px solid #3a2e00;
+  border-radius: 8px;
+  color: #d1a830;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.hints-rewatch-btn:hover {
+  background: #241d0a;
+  border-color: #fbbf24;
+}
+
+.hints-rewatch-icon {
+  font-size: 11px;
+}
+
+/* ── Intro video overlay ── */
+.hints-intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hints-intro-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hints-intro-skip {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  z-index: 2001;
+}
+
+.hints-intro-skip:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
