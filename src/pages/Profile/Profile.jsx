@@ -270,7 +270,7 @@ export const Profile = () => {
   const isCurrentProfileResolved =
     isClassificationCorrectForCurrentProfile &&
     (!shouldRequireQuizForCurrentProfile || isQuizCompletedForCurrentProfile);
-  const canReturnToGame = !isPuzzleProfile || isCurrentProfileResolved;
+  const canReturnToGame = true;
 
   const canOpenQuiz =
     shouldRequireQuizForCurrentProfile &&

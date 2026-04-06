@@ -542,6 +542,21 @@ p {
   }
 }
 
+@media (max-width: 1023px) {
+  .app-overlay {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    backdrop-filter: none;
+    display: block;
+  }
+
+  .app-overlay-content {
+    display: block;
+    height: auto;
+    min-height: 100%;
+  }
+}
+
 @media (max-width: 600px) {
   .desktop-shell {
     padding: 48px 16px 140px;
@@ -556,12 +571,14 @@ p {
 
   .app-drawer {
     width: 92vw;
-    padding: 6px 12px 16px;
+    height: auto !important;
+    padding: 6px 12px 10px;
   }
 
   .app-launcher-card {
-    padding: 12px 8px;
+    padding: 6px;
     font-size: 13px;
+    aspect-ratio: auto;
   }
 
   .survey-banner {

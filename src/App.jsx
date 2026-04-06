@@ -8,20 +8,31 @@ import { useTranslation } from "react-i18next";
 import { useXAPI, XAPI_VERBS, ECHO_ACTIVITIES } from "./contexts/XAPIProvider";
 import { useStats } from "./contexts/StatsProvider";
 
-/**
- * Check if there's an existing session with meaningful progress
- * If survey is completed, the game is finished, so no session to resume
- */
-const hasExistingSession = () => {
-  try {
-    // If survey is completed, game is over - no session to resume
-    const surveyCompleted = sessionStorage.getItem('surveyCompleted') === 'true';
-    if (surveyCompleted) return false;
+const RESUME_WINDOW_MS = 5 * 60 * 1000; // 5 minutes
 
+/**
+ * Check if there's an existing session with meaningful progress.
+ * - Incomplete game: always offer resume.
+ * - Completed game (survey done) within 5 min: offer resume.
+ * - Completed game older than 5 min: auto-restart.
+ * Returns: "resume" | "restart" | false
+ */
+const checkExistingSession = () => {
+  try {
     const playerData = sessionStorage.getItem('playerData');
     if (!playerData) return false;
     const parsed = JSON.parse(playerData);
-    return parsed.onboardingCompleted === true;
+    if (!parsed.onboardingCompleted) return false;
+
+    const surveyCompleted = sessionStorage.getItem('surveyCompleted') === 'true';
+    if (!surveyCompleted) return "resume";
+
+    const completedAt = Number(sessionStorage.getItem('gameCompletedAt') || 0);
+    if (completedAt && Date.now() - completedAt < RESUME_WINDOW_MS) {
+      return "resume";
+    }
+
+    return "restart";
   } catch {
     return false;
   }
@@ -63,11 +74,14 @@ function App() {
     if (sessionDialogInitRef.current) return;
     sessionDialogInitRef.current = true;
 
-    if (hasExistingSession()) {
-      // Cuando aparece el diálogo de sesión previa, registramos salida del juego.
+    const sessionStatus = checkExistingSession();
+    if (sessionStatus === "resume") {
       sendWithFallbackActor(XAPI_VERBS.EXITED_ADL, ECHO_ACTIVITIES.GAME);
       pauseEscapeTimer();
       setShowSessionDialog(true);
+    } else if (sessionStatus === "restart") {
+      sessionStorage.clear();
+      window.location.reload();
     }
   }, [pauseEscapeTimer, sendWithFallbackActor]);
 

@@ -456,14 +456,26 @@
     align-items: stretch;
   }
 
-  .profile-classification-panel {
+  .profile-classification-panel,
+  .profile-classification-panel--pulse {
     align-items: flex-start;
     max-width: 100%;
+    min-width: 0;
     margin: 0;
   }
 
   .profile-classification-question {
     text-align: left;
+  }
+
+  .post-followers-following-container {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .user-info-container .profilepicture-container img {
+    width: 80px;
+    height: 80px;
   }
 }
 

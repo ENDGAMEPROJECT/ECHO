@@ -123,6 +123,7 @@ export const Desktop = () => {
   const handleSurveySubmit = async (answers) => {
     console.log('Survey answers:', answers);
     sessionStorage.setItem('surveyCompleted', 'true');
+    sessionStorage.setItem('gameCompletedAt', String(Date.now()));
     setSurveyCompleted(true);
     setShowSurveyModal(false);
 

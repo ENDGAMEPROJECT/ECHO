@@ -23,6 +23,13 @@ html.ai-incorrect-no-scroll {
     overflow: hidden;
 }
 
+@media (max-width: 768px) {
+    body.ai-incorrect-no-scroll,
+    html.ai-incorrect-no-scroll {
+        overflow: auto;
+    }
+}
+
 .ai-incorrect-feed {
     width: 100%;
     padding-right: 0;
@@ -375,9 +382,17 @@ html.ai-incorrect-no-scroll {
         font-size: 14px;
     }
 
+    .reply-modal-backdrop {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        align-items: flex-start;
+        padding: 24px 8px 120px;
+    }
+
     .reply-modal {
         width: 100%;
         padding: 16px;
+        max-height: none;
     }
 
     .x-reply-section.modal-reply {

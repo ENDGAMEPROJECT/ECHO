@@ -234,4 +234,29 @@
   cursor: pointer;
 }
 
+@media (max-width: 1023px) {
+  .social-app-window {
+    position: relative;
+    inset: auto;
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
+  }
+
+  .window-titlebar {
+    position: sticky;
+    top: 0;
+    z-index: 110;
+  }
+
+  .social-app-content {
+    overflow: visible;
+    flex: none;
+  }
+
+  .social-login {
+    min-height: calc(100vh - 40px);
+  }
+}
+
 /* Ya ocupa toda la pantalla por defecto, no necesita responsive específico */

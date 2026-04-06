@@ -317,6 +317,13 @@
 
 /* Responsive */
 @media (max-width: 640px) {
+  .onboarding-overlay {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    align-items: flex-start;
+    padding: 20px 0;
+  }
+
   .onboarding-container {
     padding: 32px 24px;
     width: 95%;

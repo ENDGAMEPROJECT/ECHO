@@ -908,6 +908,46 @@
 }
 
 @media (max-width: 640px) {
+    /* Enable scrolling on mobile */
+    .ai-content-feed {
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    .ai-content-page {
+        height: auto;
+        min-height: 100%;
+        overflow: visible;
+        padding: 12px 12px 24px;
+    }
+
+    .ai-content-frame {
+        max-height: none;
+        overflow: visible;
+    }
+
+    .ai-video-panel {
+        max-height: none;
+        overflow: visible;
+    }
+
+    .ai-game-panel {
+        padding: 16px 16px;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .ai-game-content {
+        overflow: visible;
+    }
+
+    .ai-game-words-container {
+        padding: 16px;
+        min-height: 200px;
+        overflow: visible;
+    }
+
     .ai-video-actions {
         flex-direction: column;
     }
@@ -917,26 +957,24 @@
         width: 100%;
     }
 
-    .ai-game-panel {
-        padding: 26px 28px;
-    }
-
     .ai-game-prompt-container {
         flex-direction: column;
         gap: 16px;
+        min-height: auto;
+        padding: 16px;
+    }
+
+    .ai-game-prompt {
+        padding-right: 0;
     }
 
     .ai-game-badge {
+        position: static;
         align-self: flex-start;
-    }
-
-    .ai-game-words-container {
-        padding: 24px;
     }
 
     .ai-game-actions {
         flex-direction: column;
-
     }
 
     .ai-game-match {
@@ -958,6 +996,12 @@
 
     .ai-game-match-tag {
         font-size: 13px;
+    }
+
+    /* Allow body scroll on mobile */
+    body.ai-content-no-scroll,
+    html.ai-content-no-scroll {
+        overflow: auto;
     }
 }
 /* Lock body scroll on this page */

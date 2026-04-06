@@ -7,7 +7,7 @@
   flex-flow: column nowrap;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .navbar {
     padding: 0.5rem 1rem;
   }
@@ -97,6 +97,94 @@
   min-width: 0;
 }
 
+@media (max-width: 1023px) {
+  .navlink {
+    position: relative;
+    justify-content: center;
+  }
+
+  .navlink-label {
+    display: contents !important;
+  }
+
+  .navlink-label-text {
+    display: none;
+  }
+
+  .nav-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-left: 0;
+    min-width: 18px;
+    height: 18px;
+    font-size: 11px;
+  }
+
+  .navbar .create-new-post-btn {
+    position: relative !important;
+    bottom: auto !important;
+    right: auto !important;
+    padding: 10px 20px;
+    border-radius: 2rem;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .navbar .create-new-post-btn span {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .navlink-label-text {
+    display: none;
+  }
+
+  .navlink-label {
+    width: auto;
+    gap: 0;
+  }
+
+  .navbar ul {
+    gap: 0;
+    justify-content: center;
+  }
+
+  .navlink {
+    padding: 8px;
+    position: relative;
+  }
+
+  .navlink-icon {
+    position: relative;
+  }
+
+  .nav-badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    margin-left: 0;
+    min-width: 16px;
+    height: 16px;
+    font-size: 10px;
+    padding: 0 4px;
+    border-radius: 999px;
+  }
+
+  .navbar .create-new-post-btn {
+    position: relative !important;
+    bottom: auto !important;
+    right: auto !important;
+    padding: 8px;
+    border-radius: 50%;
+    align-self: center;
+  }
+}
+
 .nav-badge {
   display: inline-flex;
   align-items: center;
@@ -121,7 +209,7 @@
   align-items: center;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .navbar ul {
     flex-flow: column nowrap;
     align-items: center;
@@ -147,7 +235,7 @@
   display: none;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .navbar .create-new-post-btn {
     position: relative;
     bottom: 0;
