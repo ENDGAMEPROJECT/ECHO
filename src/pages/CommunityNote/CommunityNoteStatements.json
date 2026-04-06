@@ -14,7 +14,7 @@
     },
     {
       "id": 3,
-      "text": "Verifying what we read on social media with multiple sources of information is key to combating misinformation.",
+      "text": "It is essential to verify the content we see on social media with multiple sources to avoid falling into misinformation.",
       "correct": true,
       "category": "information-verification"
     },
@@ -70,7 +70,7 @@
     },
     {
       "id": 3,
-      "text": "Verificar lo que leemos en redes sociales con otras fuentes de información es clave para combatir la desinformación",
+      "text": "Es clave verificar los contenidos que vemos en redes sociales con múltiples fuentes para no caer en desinformación",
       "correct": true,
       "category": "information-verification"
     },
@@ -126,7 +126,7 @@
     },
     {
       "id": 3,
-      "text": "Sosiaalisen median sisältöjen tarkistaminen useista lähteistä on keskeistä väärän tiedon torjumisessa.",
+      "text": "On tärkeää tarkistaa sosiaalisessa mediassa näkemämme sisällöt useista lähteistä, jotta emme lankea väärään tietoon.",
       "correct": true,
       "category": "information-verification"
     },
@@ -182,7 +182,7 @@
     },
     {
       "id": 3,
-      "text": "Proveravanje onoga što čitamo na društvenim mrežama iz više izvora informacija ključno je za borbu protiv dezinformacija.",
+      "text": "Ključno je proveravati sadržaje koje vidimo na društvenim mrežama iz više izvora kako bismo izbegli dezinformacije.",
       "correct": true,
       "category": "information-verification"
     },

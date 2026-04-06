@@ -96,7 +96,7 @@ export const es = {
     "incorrectSelection": "Selección incorrecta. ¡Intenta de nuevo!",
     "selected": "seleccionados",
     "publishConclusion": "Publicar",
-    "conclusionText": "Para proteger nuestra comunidad frente a la desinformación, es clave verificar lo que vemos antes de compartirlo. Las cuentas automatizadas suelen mostrar patrones de actividad repetitivos y muchos mensajes engañosos buscan provocar reacciones emocionales intensas. Además, las herramientas de IA generan contenido a partir de patrones estadísticos, por lo que sus resultados siempre deben contrastarse con fuentes fiables. En ECHO, informar con criterio también es cuidar a los demás."
+    "conclusionText": "Para proteger nuestra comunidad frente a la desinformación, es clave verificar lo que vemos antes de compartirlo. En ocasiones, las cuentas automatizadas o bots muestran mensajes engañosos que buscan provocar reacciones emocionales intensas en los usuarios. Además, los contenidos generados con las herramientas de IA surgen a partir de patrones estadísticos, por lo que sus resultados siempre deben contrastarse con fuentes fiables y estar etiquetados. En ECHO, informar con criterio también es cuidar a los demás."
   },
   "post": {
     "editPost": "Editar Publicación",
@@ -122,7 +122,7 @@ export const es = {
     "joined": "Se unió",
     "follow": "Seguir",
     "verifiedAccount": "Cuenta verificada",
-    "backToGame": "Volver al Juego",
+    "backToGame": "Volver a cuentas",
     "misinfoQuestion": "¿Es esta cuenta un posible bot?",
     "yes": "Sí",
     "no": "No",
@@ -130,7 +130,7 @@ export const es = {
     "classificationCorrectHuman": "Has clasificado el perfil correctamente",
     "classificationQuizSubtitle": "Puede haber más de una respuesta correcta.",
     "openQuiz": "Continuar test",
-    "classificationQuizTitle": "¿Qué características de este perfil hace que se clasifique como desinformador?",
+    "classificationQuizTitle": "¿Qué características de este perfil hace que se clasifique como bot?",
     "sendQuizAnswer": "Enviar respuesta",
     "closeQuiz": "Cerrar cuestionario"
   },
@@ -182,7 +182,7 @@ export const es = {
   },
   "aiVerifyPage": {
     "title": "Verifica contenido generado por IA",
-    "subtitle": "Se ha detectado un usuario que publica comentarios a una velocidad inusualmente alta y utiliza un estilo de lenguaje característico de contenido generado por IA. Analiza sus mensajes y demuestra que al menos uno de sus comentarios ha sido generado por IA. Lamentablemente, nuestro detector de IA está en mantenimiento, así que tendrás que hacerlo a mano.",
+    "subtitle": "Se ha detectado un usuario que publica comentarios a una velocidad inusualmente alta y utiliza un estilo de lenguaje característico de contenido generado por IA. Analiza sus mensajes y demuestra que al menos uno de sus posts ha sido generado por IA. Lamentablemente, nuestro detector de IA está en mantenimiento, así que tendrás que hacerlo a mano.",
     "postTitle": "Pensamiento crítico 🍎🥑",
     "tweetAuthorHandle": "quesofresco85",
     "postDate": "11 dic. 2025",
@@ -205,7 +205,7 @@ export const es = {
     "systemMessage": "El sistema encontró un <strong>posible prompt en MINT-AI que generó el post</strong>, a través de la comparación de palabras, tono y temas:",
     "explanation": "Este prompt puede tener algunas pistas.",
     "instructions": "Para demostrar que el post fue generado por IA, deberás <strong>imitar la generación del post</strong>, palabra por palabra.",
-    "buttonText": "Verificar post como IA →"
+    "buttonText": "Verificar como IA →"
   },
   "aiGamePage": {
     "user": "Usuario",

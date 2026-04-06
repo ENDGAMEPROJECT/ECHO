@@ -96,7 +96,7 @@ export const sr = {
     "incorrectSelection": "Pogrešan izbor. Pokušaj ponovo!",
     "selected": "izabrano",
     "publishConclusion": "Objavi ",
-    "conclusionText": "Da bismo zaštitili našu zajednicu od dezinformacija, ključno je da proverimo ono što vidimo pre nego što to podelimo. Automatizovani nalozi često pokazuju ponavljajuće obrasce aktivnosti, a mnoge obmanjujuće poruke pokušavaju da izazovu snažne emocionalne reakcije. Pored toga, AI alati generišu sadržaj na osnovu statističkih obrazaca, zato njihove rezultate uvek treba proveriti u pouzdanim izvorima. Na ECHO-u, odgovorno informisanje znači i brigu o drugima."
+    "conclusionText": "Da bismo zaštitili našu zajednicu od dezinformacija, ključno je proveriti ono što vidimo pre nego što to podelimo. Ponekad automatizovani nalozi ili botovi prikazuju obmanjujuće poruke koje imaju za cilj da izazovu snažne emocionalne reakcije kod korisnika. Takođe, sadržaji generisani pomoću alata veštačke inteligencije zasnivaju se na statističkim obrascima, pa njihove rezultate uvek treba proveriti sa pouzdanim izvorima i jasno označiti. U ECHO-u, odgovorno informisanje znači i brigu o drugima."
   },
   "post": {
     "editPost": "Izmeni objavu",
@@ -122,15 +122,15 @@ export const sr = {
     "joined": "Pridružio se",
     "follow": "Prati",
     "verifiedAccount": "Verifikovan nalog",
-    "backToGame": "Nazad na Igru",
-    "misinfoQuestion": "Da li ovaj nalog širi dezinformacije?",
+    "backToGame": "Nazad",
+    "misinfoQuestion": "Da li je ovaj nalog možda bot?",
     "yes": "Da",
     "no": "Ne",
     "classificationIncorrect": "Netačan izbor. Ponovo pregledaj profil.",
     "classificationCorrectHuman": "Luokittelit profiilin oikein",
     "classificationQuizSubtitle": "Može biti više od jednog tačnog odgovora.",
     "openQuiz": "Nastavi test",
-    "classificationQuizTitle": "Koje karakteristike ovog profila dovode do toga da se klasifikuje kao nalog koji širi dezinformacije?",
+    "classificationQuizTitle": "Koje karakteristike ovog profila dovode do toga da se klasifikuje kao bot?",
     "sendQuizAnswer": "Pošalji odgovor",
     "closeQuiz": "Zatvori test"
   },
@@ -205,7 +205,7 @@ export const sr = {
     "systemMessage": "Sistem je pronašao <strong>mogući prompt u MINT-AI koji je generisao objavu</strong>, poređenjem reči, tona i tema:",
     "explanation": "Ovaj prompt može sadržati određene tragove.",
     "instructions": "Da biste dokazali da je objava generisana veštačkom inteligencijom, moraćete <strong>da imitirate njeno generisanje</strong>, reč po reč.",
-    "buttonText": "Označi objavu kao AI →"
+    "buttonText": "Označi kao AI →"
   },
   "aiGamePage": {
     "user": {

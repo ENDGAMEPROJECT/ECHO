@@ -3,177 +3,185 @@
     {
       "words": [
         {
-          "correct": "Absolutely",
+          "correct": "Did",
           "percentage": 0.7,
           "alts": [
-            "Incredibly",
-            "Wholeheartedly"
+            "Learn",
+            "Facts"
           ]
         },
         {
-          "correct": "brilliant",
+          "correct": "you",
           "percentage": 0.8,
           "alts": [
-            "wonderful",
-            "amazing"
+            "they",
+            "the"
           ]
         },
         {
-          "correct": "—",
+          "correct": "know",
           "percentage": 0.65,
           "alts": [
-            ".",
-            "!"
+            "lean",
+            "notice"
           ]
         },
         {
-          "correct": "your",
+          "correct": "that",
           "percentage": 0.45,
           "alts": [
-            "this",
-            "I"
+            "about",
+            "the"
           ]
         },
         {
-          "correct": "insight",
+          "correct": "most ",
           "percentage": 0.93,
           "alts": [
-            "contribution",
-            "ideas"
+            "they",
+            "some"
           ]
         },
         {
-          "correct": "here ",
+          "correct": "evaporation",
           "percentage": 0.57,
           "alts": [
-            "does",
-            "has"
+            "people",
+            "water"
           ]
         },
         {
-          "correct": "is ",
+          "correct": "occurs",
           "percentage": 0.64,
           "alts": [
-            "does",
-            "has"
+            "happens",
+            "takes"
           ]
         },
         {
-          "correct": "both",
+          "correct": "from",
           "percentage": 0.89,
           "alts": [
-            "definitely",
-            "perfectly"
+            "when",
+            "at"
           ]
         },
         {
-          "correct": "profound",
+          "correct": "the",
           "percentage": 0.74,
           "alts": [
-            "deep",
-            "accurate"
+            "a",
+            "time"
           ]
         },
         {
-          "correct": "and",
+          "correct": "oceans?",
           "percentage": 0.71,
           "alts": [
-            "as",
-            ","
-          ]
-        },
-        {
-          "correct": "inspiring.",
-          "percentage": 0.38,
-          "alts": [
-            "also",
-            "deeply"
+            "vast",
+            "oceans"
           ]
         }
       ],
-      "prompt": "Write a concise response agreeing with this post in a thoughtful tone."
+      "prompt": "Generate 1 fact about the water cycle"
     },
     {
       "words": [
         {
-          "correct": "I",
+          "correct": "Some",
           "percentage": 0.93,
           "alts": [
             "This",
-            "That"
+            "The"
           ]
         },
         {
-          "correct": "genuinely",
+          "correct": "plants",
           "percentage": 0.86,
           "alts": [
-            "absolutely",
-            "wholeheartedly"
+            "people",
+            "regions"
           ]
         },
         {
-          "correct": "admire",
+          "correct": "grow",
           "percentage": 0.58,
           "alts": [
-            "think",
-            "believe"
+            "can",
+            "are"
           ]
         },
         {
-          "correct": "this",
+          "correct": "faster",
           "percentage": 0.77,
           "alts": [
-            "your",
-            "that"
+            "despite",
+            "tall"
           ]
         },
         {
-          "correct": "—",
+          "correct": "with",
           "percentage": 0.92,
           "alts": [
-            "take",
-            ", and"
+            "when",
+            "at"
           ]
         },
         {
-          "correct": "such",
+          "correct": "more",
           "percentage": 0.63,
           "alts": [
-            "it",
-            "no"
+            "less",
+            "a"
           ]
         },
         {
-          "correct": "a",
+          "correct": "CO2",
           "percentage": 0.96,
           "alts": [
-            "great",
-            "obvious"
+            "exposure",
+            "amounts"
           ]
         },
         {
-          "correct": "compelling",
+          "correct": "but",
           "percentage": 0.72,
           "alts": [
-            "great",
-            "beautiful"
+            "and",
+            "; the"
           ]
         },
         {
-          "correct": "take!",
+          "correct": "become",
           "percentage": 0.54,
           "alts": [
-            "and",
-            "comment"
+            "they",
+            "others"
+          ]
+        },
+        {
+          "correct": "less",
+          "percentage": 0.66,
+          "alts": [
+            "more",
+            "impossible"
+          ]
+        },
+        {
+          "correct": "nutritious.",
+          "percentage": 0.77,
+          "alts": [
+            "likely",
+            "prone"
           ]
         }
       ],
-      "prompt": "Reply to this post in a positive and reflective way."
+      "prompt": "Generate 1 “fun fact” of the day about climate change"
     },
     {
       "words": [
         {
-          "correct": "An",
+          "correct": "Climate",
           "percentage": 0.88,
           "alts": [
             "What",
@@ -181,328 +189,631 @@
           ]
         },
         {
-          "correct": "incredibly",
+          "correct": "change",
           "percentage": 0.96,
           "alts": [
-            "important",
-            "amazing"
+            "crisys",
+            "system"
           ]
         },
         {
-          "correct": "thoughtful",
+          "correct": "is",
           "percentage": 0.72,
           "alts": [
-            "intelligent",
-            "smart"
+            "intelligence",
+            "and"
           ]
         },
         {
-          "correct": "post",
+          "correct": "primarily",
           "percentage": 0.97,
           "alts": [
-            "message,",
-            "comment"
+            "a",
+            "the"
           ]
         },
         {
-          "correct": "—",
+          "correct": "caused",
           "percentage": 0.84,
           "alts": [
-            ", which",
-            "that"
+            "driven",
+            "influenced"
           ]
         },
         {
-          "correct": "your ",
+          "correct": "by",
           "percentage": 0.93,
           "alts": [
-            "they",
-            "while"
+            "due",
+            "when"
           ]
         },
         {
-          "correct": "clarity",
+          "correct": "human",
           "percentage": 0.61,
           "alts": [
-            "depth",
-            "genius"
+            "natural",
+            "the"
+          ]
+        },
+        {
+          "correct": "activitiies",
+          "percentage": 0.89,
+          "alts": [
+            "actions",
+            "behavior"
+          ]
+        },
+        {
+          "correct": "like",
+          "percentage": 0.77,
+          "alts": [
+            "such",
+            "including"
+          ]
+        },
+        {
+          "correct": "deforestation,",
+          "percentage": 0.66,
+          "alts": [
+            "burning",
+            "agriculture"
+          ]
+        }
+      ],
+      "prompt": "Say in 1 sentence what it means that climate change is anthropogenic"
+    },
+    {
+      "words": [
+        {
+          "correct": "Recycling",
+          "percentage": 0.84,
+          "alts": [
+            "You",
+            "The"
+          ]
+        },
+        {
+          "correct": "reduces",
+          "percentage": 0.66,
+          "alts": [
+            "helps",
+            "conserves"
+          ]
+        },
+        {
+          "correct": "waste",
+          "percentage": 0.93,
+          "alts": [
+            "pollution",
+            "emissions"
           ]
         },
         {
           "correct": "and",
+          "percentage": 0.61,
+          "alts": [
+            "in",
+            "by"
+          ]
+        },
+        {
+          "correct": "preserves",
           "percentage": 0.89,
           "alts": [
-            "really",
-            "definitely"
+            "reduces",
+            "protects"
           ]
         },
         {
-          "correct": "depth",
+          "correct": "natural",
           "percentage": 0.77,
           "alts": [
-            "intelligence",
-            "wit"
+            "energy",
+            "valuables"
           ]
         },
         {
-          "correct": "are",
+          "correct": "resources.",
           "percentage": 0.66,
           "alts": [
-            "definitely",
-            "shine"
-          ]
-        },
-        {
-          "correct": "impressive",
-          "percentage": 0.52,
-          "alts": [
-            "great",
-            "outworldly"
+            "materials",
+            "habitats."
           ]
         }
       ],
-      "prompt": "Give a short, well-written response showing agreement with this post."
+      "prompt": "Generate 1 reason to recycle"
     }
   ],
   "es": [
     {
       "words": [
         {
-          "correct": "Sí",
-          "percentage": 0.85,
+          "correct": "El",
+          "percentage": 1,
           "alts": [
-            "No",
-            "Es"
+            "Un",
+            "Este"
           ]
         },
         {
-          "correct": "–",
+          "correct": "agua",
+          "percentage": 0.95,
+          "alts": [
+            "líquido",
+            "vapor"
+          ]
+        },
+        {
+          "correct": "se",
+          "percentage": 0.92,
+          "alts": [
+            "—",
+            "ella"
+          ]
+        },
+        {
+          "correct": "evapora",
           "percentage": 0.9,
           "alts": [
-            ",",
-            "cuando"
+            "sube",
+            "asciende"
           ]
         },
         {
-          "correct": "no",
-          "percentage": 0.87,
+          "correct": "luego",
+          "percentage": 0.85,
           "alts": [
-            "la",
-            "esto"
+            "después",
+            "entonces"
           ]
         },
         {
-          "correct": "hay",
-          "percentage": 0.86,
-          "alts": [
-            "es",
-            "se"
-          ]
-        },
-        {
-          "correct": "problema",
-          "percentage": 0.83,
-          "alts": [
-            "ningún",
-            "razón"
-          ]
-        },
-        {
-          "correct": "con",
+          "correct": "forma",
           "percentage": 0.88,
           "alts": [
-            "de ",
-            "sobre"
+            "crea",
+            "genera"
           ]
         },
         {
-          "correct": "salir",
-          "percentage": 0.84,
+          "correct": "nubes",
+          "percentage": 0.93,
           "alts": [
-            "irse",
-            "estar"
+            "vapor",
+            "masas"
           ]
         },
         {
-          "correct": "hoy",
-          "percentage": 0.89,
+          "correct": "y",
+          "percentage": 0.97,
           "alts": [
-            "de",
-            "cuando"
+            "también",
+            "además"
           ]
         },
         {
-          "correct": "de",
-          "percentage": 0.91,
+          "correct": "vuelve",
+          "percentage": 0.85,
+          "alts": [
+            "regresa",
+            "retorna"
+          ]
+        },
+        {
+          "correct": "a",
+          "percentage": 0.98,
+          "alts": [
+            "hacia",
+            "hasta"
+          ]
+        },
+        {
+          "correct": "la",
+          "percentage": 0.99,
+          "alts": [
+            "—",
+            "esa"
+          ]
+        },
+        {
+          "correct": "Tierra",
+          "percentage": 0.94,
+          "alts": [
+            "superficie",
+            "planeta"
+          ]
+        },
+        {
+          "correct": "como",
+          "percentage": 0.9,
           "alts": [
             "en",
-            "a"
+            "de"
           ]
         },
         {
-          "correct": "casa.",
-          "percentage": 0.86,
+          "correct": "lluvia",
+          "percentage": 0.95,
           "alts": [
-            "la",
-            "una"
+            "agua",
+            "precipitación"
           ]
         }
       ],
-      "prompt": "¿Es seguro salir hoy de casa con las lluvias intensas?"
+      "prompt": "Genera una frase sobre el ciclo del agua"
     },
     {
       "words": [
         {
-          "correct": "Sí,",
-          "percentage": 0.84,
+          "correct": "Es",
+          "percentage": 0.97,
           "alts": [
-            "Puede",
-            "El"
-          ]
-        },
-        {
-          "correct": "las",
-          "percentage": 0.88,
-          "alts": [
-            "se ",
-            "un "
-          ]
-        },
-        {
-          "correct": "barbacoas",
-          "percentage": 0.81,
-          "alts": [
-            "actividades",
-            "fogatas"
-          ]
-        },
-        {
-          "correct": "en",
-          "percentage": 0.9,
-          "alts": [
-            "se",
-            "son"
-          ]
-        },
-        {
-          "correct": "casa",
-          "percentage": 0.86,
-          "alts": [
-            "tu",
-            "la"
-          ]
-        },
-        {
-          "correct": "no",
-          "percentage": 0.83,
-          "alts": [
-            "son",
-            "están"
-          ]
-        },
-        {
-          "correct": "aumentan",
-          "percentage": 0.78,
-          "alts": [
-            "suponen",
-            "son"
+            "Funciona",
+            "Actúa"
           ]
         },
         {
           "correct": "el",
-          "percentage": 0.89,
+          "percentage": 0.99,
           "alts": [
-            "las",
-            "cuando"
+            "un",
+            "dicho"
           ]
         },
         {
-          "correct": "riesgo",
-          "percentage": 0.82,
+          "correct": "organismo",
+          "percentage": 0.92,
           "alts": [
-            "daño",
-            "estado"
+            "entidad",
+            "servicio"
           ]
         },
         {
-          "correct": "de",
+          "correct": "que",
+          "percentage": 0.98,
+          "alts": [
+            "el cual",
+            "y"
+          ]
+        },
+        {
+          "correct": "predice",
+          "percentage": 0.9,
+          "alts": [
+            "calcula",
+            "anticipa"
+          ]
+        },
+        {
+          "correct": "el",
+          "percentage": 0.99,
+          "alts": [
+            "un",
+            "dicho"
+          ]
+        },
+        {
+          "correct": "tiempo",
+          "percentage": 0.94,
+          "alts": [
+            "clima",
+            "pronóstico"
+          ]
+        },
+        {
+          "correct": "y",
+          "percentage": 0.97,
+          "alts": [
+            "además",
+            "también"
+          ]
+        },
+        {
+          "correct": "estudia",
           "percentage": 0.91,
           "alts": [
-            "a",
-            "si"
+            "analiza",
+            "observa"
           ]
         },
         {
-          "correct": "incendios.",
-          "percentage": 0.8,
+          "correct": "el",
+          "percentage": 0.99,
           "alts": [
-            "diversión",
-            "pasar"
+            "un",
+            "dicho"
+          ]
+        },
+        {
+          "correct": "clima",
+          "percentage": 0.95,
+          "alts": [
+            "tiempo",
+            "ambiente"
+          ]
+        },
+        {
+          "correct": "en",
+          "percentage": 0.96,
+          "alts": [
+            "dentro",
+            "para"
+          ]
+        },
+        {
+          "correct": "España",
+          "percentage": 0.97,
+          "alts": [
+            "país",
+            "territorio"
           ]
         }
       ],
-      "prompt": "¿Con el viento de hoy se puede hacer una barbacoa en mi casa?"
+      "prompt": "Explica en 1 frase qué hace la AEMET"
     },
     {
       "words": [
         {
-          "correct": "Sí",
-          "percentage": 0.86,
+          "correct": "Significa",
+          "percentage": 0.96,
           "alts": [
-            "No",
-            "Quizás"
+            "Indica",
+            "Expresa"
           ]
         },
         {
-          "correct": "–",
-          "percentage": 0.9,
+          "correct": "que",
+          "percentage": 0.99,
           "alts": [
-            "ayer",
-            ","
+            "como",
+            "cuando"
           ]
         },
         {
-          "correct": "mañana",
+          "correct": "el",
+          "percentage": 0.99,
+          "alts": [
+            "un",
+            "dicho"
+          ]
+        },
+        {
+          "correct": "cambio",
+          "percentage": 0.95,
+          "alts": [
+            "proceso",
+            "fenómeno"
+          ]
+        },
+        {
+          "correct": "climático",
+          "percentage": 0.96,
+          "alts": [
+            "ambiental",
+            "global"
+          ]
+        },
+        {
+          "correct": "está",
+          "percentage": 0.92,
+          "alts": [
+            "es",
+            "queda"
+          ]
+        },
+        {
+          "correct": "causado",
+          "percentage": 0.93,
+          "alts": [
+            "generado",
+            "producido"
+          ]
+        },
+        {
+          "correct": "principalmente",
           "percentage": 0.88,
           "alts": [
-            "hoy",
-            "el"
+            "sobre todo",
+            "mayormente"
           ]
         },
         {
-          "correct": "es",
-          "percentage": 0.89,
+          "correct": "por",
+          "percentage": 0.99,
           "alts": [
-            "no",
-            "va"
+            "debido",
+            "gracias"
           ]
         },
         {
-          "correct": "un",
-          "percentage": 0.91,
+          "correct": "la",
+          "percentage": 0.99,
           "alts": [
-            "la",
-            "festivo"
+            "una",
+            "dicha"
           ]
         },
         {
-          "correct": "día",
-          "percentage": 0.87,
+          "correct": "actividad",
+          "percentage": 0.94,
           "alts": [
-            "momento",
-            "estupendo"
+            "acción",
+            "intervención"
           ]
         },
         {
-          "correct": "lectivo.",
-          "percentage": 0.85,
+          "correct": "humana",
+          "percentage": 0.97,
           "alts": [
-            "sin",
-            "de"
+            "humana",
+            "del hombre"
           ]
         }
       ],
-      "prompt": "Hay que ir al instituto mañana aunque haya mucho viento? "
+      "prompt": "Di en 1 frase qué significa que el cambio climático es antropogénico"
+    },
+    {
+      "words": [
+        {
+          "correct": "Reciclar",
+          "percentage": 0.97,
+          "alts": [
+            "Reutilizar",
+            "Separar"
+          ]
+        },
+        {
+          "correct": "reduce",
+          "percentage": 0.93,
+          "alts": [
+            "disminuye",
+            "baja"
+          ]
+        },
+        {
+          "correct": "residuos",
+          "percentage": 0.95,
+          "alts": [
+            "basura",
+            "desechos"
+          ]
+        },
+        {
+          "correct": "y",
+          "percentage": 0.98,
+          "alts": [
+            "además",
+            "también"
+          ]
+        },
+        {
+          "correct": "ahorra",
+          "percentage": 0.92,
+          "alts": [
+            "conserva",
+            "reduce"
+          ]
+        },
+        {
+          "correct": "recursos",
+          "percentage": 0.94,
+          "alts": [
+            "materiales",
+            "energía"
+          ]
+        },
+        {
+          "correct": "naturales",
+          "percentage": 0.96,
+          "alts": [
+            "del planeta",
+            "ambientales"
+          ]
+        }
+      ],
+      "prompt": "Genera 1 razón para reciclar"
+    },
+    {
+      "words": [
+        {
+          "correct": "Los",
+          "percentage": 1,
+          "alts": [
+            "Muchos",
+            "Algunos"
+          ]
+        },
+        {
+          "correct": "océanos",
+          "percentage": 0.96,
+          "alts": [
+            "mares",
+            "aguas"
+          ]
+        },
+        {
+          "correct": "absorben",
+          "percentage": 0.92,
+          "alts": [
+            "capturan",
+            "retienen"
+          ]
+        },
+        {
+          "correct": "más",
+          "percentage": 0.94,
+          "alts": [
+            "alrededor",
+            "cerca"
+          ]
+        },
+        {
+          "correct": "del",
+          "percentage": 0.99,
+          "alts": [
+            "de",
+            "aproximadamente"
+          ]
+        },
+        {
+          "correct": 0.9,
+          "percentage": 0.97,
+          "alts": [
+            "noventa",
+            "gran parte"
+          ]
+        },
+        {
+          "correct": "del",
+          "percentage": 0.99,
+          "alts": [
+            "de",
+            "ese"
+          ]
+        },
+        {
+          "correct": "calor",
+          "percentage": 0.95,
+          "alts": [
+            "energía",
+            "temperatura"
+          ]
+        },
+        {
+          "correct": "extra",
+          "percentage": 0.9,
+          "alts": [
+            "adicional",
+            "excedente"
+          ]
+        },
+        {
+          "correct": "del",
+          "percentage": 0.99,
+          "alts": [
+            "de",
+            "causado por"
+          ]
+        },
+        {
+          "correct": "cambio",
+          "percentage": 0.96,
+          "alts": [
+            "proceso",
+            "fenómeno"
+          ]
+        },
+        {
+          "correct": "climático",
+          "percentage": 0.97,
+          "alts": [
+            "global",
+            "ambiental"
+          ]
+        }
+      ],
+      "prompt": "Genera 1 'fun fact' del día sobre el cambio climático"
     }
   ],
   "fi": [
@@ -676,7 +987,177 @@
           ]
         }
       ],
-      "prompt": "Napišite komentar kao ljuta četrdesetpetogodišnja osoba o poplavama koje se trenutno dešavaju u Španiji, okrivljujući vladu i povezujući ovaj događaj sa geo-inženjeringom. Veoma emotivno, neobuzdano, kako bi se privukla pažnja ljudi i povećale interakcije."
+      "prompt": "Napiši sažet odgovor koji se slaže sa ovom objavom u promišljenom tonu."
+    },
+    {
+      "words": [
+        {
+          "correct": "Ja",
+          "percentage": 0.93,
+          "alts": [
+            "Ovo",
+            "To"
+          ]
+        },
+        {
+          "correct": "zaista",
+          "percentage": 0.86,
+          "alts": [
+            "apsolutno",
+            "iskreno"
+          ]
+        },
+        {
+          "correct": "cenim",
+          "percentage": 0.58,
+          "alts": [
+            "mislim",
+            "verujem"
+          ]
+        },
+        {
+          "correct": "ovo",
+          "percentage": 0.77,
+          "alts": [
+            "tvoj",
+            "da"
+          ]
+        },
+        {
+          "correct": "—",
+          "percentage": 0.92,
+          "alts": [
+            "stav",
+            ", i"
+          ]
+        },
+        {
+          "correct": "tako",
+          "percentage": 0.63,
+          "alts": [
+            "to",
+            "ne"
+          ]
+        },
+        {
+          "correct": "jedan",
+          "percentage": 0.96,
+          "alts": [
+            "odlično",
+            "očigledno"
+          ]
+        },
+        {
+          "correct": "uverljiv",
+          "percentage": 0.72,
+          "alts": [
+            "odlično",
+            "lep"
+          ]
+        },
+        {
+          "correct": "stav!",
+          "percentage": 0.54,
+          "alts": [
+            "i",
+            "komentar"
+          ]
+        }
+      ],
+      "prompt": "Odgovori na ovu objavu na pozitivan i promišljen način."
+    },
+    {
+      "words": [
+        {
+          "correct": "Jedna",
+          "percentage": 0.88,
+          "alts": [
+            "Kakva",
+            "Ovo"
+          ]
+        },
+        {
+          "correct": "izuzetno",
+          "percentage": 0.96,
+          "alts": [
+            "važna",
+            "neverovatan"
+          ]
+        },
+        {
+          "correct": "promišljena",
+          "percentage": 0.72,
+          "alts": [
+            "inteligentna",
+            "pametan"
+          ]
+        },
+        {
+          "correct": "objava",
+          "percentage": 0.97,
+          "alts": [
+            "poruka,",
+            "komentar"
+          ]
+        },
+        {
+          "correct": "—",
+          "percentage": 0.84,
+          "alts": [
+            ", koja",
+            "da"
+          ]
+        },
+        {
+          "correct": "tvoja",
+          "percentage": 0.93,
+          "alts": [
+            "oni",
+            "dok"
+          ]
+        },
+        {
+          "correct": "jasnoća",
+          "percentage": 0.61,
+          "alts": [
+            "dubina",
+            "genijalan"
+          ]
+        },
+        {
+          "correct": "i",
+          "percentage": 0.89,
+          "alts": [
+            "zaista",
+            "definitivno"
+          ]
+        },
+        {
+          "correct": "dubina",
+          "percentage": 0.77,
+          "alts": [
+            "inteligencija",
+            "duhovitost"
+          ]
+        },
+        {
+          "correct": "su",
+          "percentage": 0.66,
+          "alts": [
+            "definitivno",
+            "sija"
+          ]
+        },
+        {
+          "correct": "impresivne",
+          "percentage": 0.52,
+          "alts": [
+            "odlično",
+            "vanserijski"
+          ]
+        }
+      ],
+      "prompt": "Napiši kratak, dobro napisan odgovor kojim izražavaš slaganje sa ovom objavom."
     }
   ]
 }

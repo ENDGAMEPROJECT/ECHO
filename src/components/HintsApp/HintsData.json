@@ -14,7 +14,7 @@
         "clue": "As a moderator, you have access to special tools to investigate suspicious behavior. Explore the left sidebar of the social network and click on “Suspicious Accounts” to begin the analysis."
       },
       {
-        "context": "I don't know how to identify suspicious accounts",
+        "context": "I don't know how to identify bot accounts",
         "clue": "To detect accounts that spread misinformation, you need to observe how these accounts behave: if they repeat messages, always post the same thing, have activity that is too regular, or barely interact with other users. These patterns may indicate automation."
       }
     ],
@@ -88,7 +88,7 @@
         "clue": "Como moderador tienes acceso a herramientas especiales para investigar comportamientos sospechosos. Explora la barra lateral izquierda de la red social y haz clic en \"Cuentas Sospechosas\" para comenzar el análisis."
       },
       {
-        "context": "No sé cómo identificar qué cuentas son sospechosas",
+        "context": "No sé cómo identificar qué cuentas son bots",
         "clue": "Para detectar cuentas que difunden desinformación tienes que observar cómo se comportan estas cuentas: si repiten mensajes, publican siempre lo mismo, tienen actividad demasiado regular o casi no interactúan con otros usuarios. Estos patrones pueden indicar automatización."
       }
     ],
@@ -162,7 +162,7 @@
         "clue": "Moderaattorina sinulla on pääsy erityisiin työkaluihin epäilyttävän toiminnan tutkimiseksi. Tutki sosiaalisen verkoston vasenta sivupalkkia ja napsauta \"Epäilyttävät tilit\" aloittaaksesi analyysin."
       },
       {
-        "context": "En tiedä miten tunnistaa epäilyttävät tilit",
+        "context": "En tiedä, miten tunnistaa bottitilejä",
         "clue": "Väärää tietoa levittävien tilien havaitsemiseksi sinun on tarkkailtava, miten nämä tilit käyttäytyvät: toistavatko ne viestejä, julkaisevatko ne aina samaa asiaa, onko niillä liian säännöllistä toimintaa vai ovatko ne tuskin lainkaan vuorovaikutuksessa muiden käyttäjien kanssa. Nämä kaavat voivat viitata automaatioon."
       }
     ],
@@ -236,7 +236,7 @@
         "clue": "Kao moderator imaš pristup posebnim alatima za istraživanje sumnjivog ponašanja. Istraži levi bočni panel društvene mreže i klikni na „Sumnjivi nalozi“ da započneš analizu."
       },
       {
-        "context": "Ne znam kako da identifikujem sumnjive naloge",
+        "context": "Ne znam kako da prepoznam bot naloge",
         "clue": "Da biste otkrili naloge koji šire dezinformacije, potrebno je da posmatrate kako se ti nalozi ponašaju: da li ponavljaju poruke, uvek objavljuju istu stvar, imaju previše redovnu aktivnost ili jedva komuniciraju sa drugim korisnicima. Ovi obrasci mogu ukazivati na automatizaciju."
       }
     ],

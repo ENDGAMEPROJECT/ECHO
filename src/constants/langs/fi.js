@@ -96,7 +96,7 @@ export const fi = {
     "incorrectSelection": "Väärä valinta. Yritä uudelleen!",
     "selected": "valittu",
     "publishConclusion": "Julkaise ",
-    "conclusionText": "Jotta voimme suojella yhteisöämme disinformaatiolta, on olennaista tarkistaa näkemämme ennen jakamista. Automaattiset tilit näyttävät usein toistuvia toimintamalleja, ja monet harhaanjohtavat viestit pyrkivät herättämään voimakkaita tunnereaktioita. Lisäksi tekoälytyökalut tuottavat sisältöä tilastollisten mallien perusteella, joten niiden tulokset on aina varmistettava luotettavista lähteistä. ECHOssa vastuullinen tiedon jakaminen on myös toisista välittämistä."
+    "conclusionText": "Yhteisömme suojelemiseksi disinformaatiolta on tärkeää tarkistaa näkemämme ennen sen jakamista. Joskus automatisoidut tilit tai botit esittävät harhaanjohtavia viestejä, joiden tarkoituksena on herättää voimakkaita tunteita käyttäjissä. Lisäksi tekoälytyökaluilla tuotettu sisältö perustuu tilastollisiin malleihin, joten sen tulokset tulee aina tarkistaa luotettavista lähteistä ja merkitä asianmukaisesti. ECHOssa vastuullinen tiedon jakaminen on myös toisista huolehtimista."
   },
   "post": {
     "editPost": "Muokkaa Julkaisua",
@@ -122,15 +122,15 @@ export const fi = {
     "joined": "Liittynyt",
     "follow": "Seuraa",
     "verifiedAccount": "Vahvistettu tili",
-    "backToGame": "Takaisin Peliin",
-    "misinfoQuestion": "Levittääkö tämä tili disinformaatiota?",
+    "backToGame": "Takaisin",
+    "misinfoQuestion": "Onko tämä tili mahdollisesti botti?",
     "yes": "Kyllä",
     "no": "Ei",
     "classificationIncorrect": "Väärä valinta. Tarkista profiili uudelleen.",
     "classificationCorrectHuman": "Ispravno ste klasifikovali profil",
     "classificationQuizSubtitle": "Oikeita vastauksia voi olla useampi kuin yksi.        ",
     "openQuiz": "Jatka testiä",
-    "classificationQuizTitle": "Mitkä tämän profiilin ominaisuudet saavat sen luokiteltua disinformaatiota levittäväksi?",
+    "classificationQuizTitle": "Mitkä tämän profiilin ominaisuudet saavat sen luokiteltua botiksi?",
     "sendQuizAnswer": "Lähetä vastaus",
     "closeQuiz": "Sulje testi"
   },
@@ -205,7 +205,7 @@ export const fi = {
     "systemMessage": "Järjestelmä löysi <strong>mahdollisen kehotteen MINT-AI:ssä, joka tuotti viestin</strong>, sanojen, sävyn ja aiheiden vertailulla:",
     "explanation": "Tässä kehotteessa voi olla joitain vihjeitä.",
     "instructions": "Todistaaksesi, että viesti luotiin tekoälyn avulla, sinun on <strong>jäljiteltävä viestin luontia</strong>, sana kerrallaan.",
-    "buttonText": "Vahvista viesti tekoälyksi →"
+    "buttonText": "Vahvista tekoälyksi →"
   },
   "aiGamePage": {
     "user": {
