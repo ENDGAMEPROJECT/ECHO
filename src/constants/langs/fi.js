@@ -301,7 +301,8 @@ export const fi = {
       "status": "RATKAISTU",
       "note": "Verkko on suojattu. Hienoa työtä!"
     },
-    "timerExpiredContinue": "Vreme je isteklo. Nastavi do završnog izazova čak i ako nisi uspeo/la da kontrolišeš dezinformacije."
+    "timerExpiredContinue": "Vreme je isteklo. Nastavi do završnog izazova čak i ako nisi uspeo/la da kontrolišeš dezinformacije.",
+    "completionTimeMsg": "Suoritit pakohuoneen {{minutes}} minuutissa ja {{seconds}} sekunnissa!"
   },
   "errors": {
     "pageNotFound": "Sivua ei löytynyt",

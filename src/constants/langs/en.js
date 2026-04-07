@@ -298,7 +298,8 @@ export const en = {
       "status": "RESOLVED",
       "note": "The network is protected. Great job!"
     },
-    "timerExpiredContinue": "Time is up. Continue to the final challenge even if you were not able to control misinformation."
+    "timerExpiredContinue": "Time is up. Continue to the final challenge even if you were not able to control misinformation.",
+    "completionTimeMsg": "You completed the escape room in {{minutes}} minutes and {{seconds}} seconds!"
   },
   "errors": {
     "pageNotFound": "Page not found",

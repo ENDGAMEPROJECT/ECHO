@@ -114,7 +114,6 @@ export const UserInfo = ({ username, showClassificationControls = false, selecte
           <p className="joined-date"> {t('profile.joined')} {createdOnDate(user, i18n.language)}</p>
         
         )}
-          {console.log(user ,"user" ,user.handle)}
       </div>
       <div className="post-followers-following-container">
         <p>

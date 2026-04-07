@@ -94,6 +94,10 @@ export const XAPI_VERBS = {
     id: "http://adlnet.gov/expapi/verbs/exited",
     display: { en: "exited" },
   },
+  FINISHED: {
+    id: "https://xapi.elearn.rwth-aachen.de/definitions/seriousGames/verbs/finished",
+    display: { en: "finished" },
+  },
 };
 
 // Activity types
@@ -387,6 +391,18 @@ export const XAPIProvider = ({ children }) => {
     },
   };
 
+  // Helper para convertir milisegundos a formato ISO 8601
+  const msToISODuration = (ms) => {
+    const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    if (minutes > 0) {
+      return `PT${minutes}M${seconds}S`;
+    } else {
+      return `PT${seconds}S`;
+    }
+  };
+
   // Statement 1: succeeded — indica que el jugador lo resolvió correctamente
   const succeededResult = { success: true, completion: true };
   if (score !== null) {
@@ -400,7 +416,7 @@ export const XAPIProvider = ({ children }) => {
   const startedAtMs = startRaw ? Number(startRaw) : null;
   if (startedAtMs && Number.isFinite(startedAtMs)) {
     const durationMs = Date.now() - startedAtMs;
-    completedResult.duration = `PT${Math.max(0, Math.round(durationMs / 1000))}S`;
+    completedResult.duration = msToISODuration(durationMs);
     completedResult.extensions = {
       [`${ENDGAME_BASE}/ext/durationMs`]: durationMs,
     };

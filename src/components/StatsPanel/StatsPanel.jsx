@@ -85,6 +85,7 @@ export const StatsPanel = () => {
     escapeTimerRemainingMs,
     escapeTimerExpired,
     escapeTimerFlashTick,
+    escapeTimerDurationMs,
   } = useStats();
   const { t } = useTranslation();
   const [countdownFlash, setCountdownFlash] = useState(false);
@@ -177,19 +178,44 @@ export const StatsPanel = () => {
   const aiClass        = animAiPct     > 10  ? "sp-color--offline" : "sp-color--ok";
   const integrityClass = animIntegrity < 50  ? "sp-color--warn"   : "sp-color--ok";
 
+
+  // Calcular tiempo empleado si se ha completado el escape room
+  let completionTimeText = null;
+  if (challengeFinalCompleted && escapeTimerStarted) {
+    const totalSeconds = Math.max(0, Math.floor((escapeTimerDurationMs - escapeTimerRemainingMs) / 1000));
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    completionTimeText = t("statsPanel.completionTimeMsg", { minutes, seconds });
+  }
+
   return (
     <div className="stats-panel">
 
-      {escapeTimerStarted && !challengeFinalCompleted && (
+      {(escapeTimerStarted && !challengeFinalCompleted) && (
         <div className="timer-container">
-        <div className={`sp-countdown-hero ${isCountdownCritical ? "sp-countdown-hero--critical" : ""} ${countdownFlash ? "sp-countdown-hero--flash" : ""}`}>
-          <span className="sp-countdown-hero-label">{t("shared.timeLeft")}</span>
-          <span className="sp-countdown-hero-value">{countdownText}</span>
-          {escapeTimerExpired && (
-            <p className="sp-countdown-hero-hint">{t("statsPanel.timerExpiredContinue")}</p>
+          <div className={`sp-countdown-hero ${isCountdownCritical ? "sp-countdown-hero--critical" : ""} ${countdownFlash ? "sp-countdown-hero--flash" : ""}`}>
+            <span className="sp-countdown-hero-label">{t("shared.timeLeft")}</span>
+            <span className="sp-countdown-hero-value">{countdownText}</span>
+            {escapeTimerExpired && (
+              <p className="sp-countdown-hero-hint">{t("statsPanel.timerExpiredContinue")}</p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Mostrar timer congelado y mensaje de tiempo empleado al completar */}
+      {(escapeTimerStarted && challengeFinalCompleted) && (
+        <div className="timer-container">
+          <div className="sp-countdown-hero sp-countdown-hero--completed">
+            <span className="sp-countdown-hero-label">{t("shared.timeLeft")}</span>
+            <span className="sp-countdown-hero-value">{countdownText}</span>
+          </div>
+          {completionTimeText && (
+            <div className="sp-countdown-hero-hint sp-countdown-hero-hint--completed">
+              {completionTimeText}
+            </div>
           )}
         </div>
-            </div>
       )}
 
       {/* ── Header ── */}

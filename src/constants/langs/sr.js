@@ -301,7 +301,8 @@ export const sr = {
       "status": "REŠENO",
       "note": "Mreža je zaštićena. Odličan rad!"
     },
-    "timerExpiredContinue": "Aika on loppunut. Jatka viimeiseen haasteeseen, vaikka et onnistunut hallitsemaan disinformaatiota."
+    "timerExpiredContinue": "Aika on loppunut. Jatka viimeiseen haasteeseen, vaikka et onnistunut hallitsemaan disinformaatiota.",
+    "completionTimeMsg": "Escape room ste završili za {{minutes}} minuta i {{seconds}} sekundi!"
   },
   "errors": {
     "pageNotFound": "Stranica nije pronađena",

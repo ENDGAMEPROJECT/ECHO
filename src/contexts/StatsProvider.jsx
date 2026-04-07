@@ -36,7 +36,7 @@ export const useStats = () => {
 };
 
 export const StatsProvider = ({ children }) => {
-  const { sendStatement } = useXAPI();
+  const { sendStatement, trackChallengeCompleted } = useXAPI();
   const getInitialStats = () => ({
     misinformation: {
       level: 78,
@@ -127,6 +127,16 @@ export const StatsProvider = ({ children }) => {
   const [escapeTimerRemainingMs, setEscapeTimerRemainingMs] = useState(() => {
     const startedAt = getStoredTimerStart();
     const pausedAt = getStoredTimerPausedAt();
+    const challengeFinalCompleted = sessionStorage.getItem("challengeFinalCompleted") === "true";
+    
+    // Si el escape room está completado, restaurar el tiempo congelado guardado
+    if (challengeFinalCompleted) {
+      const savedRemainingMs = sessionStorage.getItem("escapeTimerRemainingMs");
+      if (savedRemainingMs) {
+        return Number(savedRemainingMs);
+      }
+    }
+    
     if (!startedAt) return ESCAPE_TIMER_DURATION_MS;
     const referenceNow = pausedAt || Date.now();
     return Math.max(0, ESCAPE_TIMER_DURATION_MS - (referenceNow - startedAt));
@@ -140,6 +150,7 @@ export const StatsProvider = ({ children }) => {
     return Number.isFinite(raw) && raw > 0 ? raw : null;
   });
   const previousRemainingMsRef = useRef(escapeTimerRemainingMs);
+  const timerFrozenRef = useRef(false);
 
   const sendEscapeOutcome = (outcome, verb, result = null, options = null) => {
     const existingOutcome = sessionStorage.getItem(ESCAPE_OUTCOME_KEY);
@@ -250,26 +261,49 @@ export const StatsProvider = ({ children }) => {
       ? Math.max(0, ESCAPE_TIMER_DURATION_MS - elapsedMs)
       : 0;
     const completedWithinTime = elapsedMs <= ESCAPE_TIMER_DURATION_MS;
+    const escapeDurationMs = ESCAPE_TIMER_DURATION_MS - remaining;
 
     if (escapeTimerStartedAt) {
       setEscapeTimerRemainingMs(remaining);
     }
 
-    if (completedWithinTime) {
-      sendEscapeOutcome("completed", XAPI_VERBS.COMPLETED_GENERIC, {
+    // Helper para convertir milisegundos a formato ISO 8601
+    const msToISODuration = (ms) => {
+      const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      if (minutes > 0) {
+        return `PT${minutes}M${seconds}S`;
+      } else {
+        return `PT${seconds}S`;
+      }
+    };
+
+    // 1. Enviar statement COMPLETED para Puzzle 4 con trackChallengeCompleted
+    trackChallengeCompleted(
+      "4",
+      "Puzzle 4 - Community Note",
+      completedWithinTime,
+      completedWithinTime ? 1 : 0
+    );
+
+    // 2. Enviar statement FINISHED para el escape room general con duración total
+    const isoDuration = msToISODuration(escapeDurationMs);
+    sendStatement(
+      XAPI_VERBS.FINISHED,
+      ECHO_ACTIVITIES.GAME,
+      {
         completion: true,
-        success: true,
-      });
-    } else {
-      sendEscapeOutcome("unsatisfied", XAPI_VERBS.UNSATISFIED, {
-        completion: true,
-        success: false,
-      });
-    }
+        success: completedWithinTime,
+        duration: isoDuration,
+      }
+    );
 
     reduceMisinformation(78);
     setChallengeFinalCompleted(true);
     sessionStorage.setItem("challengeFinalCompleted", JSON.stringify(true));
+    // Guardar el tiempo congelado para que se restaure al recargar
+    sessionStorage.setItem("escapeTimerRemainingMs", String(remaining));
     sessionStorage.setItem(
       FINAL_COMPLETION_STATUS_KEY,
       completedWithinTime ? "success" : "fail"
@@ -303,7 +337,7 @@ export const StatsProvider = ({ children }) => {
   };
 
   const resumeEscapeTimer = () => {
-    if (!escapeTimerStartedAt || !escapeTimerPausedAt) return;
+    if (!escapeTimerStartedAt || !escapeTimerPausedAt || challengeFinalCompleted) return;
 
     const pausedDuration = Math.max(0, Date.now() - escapeTimerPausedAt);
     const adjustedStartedAt = escapeTimerStartedAt + pausedDuration;
@@ -316,9 +350,10 @@ export const StatsProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (!escapeTimerStartedAt) return;
+    if (!escapeTimerStartedAt || timerFrozenRef.current) return;
 
     const tick = () => {
+      if (timerFrozenRef.current) return; // Si está congelado, no actualizar
       const referenceNow = escapeTimerPausedAt || Date.now();
       const remaining = Math.max(0, ESCAPE_TIMER_DURATION_MS - (referenceNow - escapeTimerStartedAt));
       const previousRemaining = previousRemainingMsRef.current;
@@ -353,11 +388,20 @@ export const StatsProvider = ({ children }) => {
     };
 
     tick();
-    if (challengeFinalCompleted || escapeTimerPausedAt) return;
+    if (escapeTimerPausedAt) return;
 
     const intervalId = setInterval(tick, 1000);
     return () => clearInterval(intervalId);
   }, [escapeTimerStartedAt, challengeFinalCompleted, escapeTimerPausedAt]);
+
+  // Cuando se completa el reto final, congelar el timer permanentemente
+  useEffect(() => {
+    if (challengeFinalCompleted) {
+      timerFrozenRef.current = true;
+      sessionStorage.removeItem("escapeTimerStartedAt");
+      sessionStorage.removeItem(ESCAPE_TIMER_PAUSED_AT_KEY);
+    }
+  }, [challengeFinalCompleted]);
 
   useEffect(() => {
     const handlePageExit = () => {

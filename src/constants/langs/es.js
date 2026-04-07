@@ -298,7 +298,8 @@ export const es = {
       "status": "RESUELTO",
       "note": "La red está protegida. ¡Buen trabajo!"
     },
-    "timerExpiredContinue": "Se acabó el tiempo. Continúa hasta el reto final a pesar de que no hayas podido controlar la desinformación."
+    "timerExpiredContinue": "Se acabó el tiempo. Continúa hasta el reto final a pesar de que no hayas podido controlar la desinformación.",
+    "completionTimeMsg": "¡Has completado el escape room en {{minutes}} minutos y {{seconds}} segundos!"
   },
   "errors": {
     "pageNotFound": "Página no encontrada",
