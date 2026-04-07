@@ -14,7 +14,7 @@ import { RiRobotLine, RiErrorWarningLine } from "react-icons/ri";
 import { NewPostLauncher } from "../../pages/NewPost/NewPostLauncher.jsx";
 import { useXAPI } from "../../contexts/XAPIProvider.jsx";
 
-export const Navbar = () => {
+export const Navbar = ({ blocked = false }) => {
   const { t } = useTranslation();
   const {
     challenge1Completed, challenge2Completed, challenge3Completed,
@@ -37,13 +37,17 @@ export const Navbar = () => {
     position: { top: 0, left: 0 },
   });
 
+
   const getActiveStyle = ({ isActive }) => ({
-    color: isActive ? "rgb(29, 155, 240)" : "white",
+    color: blocked ? "rgba(255,255,255,0.3)" : isActive ? "rgb(29, 155, 240)" : "white",
+    pointerEvents: blocked ? "none" : undefined,
+    cursor: blocked ? "not-allowed" : undefined,
   });
 
   const getDisabledStyle = () => ({
     color: "rgba(255, 255, 255, 0.3)",
     cursor: "not-allowed",
+    pointerEvents: "none",
   });
 
   const handleShowBlockedPopup = (e, messageKey = "desktop.popup.playChallenge") => {
@@ -78,7 +82,7 @@ export const Navbar = () => {
   const pendingChallenge3 = challenge3Completed ? 0 : Math.max(0, challenge3Total - challenge3Progress);
 
   return (
-    <nav className="navbar">
+    <nav className={blocked ? "navbar navbar--blocked" : "navbar"} style={blocked ? { cursor: "not-allowed" } : {}}>
       <ul>
         <li>
           <NavLink className="navlink" style={getActiveStyle} to="/">

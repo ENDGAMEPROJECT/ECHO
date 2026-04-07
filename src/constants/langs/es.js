@@ -80,7 +80,7 @@ export const es = {
   "socialLogin": {
     "title": "Inicia sesión",
     "subtitle": "Acceso requerido para continuar",
-    "usernameLabel": "Acceso requerido para continuar",
+    "usernameLabel": "Usuario",
     "passwordLabel": "Contraseña",
     "submit": "Entrar",
     "errorInvalid": "Usuario o contraseña incorrectos"

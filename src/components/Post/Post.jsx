@@ -211,36 +211,6 @@ export const Post = ({ post, shouldFlash = false }) => {
 
         {showComments && (
           <div className="comments-section-container">
-            {/* <Slide duration={1000} cascade> */}
-            <div className="comments-input-section-container">
-              <div className="user-profile-img-container">
-                <img
-                  src={assetPath(loggedInUserState?.avatarURL)}
-                  alt={loggedInUserState?.firstName}
-                />
-              </div>
-
-              <div className="comments-textarea-btn-container">
-                <textarea
-                  placeholder={t('comments.placeholder')}
-                  onChange={(e) => setCommentData({ text: e.target.value })}
-                  value={commentData?.text}
-                  type="text"
-                />
-                <div className="comment-button-container">
-                  <button
-                    disabled={!commentData?.text}
-                    onClick={() => {
-                      addComment(post._id, commentData, "admin-token");
-                      setCommentData({ text: "" });
-                    }}
-                  >
-                    {t('comments.reply')}
-                  </button>
-                </div>
-              </div>
-            </div>
-
             <div className="all-comments-container">
               {post?.comments
                 ?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
@@ -248,8 +218,6 @@ export const Post = ({ post, shouldFlash = false }) => {
                   <Comment key={comment?._id} comment={comment} post={post} />
                 ))}
             </div>
-
-            {/* </Slide> */}
           </div>
         )}
       </div>

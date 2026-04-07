@@ -16,6 +16,8 @@ import aiContent from "./AIContent.json";
 import { assetPath } from "../../utils/assetPath";
 
 export const AIContent = () => {
+    // Estado para bloquear el panel lateral
+    const [sidebarBlocked, setSidebarBlocked] = useState(false);
   const { t } = useTranslation();
   const currentLang = t("langKey");
   const [hasLocalizedVideo, setHasLocalizedVideo] = useState(true);
@@ -77,6 +79,15 @@ export const AIContent = () => {
   );
   const isCompleted = selectedWords.length === gameData.words.length;
   const canAdvanceFromVideo = !hasLocalizedVideo || videoEnded;
+
+  // Bloquear el sidebar mientras el video está activo
+  useEffect(() => {
+    if (step === "video" && !canAdvanceFromVideo) {
+      setSidebarBlocked(true);
+    } else {
+      setSidebarBlocked(false);
+    }
+  }, [step, canAdvanceFromVideo]);
 
   // Sync challenge 2 progress to StatsProvider for navbar badge
   // Challenge 2 is a single task (complete the word game), so total=1
@@ -245,7 +256,7 @@ export const AIContent = () => {
   return (
     <>
       <div className="app-container">
-        <Navbar />
+        <Navbar blocked={sidebarBlocked} />
 
         <main className="feed ai-content-feed">
           <div className="ai-content-page">
@@ -418,6 +429,8 @@ export const AIContent = () => {
                       className="ai-verify-back"
                       type="button"
                       onClick={() => setStep("verify")}
+                      disabled={!canAdvanceFromVideo}
+                      style={!canAdvanceFromVideo ? { opacity: 0.5, cursor: "not-allowed" } : {}}
                     >
                       {t("aiVideoPage.back")}
                     </button>

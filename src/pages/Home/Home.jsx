@@ -48,9 +48,13 @@ export const Home = () => {
   }, [i18n.language]);
 
 
+  // Mezcla posts del estado global con los del feed estático, evitando duplicados
   const FEED_DB_ACCOUNTS = ["lau_tech", "marti.dev", "alex_data", "sofia_analysis"];
+  // Posts dinámicos (de la base de datos)
   const filteredPosts = (allPosts || []).filter(post => FEED_DB_ACCOUNTS.includes(post.username));
-  const allPostFromFollowers = [...filteredPosts, ...feedPosts];
+  // Evita duplicados: si un post del feed ya existe en allPosts (por _id), usa el de allPosts
+  const feedPostsFiltered = feedPosts.filter(feedPost => !filteredPosts.some(p => p._id === feedPost._id));
+  const allPostFromFollowers = [...filteredPosts, ...feedPostsFiltered];
 
   const parseLikeCount = (val) => {
     if (typeof val === "number") return val;
