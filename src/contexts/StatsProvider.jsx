@@ -122,12 +122,23 @@ export const StatsProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : false;
   });
 
-  const [escapeTimerStartedAt, setEscapeTimerStartedAt] = useState(() => getStoredTimerStart());
+  const [escapeTimerStartedAt, setEscapeTimerStartedAt] = useState(() => {
+    const stored = getStoredTimerStart();
+    console.log("🔍 StatsProvider Init - escapeTimerStartedAt from storage:", stored);
+    return stored;
+  });
   const [escapeTimerPausedAt, setEscapeTimerPausedAt] = useState(() => getStoredTimerPausedAt());
   const [escapeTimerRemainingMs, setEscapeTimerRemainingMs] = useState(() => {
     const startedAt = getStoredTimerStart();
     const pausedAt = getStoredTimerPausedAt();
     const challengeFinalCompleted = sessionStorage.getItem("challengeFinalCompleted") === "true";
+    
+    console.log("🔍 StatsProvider Init - Timer state:", { 
+      startedAt, 
+      pausedAt, 
+      challengeFinalCompleted,
+      escapeTimerRemainingMs: sessionStorage.getItem("escapeTimerRemainingMs")
+    });
     
     // Si el escape room está completado, restaurar el tiempo congelado guardado
     if (challengeFinalCompleted) {
@@ -150,7 +161,7 @@ export const StatsProvider = ({ children }) => {
     return Number.isFinite(raw) && raw > 0 ? raw : null;
   });
   const previousRemainingMsRef = useRef(escapeTimerRemainingMs);
-  const timerFrozenRef = useRef(false);
+  const timerFrozenRef = useRef(sessionStorage.getItem("challengeFinalCompleted") === "true");
 
   const sendEscapeOutcome = (outcome, verb, result = null, options = null) => {
     const existingOutcome = sessionStorage.getItem(ESCAPE_OUTCOME_KEY);
@@ -180,6 +191,7 @@ export const StatsProvider = ({ children }) => {
     const savedChallenge2Instructions = sessionStorage.getItem("challenge2InstructionsRead");
     const savedChallenge3Instructions = sessionStorage.getItem("challenge3InstructionsRead");
     const savedChallengeFinalInstructions = sessionStorage.getItem("challengeFinalInstructionsRead");
+    const savedEscapeTimerRemainingMs = sessionStorage.getItem("escapeTimerRemainingMs");
 
     if (savedChallenge1) {
       setChallenge1Completed(JSON.parse(savedChallenge1));
@@ -201,6 +213,10 @@ export const StatsProvider = ({ children }) => {
     }
     if (savedChallengeFinalInstructions) {
       setChallengeFinalInstructionsRead(JSON.parse(savedChallengeFinalInstructions));
+    }
+    // Restaurar el tiempo congelado si se completó el escape room
+    if (savedChallengeFinal && savedEscapeTimerRemainingMs) {
+      setEscapeTimerRemainingMs(Number(savedEscapeTimerRemainingMs));
     }
   }, []);
 
@@ -263,6 +279,13 @@ export const StatsProvider = ({ children }) => {
     const completedWithinTime = elapsedMs <= ESCAPE_TIMER_DURATION_MS;
     const escapeDurationMs = ESCAPE_TIMER_DURATION_MS - remaining;
 
+    console.log("📌 completeChallengeFinal called", { 
+      escapeTimerStartedAt, 
+      completedAt, 
+      elapsedMs, 
+      remaining, 
+      escapeDurationMs 
+    });
     if (escapeTimerStartedAt) {
       setEscapeTimerRemainingMs(remaining);
     }
@@ -304,6 +327,14 @@ export const StatsProvider = ({ children }) => {
     sessionStorage.setItem("challengeFinalCompleted", JSON.stringify(true));
     // Guardar el tiempo congelado para que se restaure al recargar
     sessionStorage.setItem("escapeTimerRemainingMs", String(remaining));
+    // Asegurarse que escapeTimerStartedAt se mantiene en sessionStorage
+    if (escapeTimerStartedAt) {
+      sessionStorage.setItem("escapeTimerStartedAt", String(escapeTimerStartedAt));
+      console.log("✅ Guardado escapeTimerStartedAt:", escapeTimerStartedAt);
+    } else {
+      console.warn("⚠️ escapeTimerStartedAt es null/falsy, no se guarda");
+    }
+    sessionStorage.setItem("challengeFinalCompleted", JSON.stringify(true));
     sessionStorage.setItem(
       FINAL_COMPLETION_STATUS_KEY,
       completedWithinTime ? "success" : "fail"
@@ -323,6 +354,7 @@ export const StatsProvider = ({ children }) => {
     sessionStorage.removeItem(ESCAPE_OUTCOME_KEY);
     sessionStorage.removeItem(ESCAPE_TIMER_PAUSED_AT_KEY);
     sessionStorage.setItem("escapeTimerStartedAt", String(startedAt));
+    console.log("⏱️ Timer iniciado, escapeTimerStartedAt:", startedAt);
     setEscapeTimerStartedAt(startedAt);
     setEscapeTimerPausedAt(null);
     setEscapeTimerRemainingMs(ESCAPE_TIMER_DURATION_MS);
@@ -398,7 +430,6 @@ export const StatsProvider = ({ children }) => {
   useEffect(() => {
     if (challengeFinalCompleted) {
       timerFrozenRef.current = true;
-      sessionStorage.removeItem("escapeTimerStartedAt");
       sessionStorage.removeItem(ESCAPE_TIMER_PAUSED_AT_KEY);
     }
   }, [challengeFinalCompleted]);

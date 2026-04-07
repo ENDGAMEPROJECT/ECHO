@@ -49,7 +49,7 @@ export const AIContent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLang]);
   const { addMessage } = useMessages();
-  const { challenge2Completed, completeChallenge2, setChallenge2Total, setChallenge2Progress } = useStats();
+  const { challenge2Completed, completeChallenge2, setChallenge2Total, setChallenge2Progress, pauseEscapeTimer, resumeEscapeTimer } = useStats();
   const { sendStatement, trackChallengeStarted } = useXAPI();
   const completionSentRef = useRef(false);
   const [step, setStep] = useState("list");
@@ -88,6 +88,17 @@ export const AIContent = () => {
       setSidebarBlocked(false);
     }
   }, [step, canAdvanceFromVideo]);
+
+  // Pausar el timer mientras se reproduce el video, reanudar cuando termine
+  useEffect(() => {
+    // Si el video está en reproducción (step === "video" y videoEnded === false)
+    if (step === "video" && !videoEnded) {
+      pauseEscapeTimer();
+    } else {
+      // Si el video terminó o se salió de la sección de video, reanudar
+      resumeEscapeTimer();
+    }
+  }, [step, videoEnded, pauseEscapeTimer, resumeEscapeTimer]);
 
   // Sync challenge 2 progress to StatsProvider for navbar badge
   // Challenge 2 is a single task (complete the word game), so total=1
