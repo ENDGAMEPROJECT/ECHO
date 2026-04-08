@@ -19,7 +19,8 @@ export const sr = {
     "apps": {
       "messages": "Poruke",
       "social": "Društvena mreža",
-      "files": "Datoteke"
+      "files": "Datoteke",
+      "hints": "Saveti"
     },
     "window": {
       "minimize": "Smanji",

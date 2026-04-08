@@ -19,7 +19,8 @@ export const fi = {
     "apps": {
       "messages": "Viestit",
       "social": "Sosiaalinen verkko",
-      "files": "Tiedostot"
+      "files": "Tiedostot",
+      "hints": "Vinkit"
     },
     "window": {
       "minimize": "Pienennä",

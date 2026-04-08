@@ -19,7 +19,8 @@ export const es = {
     "apps": {
       "messages": "Mensajes",
       "social": "Red Social",
-      "files": "Archivos"
+      "files": "Archivos",
+      "hints": "Pistas"
     },
     "window": {
       "minimize": "Minimizar",

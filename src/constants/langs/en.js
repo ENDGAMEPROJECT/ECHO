@@ -19,7 +19,8 @@ export const en = {
     "apps": {
       "messages": "Messages",
       "social": "Social Network",
-      "files": "Files"
+      "files": "Files",
+      "hints": "Hints"
     },
     "window": {
       "minimize": "Minimize",

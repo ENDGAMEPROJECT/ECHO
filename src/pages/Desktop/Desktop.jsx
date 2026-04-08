@@ -439,15 +439,14 @@ export const Desktop = () => {
           <button
             className="app-launcher-card"
             onClick={handleOpenTips}
-            title={t("hintsApp.title")}
+            title={t("desktop.apps.hints")}
           >
-            <span style={{position: "absolute",color: "#373738ff", top: "6px", fontSize: "0.5rem", fontWeight: "bold"}}>PISTAS</span>
             <img
               className="launcher-image"
               src={assetPath("/assets/tips-icon.png")}
-              alt={t("hintsApp.title")}
+              alt={t("desktop.apps.hints")}
             />
-            <span className="launcher-label">{t("hintsApp.title")}</span>
+            <span className="launcher-label">{t("desktop.apps.hints")}</span>
           </button>
         </div>
       </div>

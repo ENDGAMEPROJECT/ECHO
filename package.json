@@ -30,7 +30,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:gh-pages": "VITE_BASE_PATH=/ECHO/ vite build",
+    "build:gh-pages": "cross-env VITE_BASE_PATH=/ECHO/ vite build",
     "preview": "vite preview",
     "deploy": "npm run build:gh-pages && gh-pages -d dist",
     "test": "...",
@@ -57,6 +57,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.1.2",
+    "cross-env": "^10.1.0",
     "dotenv": "^17.3.1",
     "exceljs": "^4.1.1",
     "gh-pages": "^6.3.0",

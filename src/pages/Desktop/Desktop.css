@@ -357,7 +357,10 @@ p {
 
 .launcher-label {
   text-align: center;
-  display: none;
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /* Survey banner */
