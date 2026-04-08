@@ -37,7 +37,7 @@ export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-co
   }, []);
 
   const statements = useMemo(
-    () => statementsData[currentLang] || statementsData.en || [],
+    () => (statementsData[currentLang] || statementsData.en || []).sort(() => Math.random() - 0.5),
     [currentLang]
   );
   const requiredCorrectCount = useMemo(
@@ -86,21 +86,33 @@ export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-co
 
     if (!correctSelections) {
       // failed: frases incorrectas seleccionadas
-      const wrongIds = selectedStatements.filter((id) => {
+      const selectedStatementsData = selectedStatements.map((id) => {
         const s = statements.find((st) => st.id === id);
-        return s && !s.correct;
+        return s;
       });
-      const wrongTexts = wrongIds.map((id) => {
-        const s = statements.find((st) => st.id === id);
-        return s ? s.text : id;
-      });
+
+      const correctCount = selectedStatementsData.filter((s) => s.correct).length;
+      const incorrectCount = selectedStatementsData.filter((s) => !s.correct).length;
+
+      const responseString = statements
+        .map((stmt, index) => `${index + 1}: ${stmt.text}`)
+        .join(' | ');
+
       sendStatement(
         XAPI_VERBS.FAILED,
         ECHO_ACTIVITIES.FINAL,
         {
-          success: false,
           completion: false,
-          response: wrongTexts.join(' | '),
+          response: responseString,
+          extensions: {
+            "https://endgameproject.github.io/xapi/ext/communityNoteSelections": selectedStatementsData.map((s) => ({
+              id: s.id,
+              text: s.text,
+              correct: s.correct,
+            })),
+            "https://endgameproject.github.io/xapi/ext/communityNoteCorrectCount": correctCount,
+            "https://endgameproject.github.io/xapi/ext/communityNoteIncorrectCount": incorrectCount,
+          },
         },
         {
           contextActivities: {
