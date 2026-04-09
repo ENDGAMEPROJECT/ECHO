@@ -531,8 +531,6 @@ export const AIContent = () => {
                     <div className="ai-game-prompt-container">
                       <div className="ai-game-prompt">
                         <p className="ai-game-prompt-text">
-                          <strong>{t("aiVerifyPage.postTitle","Critical Thinking 🍅🌶️🥑")}</strong>
-                          <small><span>@{t("aiVerifyPage.tweetAuthorHandle","quesofresco85")}</span>:</small><br/>
                           {gameData.prompt}
                         </p>
                       </div>

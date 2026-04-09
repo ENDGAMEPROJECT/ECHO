@@ -149,7 +149,7 @@
       "firstName": "Laura",
       "lastName": "Tech",
       "imageUser": "/assets/feed/feed_user1.png",
-      "text": "Okei… Sain juuri selville, ettei tätä tyttöä OLE OLEMASSA 😳\nHän on 100-prosenttisesti tekoälyllä luotu.\n\nJa hänellä on enemmän seuraajia kuin minulla.\n\nOn koko ajan vaikeampaa ja vaikeampaa sanoa, onko valokuva aito vai ei. Ole varovainen sen suhteen, mitä idealisoit somessa, sillä taustalla ei välttämättä ole edes oikeaa ihmistä.",
+      "text": "Okei… Sain juuri selville, ettei tätä tyttöä OLE OLEMASSA 😳\nHän on 100-prosenttisesti tekoälyllä luotu.\n\nJa hänellä on enemmän seuraajia kuin minulla.\n\nOn koko ajan vaikeampaa ja vaikeampaa sanoa, onko valokuva aito vai ei. Ole varovainen sen suhteen, mitä ihailet somessa, sillä taustalla ei välttämättä ole edes oikeaa ihmistä.",
       "imageURL": "/assets/feed/lau_tech_post.jpg",
       "date": "10/07/2025. 17:45:00",
       "likes": "4.8k"
@@ -159,7 +159,7 @@
       "firstName": "Alex",
       "lastName": "Data",
       "imageUser": "/assets/feed/feed_user2.png",
-      "text": "Suosittelualgoritmit analysoivat paljon muutakin kuin vain tykkäyksiäsi.\n\nNe mittaavat, kuinka kauan katsot jotakin, pysäytätkö videon, skrollaatko takaisin, zoomaatko kuvaan… jopa sitä, mitä jätät huomiotta.\n\nKaiken tämän avulla ne rakentavat ennustavan profiilin kiinnostuksen kohteistasi.\n\nNe eivät näytä sinulle sitä, mikä on toisinta.\nNe näyttävät sen, mikä todennäköisimmin pitää sinut sovelluksessa.\n\nJa se muuttaa täysin tavan, jolla kulutamme tietoa.",
+      "text": "Suosittelualgoritmit analysoivat paljon muutakin kuin vain tykkäyksiäsi.\n\nNe mittaavat, kuinka kauan katsot jotakin, pysäytätkö videon, skrollaatko takaisin, zoomaatko kuvaan… jopa sitä, mitä jätät huomiotta.\n\nKaiken tämän avulla ne rakentavat ennustavan profiilin kiinnostuksen kohteistasi.\n\nNe eivät näytä sinulle sitä, mikä on eniten totta.\nNe näyttävät sen, mikä todennäköisimmin pitää sinut sovelluksessa.\n\nJa se muuttaa täysin sitä tapaa, jolla kulutamme tietoa.",
       "imageURL": "/assets/feed/feed_post2.png",
       "date": "09/08/2025. 23:07:00",
       "likes": "278.5k"
@@ -169,7 +169,7 @@
       "firstName": "Marti",
       "lastName": "Developer",
       "imageUser": "/assets/feed/feed_user3.png",
-      "text": "Monet luulevat, että kun tekoäly antaa väärän vastauksen, se johtuu \"valehtelusta\". Mutta se ei oikeastaan toimi niin.\n\nKielimallit eivät etsi totuutta – ne etsivät todennäköisintä seuraavaa sanaa sen datan perusteella, jolla ne on koulutettu. Jos niillä ei ole tarpeeksi tietoa tai aihe on hyvin spesifi, ne voivat luoda yksityiskohtia, jotka kuulostavat täysin vakuuttavilta.\n\nTätä kutsutaan \"hallusinaatioksi\".\nKyse ei ole pahantahtoisuudesta. Kyse on tilastoista.\n\nJoten tekoälyn käyttö on hienoa – mutta siihen sokeasti luottaminen ei ole.",
+      "text": "Monet luulevat, että kun tekoäly antaa väärän vastauksen, se johtuu \"valehtelusta\". Mutta se ei oikeastaan toimi niin.\n\nKielimallit eivät etsi totuutta – ne etsivät todennäköisintä seuraavaa sanaa sen datan perusteella, jolla ne on koulutettu. Jos niillä ei ole tarpeeksi tietoa tai aihe on hyvin spesifi, ne voivat luoda yksityiskohtia, jotka kuulostavat täysin vakuuttavilta.\n\nTätä kutsutaan \"hallusinaatioksi\".\nKyse ei ole pahantahtoisuudesta. Kyse on tilastoista.\n\nJoten tekoälyn käyttö on OK – mutta siihen sokeasti luottaminen ei ole.",
       "imageURL": "/assets/feed/latent_variations.gif",
       "date": "01/07/2026. 09:30:00",
       "likes": "98.6k"
@@ -179,7 +179,7 @@
       "firstName": "Olaia",
       "lastName": "Plan",
       "imageUser": "/assets/feed/feed_user4.png",
-      "text": "Botti ei ole aina ilmiselvä. Se ei ole vain tili, jolla on outo käyttäjänimi ja nolla kuvaa.\n\nSe voidaan suunnitella näyttämään täysin inhimilliseltä: se postaa meemejä, kommentoi uutisia ja on vuorovaikutuksessa muiden käyttäjien kanssa.\n\nJos sadat botit tukevat samaa ideaa, se voi luoda illuusion todellisesta yksimielisyydestä.\n\nJa kun uskomme, että \"kaikki ajattelevat näin\", kyseenalaistamme asian paljon epätodennäköisemmin.\n\nSiitä ne todelliset ongelmat alkavat.",
+      "text": "Botti ei ole aina ilmiselvä. Se ei ole vain tili, jolla on outo käyttäjänimi ja nolla kuvaa.\n\nSe voidaan suunnitella näyttämään täysin ihmiseltä: se postaa meemejä, kommentoi uutisia ja on vuorovaikutuksessa muiden käyttäjien kanssa.\n\nJos sadat botit tukevat samaa ideaa, se voi luoda harhakuvan todellisesta yksimielisyydestä.\n\nJa kun uskomme, että \"kaikki ajattelevat näin\", kyseenalaistamme asian paljon epätodennäköisemmin.\n\nSiitä ne todelliset ongelmat alkavat.",
       "imageURL": "/assets/feed/feed_post4.png",
       "date": "03/05/2026. 10:31:00",
       "likes": "3.1k"
@@ -199,7 +199,7 @@
       "firstName": "Kleopatra",
       "lastName": "",
       "imageUser": "/assets/feed/feed_user6.png",
-      "text": "Oli tekoälyä tai ei… silti se kaikkein ikonisin.",
+      "text": "Oli tekoälyä tai ei… silti ikonisin kaikista.",
       "imageURL": "",
       "date": "01/05/2026. 12:11:00",
       "likes": "222"

@@ -47,6 +47,7 @@ export const Profile = () => {
   const navigate = useNavigate();
   const [fromAdmin, setFromAdmin] = useState(false);
   const [showClassificationQuiz, setShowClassificationQuiz] = useState(false);
+  const [quizError, setQuizError] = useState(null);
   const [quizSubmittedByUser, setQuizSubmittedByUser] = useState(() => {
     const saved = sessionStorage.getItem("adminGameQuizState");
     if (!saved) return {};
@@ -207,6 +208,7 @@ export const Profile = () => {
       currentUser,
     );
     if (shouldRequireQuiz && !quizSubmittedByUser[currentUser.username]) {
+      setQuizError(null);
       setShowClassificationQuiz(true);
       return;
     }
@@ -221,20 +223,99 @@ export const Profile = () => {
       }
       return [...prev, optionKey];
     });
+    // Limpiar error cuando el usuario cambia sus selecciones
+    setQuizError(null);
   };
+
+  // Validar si todos los indicadores obligatorios están seleccionados
+  const getMissingMandatoryIndicators = () => {
+    if (!currentUser?.puzzle) return [];
+    
+    return QUIZ_INDICATOR_KEYS.filter((key) => {
+      const indicator = currentUser.puzzle[key];
+      
+      // Solo las características con { mandatory: true } son obligatorias
+      if (indicator && typeof indicator === 'object' && indicator.mandatory === true) {
+        return !selectedQuizOptions.includes(key);
+      }
+      
+      return false;
+    });
+  };
+
+  // Obtener indicadores que PUEDEN ser seleccionados (tanto obligatorios como opcionales)
+  const getSelectableIndicators = () => {
+    if (!currentUser?.puzzle) return [];
+    
+    return QUIZ_INDICATOR_KEYS.filter((key) => {
+      const indicator = currentUser.puzzle[key];
+      
+      // Característica obligatoria: { value: true, mandatory: true }
+      if (indicator && typeof indicator === 'object' && indicator.value === true) {
+        return true;
+      }
+      
+      // Característica opcional: true (booleano)
+      if (indicator === true) {
+        return true;
+      }
+      
+      return false;
+    });
+  };
+
+  const missingMandatory = getMissingMandatoryIndicators();
+  const selectableIndicators = getSelectableIndicators();
+  
+  // El botón SIEMPRE está habilitado, la validación ocurre al enviar
+  const canSubmitQuiz = true;
 
   const handleSubmitQuiz = () => {
     if (!currentUser) return;
 
-    // Obtener los indicadores seleccionados por el usuario (convertir índices a nombres)
+    // Validar que haya seleccionado al menos una característica
+    if (selectedQuizOptions.length === 0) {
+      setQuizError(t('profile.selectAtLeastOne'));
+      return; 
+    }
+
+    // Obtener los indicadores correctos (lo que debería haber seleccionado)
+    const correctIndicators = QUIZ_INDICATOR_KEYS.filter((key) => {
+      const indicator = currentUser?.puzzle?.[key];
+      
+      if (indicator && typeof indicator === 'object' && 'value' in indicator) {
+        return indicator.value === true;
+      }
+      
+      return indicator === true;
+    });
+
+    // Validar que todos los indicadores obligatorios estén seleccionados
+    if (missingMandatory.length > 0) {
+      // Verificar si seleccionó algo incorrecto (no está en correctIndicators)
+      const incorrectSelected = selectedQuizOptions.filter(option => !correctIndicators.includes(option));
+      
+      // Verificar si seleccionó algo correcto (aunque falten obligatorias)
+      const correctSelected = selectedQuizOptions.filter(option => correctIndicators.includes(option));
+      
+      // Si seleccionó algo incorrecto, es error completo
+      if (incorrectSelected.length > 0 || correctSelected.length === 0) {
+        // No seleccionó NADA correcto O seleccionó algo incorrecto
+        setQuizError(t('profile.quizAnswerWrong'));
+      } else {
+        // Seleccionó solo características correctas pero le faltan obligatorias
+        setQuizError(t('profile.quizAnswerPartial'));
+      }
+      return; 
+    }
+
+    // Limpiar error si llegamos aquí (respuesta válida)
+    setQuizError(null);
+
+    // Si llegamos aquí, la respuesta es válida - guardar
     const selectedIndicators = selectedQuizOptions.filter(Boolean);
 
-    // Obtener los indicadores correctos (los que son true en puzzle)
-    const correctIndicators = QUIZ_INDICATOR_KEYS.filter(
-      (key) => currentUser?.puzzle?.[key] === true,
-    );
-
-    // Enviar statement xAPI con el verbo "answered" al completar el test
+    // Enviar statement xAPI
     trackQuizAnswered(
       currentUser.username,
       selectedIndicators,
@@ -352,7 +433,10 @@ export const Profile = () => {
             onClassify={handleClassification}
             isClassificationLocked={isClassificationLocked}
             canOpenClassificationQuiz={canOpenQuiz}
-            onOpenClassificationQuiz={() => setShowClassificationQuiz(true)}
+            onOpenClassificationQuiz={() => {
+              setQuizError(null);
+              setShowClassificationQuiz(true);
+            }}
           />
           <div className="user-posts-container">
             {!postLoading &&
@@ -436,6 +520,13 @@ export const Profile = () => {
                     </label>
                   ))}
                 </div>
+
+                {quizError && (
+                  <div className="classification-quiz-error">
+                    <span className="error-icon">⚠</span>
+                    {quizError}
+                  </div>
+                )}
 
                 <button
                   type="button"

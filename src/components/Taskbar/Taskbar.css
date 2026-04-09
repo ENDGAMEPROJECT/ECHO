@@ -42,29 +42,42 @@
   font-size: 24px;
 }
 
+.taskbar-apps-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  background: rgba(100, 100, 120, 0.3);
+  border: 2px solid rgba(150, 150, 180, 0.6);
+  border-radius: 8px;
+  height: 40px;
+}
+
 .taskbar-apps {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 0 8px;
+  gap: 2px;
 }
 
 .taskbar-app-button {
-  height: 40px;
-  padding: 0 12px;
+  height: 32px;
+  padding: 0 6px;
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
   color: #fff;
   cursor: pointer;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
+  justify-content: center;
+  gap: 2px;
+  font-size: 10px;
   transition: all 0.2s;
   border-radius: 4px 4px 0 0;
   position: relative;
+  white-space: nowrap;
 }
 
 .taskbar-app-button:hover {
@@ -81,14 +94,15 @@
 }
 
 .app-icon {
-  font-size: 18px;
+  font-size: 14px;
   display: flex;
   align-items: center;
 }
 
 .app-name {
-  font-size: 13px;
+  font-size: 9px;
   font-weight: 400;
+  line-height: 1;
 }
 
 .app-badge {

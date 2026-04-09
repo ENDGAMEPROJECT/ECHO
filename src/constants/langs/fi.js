@@ -18,9 +18,9 @@ export const fi = {
   "desktop": {
     "apps": {
       "messages": "Viestit",
-      "social": "Sosiaalinen verkko",
+      "social": "Sosiaalinen verkko ECHO",
       "files": "Tiedostot",
-      "hints": "Vinkit"
+      "hints": "Vihjeet"
     },
     "window": {
       "minimize": "Pienennä",
@@ -87,17 +87,17 @@ export const fi = {
     "errorInvalid": "Virheellinen käyttäjätunnus tai salasana"
   },
   "createPost": {
-    "placeholder": "Mitä tapahtuu?",
+    "placeholder": "Mitä tapahtuu?!",
     "fileTooBig": "tiedoston on oltava alle 20 mb",
     "invalidFileType": "tiedoston on oltava video (MP4/MOV) tai kuva (JPEG/PNG)",
     "publish": "Julkaise",
     "challengeLocked": "Haaste Lukittu",
     "completeChallenge1": "Suorita Admin-haaste voidaksesi lähettää viestejä",
-    "selectCorrectCount": "Olet suojannut ECHOn väärältä tiedolta. Tässä tehtävässä opit tunnistamaan botteja, tarkistamaan lähteitä ja ajattelemaan kriittisesti. Jaa nyt tuo tieto: valitse {{count}} oikeaa väitettä ja julkaise Yhteisömuistiinpanosi.",
+    "selectCorrectCount": "Olet suojannut ECHOn väärältä tiedolta. Tässä tehtävässä opit tunnistamaan botteja, tarkistamaan lähteitä ja ajattelemaan kriittisesti. Jaa nyt tuo tieto: valitse {{count}} oikeaa väitettä ja julkaise Yhteisöhuomautuksesi.",
     "incorrectSelection": "Väärä valinta. Yritä uudelleen!",
     "selected": "valittu",
     "publishConclusion": "Julkaise ",
-    "conclusionText": "Yhteisömme suojelemiseksi disinformaatiolta on tärkeää tarkistaa näkemämme ennen sen jakamista. Joskus automatisoidut tilit tai botit esittävät harhaanjohtavia viestejä, joiden tarkoituksena on herättää voimakkaita tunteita käyttäjissä. Lisäksi tekoälytyökaluilla tuotettu sisältö perustuu tilastollisiin malleihin, joten sen tulokset tulee aina tarkistaa luotettavista lähteistä ja merkitä asianmukaisesti. ECHOssa vastuullinen tiedon jakaminen on myös toisista huolehtimista."
+    "conclusionText": "Yhteisömme suojelemiseksi disinformaatiolta on tärkeää tarkistaa näkemämme ennen sen jakamista. Joskus automatisoidut tilit tai botit esittävät harhaanjohtavia viestejä, joiden tarkoituksena on herättää voimakkaita tunteita käyttäjissä. Lisäksi tekoälytyökaluilla tuotettu sisältö perustuu tilastollisiin malleihin, joten sen tulokset tulee aina tarkistaa luotettavista lähteistä ja merkitä asianmukaisesti. ECHOssa vastuullinen tiedon jakaminen on myös muista huolehtimista."
   },
   "post": {
     "editPost": "Muokkaa Julkaisua",
@@ -115,7 +115,7 @@ export const fi = {
     "noPosts": "Valitettavasti ei ole julkaisuja näytettäväksi! Seuraa ihmisiä nähdäksesi heidän julkaisunsa."
   },
   "profile": {
-    "noPosts": "Et ole lisännyt yhtään julkaisua!",
+    "noPosts": "Et ole lisännyt ainuttakaan julkaisua!",
     "editProfile": "Muokkaa Profiilia",
     "following": "Seuraat",
     "followers": "Seuraajat",
@@ -128,12 +128,15 @@ export const fi = {
     "yes": "Kyllä",
     "no": "Ei",
     "classificationIncorrect": "Väärä valinta. Tarkista profiili uudelleen.",
-    "classificationCorrectHuman": "Ispravno ste klasifikovali profil",
+    "classificationCorrectHuman": "Luokittelit profiilin oikein",
     "classificationQuizSubtitle": "Oikeita vastauksia voi olla useampi kuin yksi.        ",
     "openQuiz": "Jatka testiä",
-    "classificationQuizTitle": "Mitkä tämän profiilin ominaisuudet saavat sen luokiteltua botiksi?",
+    "classificationQuizTitle": "Mitkä tämän profiilin ominaisuudet luokittelevat sen botiksi?",
     "sendQuizAnswer": "Lähetä vastaus",
-    "closeQuiz": "Sulje testi"
+    "closeQuiz": "Sulje testi",
+    "selectAtLeastOne": "Valitse vähintään yksi ominaisuus",
+    "quizAnswerWrong": "Väärä valinta. Yritä uudelleen.",
+    "quizAnswerPartial": "Osittain väärä valinta. Yritä uudelleen."
   },
   "explore": {
     "caughtUp": "Olet ajan tasalla!"
@@ -142,7 +145,7 @@ export const fi = {
     "title": "Hallinnoi epäilyttäviä tilejä",
     "users": "Käyttäjät",
     "posts": "Julkaisut",
-    "suspectUsers": "Epäilyttävä sisältö",
+    "suspectUsers": "Epäilyttävää sisältöä",
     "beforeStart": "Ennen kuin aloitat...",
     "noSuspects": "Ei epäiltyjä käyttäjiä tällä hetkellä",
     "classified": "Luokiteltu",
@@ -153,7 +156,7 @@ export const fi = {
     "allCorrect": "Erinomaista! Olet tunnistanut kaikki käyttäjät oikein.",
     "tryAgain": "Jotkut luokittelut ovat väärin. Yritä uudelleen!",
     "playAgain": "Pelaa Uudelleen",
-    "hintTitle": "Tilin virheellisten tietojen indikaattorit",
+    "hintTitle": "Tilin vääristellyn tiedon indikaattorit",
     "hintContent": {
       "emotions": "Vetoaa tunteisiin: Käyttää liioiteltua tai sensaatiohakuista kieltä, jonka tarkoituksena on laukaista voimakkaita reaktioita – kuten pelkoa, kiireellisyyttä tai raivoa – sen sijaan, että se antaisi objektiivista tietoa.",
       "targetAudience": "Selkeän kohdeyleisön puute: Sisältöä ei ole räätälöity tietylle yleisölle, ja sitä voidaan toistaa useilla kielillä ilman selkeää strategiaa.",
@@ -171,7 +174,7 @@ export const fi = {
     "title": "Tervetuloa, moderaattori!",
     "subtitle": "Tekoälyn luoma sisältö",
     "pendingReviewCount": "{{count}} julkaisu",
-    "pendingReviewText": "odottaa tarkistusta, onko se tekoälyn luoma.",
+    "pendingReviewText": "odottaa tarkistusta siitä, onko se tekoälyn luoma",
     "verifyButton": "Tarkista julkaisu →",
     "statsCount": "{{count}} julkaisua",
     "statsText": "on merkitty tekoälyn luomaksi viimeisen tunnin aikana.",
@@ -183,12 +186,12 @@ export const fi = {
   },
   "aiVerifyPage": {
     "title": "Vahvista tekoälyn luoma sisältö",
-    "subtitle": "Käyttäjän on havaittu julkaisevan kommentteja epätavallisen usein ja käyttävän tekoälyn luomalle sisällölle tyypillistä kielenkäyttöä. Analysoi hänen viestejään ja todista, että ainakin yksi heidän kommenteistaan ​​on tekoälyn luoma. Jos onnistut, voit merkitä hänen profiilinsa \"Automoitu tili\" -tilaan. Valitettavasti tekoälytunnistimemme on tällä hetkellä huollon alla, joten sinun on tehtävä tämä manuaalisesti.",
+    "subtitle": "Käyttäjän on havaittu julkaisevan kommentteja epätavallisen usein ja käyttävän tekoälyn luomalle sisällölle tyypillistä kielenkäyttöä. Analysoi hänen viestejään ja todista, että ainakin yksi heidän kommenteistaan ​​on tekoälyn luoma. Jos onnistut, voit merkitä hänen profiilinsa \"Automatisoitu tili\" -tilaan. Valitettavasti tekoälytunnistimemme on tällä hetkellä huollon alla, joten sinun on tehtävä tämä manuaalisesti.",
     "postTitle": "Kriittinen ajattelu 🍎🥑",
-    "tweetAuthorHandle": "juustooooo85",
+    "tweetAuthorHandle": "raejuusto85",
     "postDate": "11.12.2025",
-    "stamp": "TEKOÄLY?",
-    "reminder": "Mutta ensin muistetaan, miten generatiivinen tekoäly toimii, erityisesti suuret kielimallit (tai LLM:t).",
+    "stamp": "TEKOÄLYLLÄ TEHTY?",
+    "reminder": "Mutta ensin muistetaan, miten generatiivinen tekoäly toimii, erityisesti suuret kielimallit (eli LLM:t).",
     "back": "← Takaisin",
     "start": "Aloitetaan!"
   },
@@ -199,7 +202,7 @@ export const fi = {
     "nextStep": "Seuraava"
   },
   "aiPrompt": {
-    "suspiciousBadge": "EPÄILYTTÄVÄ KEHOTUS"
+    "suspiciousBadge": "EPÄILYTTÄVÄ KEHOTE"
   },
   "aiChallengeBriefPage": {
     "title": "Vahvista tekoälyn tuottama sisältö",
@@ -210,7 +213,7 @@ export const fi = {
   },
   "aiGamePage": {
     "user": {
-      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B147,\"\"en\"\",\"\"fi\"\")\"),\"Käyttäjä\")",
+      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B152,\"\"en\"\",\"\"fi\"\")\"),\"Käyttäjä\")",
       "result": "Käyttäjä"
     },
     "ai": "Tekoäly",
@@ -227,9 +230,9 @@ export const fi = {
   },
   "aiIncorrectUsesPage": {
     "title": "Tekoälyn väärää käyttöä ⚠️",
-    "subtitle": "Hei Moderaattori! Vastaa käyttäjille neuvoen niin, että he eivät toista virheitä jotka johtavat väärään tietoon Echossa.",
+    "subtitle": "Hei Moderaattori! Vastaa käyttäjille neuvoen siten, että he eivät toista virheitä jotka johtavat väärään tietoon Echossa.",
     "instruction": "Valitse vastausvaihtoehto, joka edustaa tekoälyn väärää käyttöä.",
-    "unavailable": "Tämä haaste ei ole vielä saatavilla kielelläs.",
+    "unavailable": "Tämä haaste ei ole vielä saatavilla kielelläsi.",
     "sent": "Vastaus lähetetty",
     "tryAgain": "Yritä uudestaan ennen vastauksen lähettämistä",
     "correct": "Oikein!",
@@ -270,11 +273,11 @@ export const fi = {
     "statusAlert": "HÄLYTYS",
     "statusSecure": "TURVALLINEN",
     "botModule": {
-      "title": "Misinformaatioverko",
+      "title": "Disinformaatioverkosto",
       "detected": "Merkityt tilit",
       "suspicious": "Epäilyttävät tilit",
       "note": "Koordinoitua toimintaa havaittu verkossa",
-      "resolvedNote": "Misinformaatioverko neutralisoitu"
+      "resolvedNote": "Disinformaatioverkosto neutralisoitu"
     },
     "aiModule": {
       "title": "Tekoälyntunnistin",
@@ -302,12 +305,12 @@ export const fi = {
       "status": "RATKAISTU",
       "note": "Verkko on suojattu. Hienoa työtä!"
     },
-    "timerExpiredContinue": "Vreme je isteklo. Nastavi do završnog izazova čak i ako nisi uspeo/la da kontrolišeš dezinformacije.",
+    "timerExpiredContinue": "Aika on loppunut. Jatka viimeiseen haasteeseen, vaikka et onnistunut hallitsemaan disinformaatiota.",
     "completionTimeMsg": "Suoritit pakohuoneen {{minutes}} minuutissa ja {{seconds}} sekunnissa!"
   },
   "errors": {
     "pageNotFound": "Sivua ei löytynyt",
-    "goHome": "Mene Kotiin"
+    "goHome": "Palaa kotisivulle"
   },
   "officialAccount": {
     "name": "ECHO Oy",
@@ -342,18 +345,18 @@ export const fi = {
   "playerOnboarding": {
     "subtitle": "Tervetuloa ECHOn pakopeliin.",
     "nameLabel": "Pelaajan nimi",
-    "namePlaceholder": "Syota nimesi",
-    "nameErrorEmpty": "Ole hyva ja syota nimesi",
-    "nameErrorShort": "Nimen on oltava vahintaan 2 merkkia",
-    "ageLabel": "Ika",
-    "agePlaceholder": "Syota ikasi",
-    "ageErrorEmpty": "Ole hyva ja syota ikasi",
-    "ageErrorInvalid": "Ole hyva ja syota kelvollinen ika",
+    "namePlaceholder": "Syötä nimesi",
+    "nameErrorEmpty": "Ole hyvä ja syötä nimesi",
+    "nameErrorShort": "Nimen on oltava vahintään 2 merkkiä",
+    "ageLabel": "Ikä",
+    "agePlaceholder": "Syotä ikäsi",
+    "ageErrorEmpty": "Ole hyvä ja syötä ikäsi",
+    "ageErrorInvalid": "Ole hyvä ja syötä kelvollinen ikä",
     "languageLabel": "Pelin kieli",
     "submitButton": "Aloita peli",
     "pretestCounter": "valittu",
-    "moderatorFormTitle": "Moderaattorin lomake",
-    "moderatorFormDescription": "Osoita tietosi sosiaalisen median disinformaatiosta.",
+    "moderatorFormTitle": "Moderaattorilomake",
+    "moderatorFormDescription": "Osoita tietosi sosiaalisen median disinformaatiosta. Valitse viisi väitettä joiden arvelet olevan totta.",
     "moderatorFormSubmit": "Lähetä"
   },
   "survey": {
@@ -365,10 +368,10 @@ export const fi = {
     "next": "Seuraava",
     "submit": "Lähetä",
     "title": "Jaa palautteesi",
-    "opinionTitle": "What is your general opinion about the escape room? ",
-    "opinionRange": "1 = Very poor, 2 = Poor, 3 = Neutral, 4 = Good, 5 = Very good",
-    "rateTitle": "Rate the following statements on a scale of 1-7",
-    "rateRange": "1 = Strongly Disagree, 2 = Disagree, 3 = Somewhat Disagree , 4 = Neutral, 5 = Somewhat Agree, 6 = Agree, 7 = Strongly Agree).",
+    "opinionTitle": "Mikä on yleinen mielipiteesi pakohuonepelistä",
+    "opinionRange": "1 = Erittäin huono, 2 = Huono, 3 = Neutraali, 4 = Hyvä, 5 = Erittäin hyvä",
+    "rateTitle": "Arvioi seuraavat väittämät asteikolla 1-7",
+    "rateRange": "1 = Vahvasti eri mieltä, 2 = Eri mieltä, 3 = Jossain määrin eri mieltä , 4 = Neutraali, 5 = Jossain määrin samaa mieltä, 6 = Samaa mieltä, 7 = Vahvasti samaa mieltä).",
     "learningTitle": "Kuinka paljon opit?",
     "learningItems": {
       "0": "Pakohuonepeli lisäsi tietämystäni tekoälyn toiminnasta",
@@ -377,27 +380,27 @@ export const fi = {
     },
     "guessTitle": "Mitä pidit pelattavuudesta?",
     "guessItems": {
-      "0": "I find the controls of the escape room to be straightforward.",
-      "1": "I find the escape room's interface to be easy to navigate.",
-      "2": "I am captivated by the escape room’s story from the beginning.",
-      "3": "I enjoy the story provided by the escape room.",
-      "4": "I feel detached from the outside world while playing the escape room.",
-      "5": "I do not care to check events that are happening in the real world during the escape room.",
-      "6": "I think the escape room is fun.",
-      "7": "I feel bored while playing the escape room.",
-      "8": "I feel the escape room allows me to be imaginative.",
-      "9": "I feel creative while playing the escape room.",
-      "10": "I am very focused on my own performance while playing the escape room.",
-      "11": "I want to do as well as possible during the escape room.",
-      "12": "I enjoy the escape room’s graphics.",
-      "13": "I think the escape room is visually appealing."
+      "0": "Pelin ohjaaminen oli suoraviivaista",
+      "1": "Pakopelin käyttöliittymää oli helppo navigoida.",
+      "2": "Pakopelin tarina vangitsi alusta alkaen.",
+      "3": "Nautin pakopelin tarinasta.",
+      "4": "Koin uppoutuvani ja unohtavani ulkomaailman pelatessani pakopeliä.",
+      "5": "Minua ei kiinnostanut tarkistaa, mitä oikeassa maailmassa tapahtuu samalla kun pelasin pakopeliä.",
+      "6": "Mielestäni pakopeli oli hauska.",
+      "7": "Tunsin itseni pitkästyneeksi pelatessani pakopeliä.",
+      "8": "Koin pakopelin sallivan minun käyttää mielikuvitustani.",
+      "9": "Koin itseni luovaksi pelatessa pakopeliä.",
+      "10": "Olin hyvin keskittynyt omaan suoritukseeni pelatessani pakopeliä.",
+      "11": "Halusin pärjätä mahdollisimman hyvin pelatessani pakopeliä.",
+      "12": "Nautin pakopelin grafiikoista.",
+      "13": "Pidin pakopeliä visuaalisesti miellyttävänä."
     },
     "comments": "Onko muita kommentteja tai ehdotuksia?"
   },
   "sessionDialog": {
     "title": "Tervetuloa takaisin",
     "message": "Sinulla on aiempi istunto. Haluatko jatkaa siitä, mihin jäit?",
-    "resume": "Jatkaa",
+    "resume": "Jatka",
     "startOver": "Aloita alusta"
   },
   "escapeRoomEnd": {

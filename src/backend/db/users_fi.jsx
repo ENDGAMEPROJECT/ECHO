@@ -11,7 +11,7 @@ export const usersFI = [
     firstName: "Aino Lehtinen",
     lastName: "",
     bio: "Talvikävelyjä ja rauhallisia iltoja.",
-    username: "aino.lehtinen",
+    username: "ainuska98",
     password: "ECHO",
     createdAt: new Date("maalis 2016"),
     updatedAt: formatDate(),
@@ -36,7 +36,7 @@ export const usersFI = [
     firstName: "Eero Mäkinen",
     lastName: "",
     bio: "Kalastusta, kahvia ja aikaisia aamuja.",
-    username: "eero.makinen",
+    username: "TheMäkiEero",
     password: "ECHO",
     createdAt: new Date("marras 2013"),
     updatedAt: formatDate(),
@@ -61,7 +61,7 @@ export const usersFI = [
     firstName: "Veera Koskinen",
     lastName: "",
     bio: "Musiikkia, keikkoja ja hyvää fiilistä.",
-    username: "veerakoskinen",
+    username: "VeryVeera",
     password: "ECHO",
     createdAt: new Date("kesä 2018"),
     updatedAt: formatDate(),
@@ -86,7 +86,7 @@ export const usersFI = [
     firstName: "Juhani Nieminen",
     lastName: "",
     bio: "Kavereita ja viikonloppuja.",
-    username: "juhani.nieminen",
+    username: "JuBa02",
     password: "ECHO",
     createdAt: new Date("huhti 2012"),
     updatedAt: formatDate(),
@@ -111,7 +111,7 @@ export const usersFI = [
     firstName: "Oskari Virtanen",
     lastName: "",
     bio: "Töitä, projekteja ja tekemistä.",
-    username: "oskari.virtanen",
+    username: "2kgSiikaFile",
     password: "ECHO",
     createdAt: new Date("syys 2015"),
     updatedAt: formatDate(),
@@ -135,8 +135,8 @@ export const usersFI = [
     _id: uuid(),
     firstName: "Satu Leinoenn",
     lastName: "",
-    bio: "Ystävällisyyttä, perhettä ja pieniä asioita.",
-    username: "satu.leinoenn",
+    bio: "Ystävyyttä, perhettä ja pieniä asioita.",
+    username: "SatuLeinonen",
     password: "ECHO",
     createdAt: new Date("tammi 2020"),
     updatedAt: formatDate(),
@@ -211,7 +211,7 @@ export const usersFI = [
     firstName: "Ilmatieteen laitos",
     lastName: "",
     bio: "Ajankohtaista säästä ja ilmastosta Suomessa ja vähän muuallakin.",
-    username: "meteorologit",
+    username: "FMIofficial",
     password: "ECHO",
     createdAt: new Date("syys 2009"),
     updatedAt: formatDate(),
@@ -254,6 +254,81 @@ export const usersFI = [
       temporalActivity: true,
       targetAudience: true,
       emotions: true
+    }
+  },
+  {
+    _id: uuid(),
+    firstName: "Hannu Pekkanen",
+    lastName: "",
+    bio: "Totuus jota muut ei kerro",
+    username: "FinnTruth",
+    password: "ECHO",
+    createdAt: new Date("loka 2024"),
+    updatedAt: formatDate(),
+    avatarURL: "/assets/users/FinnTruth.png",
+    verified: true,
+    stats: {
+      followersCount: 129,
+      followingCount: 450,
+      postsCount: 215
+    },
+    puzzle: {
+      isBot: true,
+      abnormalRatio: true,
+      recentAccount: true,
+      temporalActivity: true,
+      targetAudience: true,
+      emotions: true
+    }
+  },
+  {
+    _id: uuid(),
+    firstName: "Petteri Simonen",
+    lastName: "",
+    bio: "EU, ilmastohulluus, denazifikaatio",
+    username: "VapausEUsta",
+    password: "ECHO",
+    createdAt: new Date("marras 2025"),
+    updatedAt: formatDate(),
+    avatarURL: "/assets/users/VapausEUsta.png",
+    verified: false,
+    stats: {
+      followersCount: 23,
+      followingCount: 460,
+      postsCount: 53
+    },
+    puzzle: {
+      isBot: true,
+      abnormalRatio: true,
+      recentAccount: true,
+      temporalActivity: true,
+      targetAudience: false,
+      emotions: true
+    }
+  },
+  {
+    _id: uuid(),
+    firstName: "Iida Kallio",
+    lastName: "",
+    bio: "Muotoilu, sisustus, värien maailma",
+    username: "IidaDesign",
+    password: "ECHO",
+    createdAt: new Date("joulu 2011"),
+    updatedAt: formatDate(),
+    avatarURL: "/assets/users/IidaKallio.png",
+    verified: true,
+    stats: {
+      followersCount: 512,
+      followingCount: 217,
+      postsCount: 314
+    },
+    puzzle: {
+      isBot: false,
+      abnormalRatio: false,
+      recentAccount: false,
+      temporalActivity: false,
+      targetAudience: false,
+      emotions: false
     }
   }
 ];

@@ -44,21 +44,23 @@ export const Taskbar = () => {
         </button>
       </div>
 
-      <div className="taskbar-apps">
-        {apps.map((app) => (
-          <button
-            key={app.id}
-            className={`taskbar-app-button ${
-              openApps.includes(app.id) ? "open" : ""
-            } ${activeApp === app.id ? "active" : ""}`}
-            onClick={() => focusApp(app.id)}
-            title={app.name}
-          >
-            <span className="app-icon">{app.icon}</span>
-            <span className="app-name">{app.name}</span>
-            {app.badge && <span className="app-badge">{app.badge}</span>}
-          </button>
-        ))}
+      <div className="taskbar-apps-container">
+        <div className="taskbar-apps">
+          {apps.map((app) => (
+            <button
+              key={app.id}
+              className={`taskbar-app-button ${
+                openApps.includes(app.id) ? "open" : ""
+              } ${activeApp === app.id ? "active" : ""}`}
+              onClick={() => focusApp(app.id)}
+              title={app.name}
+            >
+              <span className="app-icon">{app.icon}</span>
+              <span className="app-name">{app.name}</span>
+              {app.badge && <span className="app-badge">{app.badge}</span>}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="taskbar-tray">

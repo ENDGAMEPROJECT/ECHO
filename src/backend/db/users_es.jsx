@@ -78,7 +78,10 @@ export const usersES = [
       recentAccount: false,
       temporalActivity: false,
       targetAudience: false,
-      emotions: true
+      emotions: {
+        value: true,
+        mandatory: true
+      }
     }
   },
   {
@@ -101,7 +104,10 @@ export const usersES = [
       isBot: true,
       abnormalRatio: false,
       recentAccount: false,
-      temporalActivity: true,
+      temporalActivity: {
+        value: true,
+        mandatory: true
+      },
       targetAudience: false,
       emotions: true
     }
@@ -128,7 +134,10 @@ export const usersES = [
       recentAccount: false,
       temporalActivity: true,
       targetAudience: false,
-      emotions: true
+      emotions: {
+        value: true,
+        mandatory: true
+      }
     }
   },
   {
@@ -149,7 +158,10 @@ export const usersES = [
     },
     puzzle: {
       isBot: true,
-      abnormalRatio: false,
+      abnormalRatio: {
+        value: true,
+        mandatory: true
+      },
       recentAccount: false,
       temporalActivity: true,
       targetAudience: false,
@@ -175,7 +187,10 @@ export const usersES = [
     puzzle: {
       isBot: true,
       abnormalRatio: false,
-      recentAccount: false,
+      recentAccount: {
+        value: true,
+        mandatory: true
+      },
       temporalActivity: false,
       targetAudience: true,
       emotions: true
@@ -201,7 +216,10 @@ export const usersES = [
       isBot: true,
       abnormalRatio: false,
       recentAccount: false,
-      temporalActivity: false,
+      temporalActivity: {
+        value: true,
+        mandatory: true
+      },
       targetAudience: true,
       emotions: true
     }
@@ -228,7 +246,10 @@ export const usersES = [
       recentAccount: true,
       temporalActivity: true,
       targetAudience: false,
-      emotions: true
+      emotions: {
+        value: true,
+        mandatory: true
+      }
     }
   },
   {

@@ -18,7 +18,7 @@ export const sr = {
   "desktop": {
     "apps": {
       "messages": "Poruke",
-      "social": "Društvena mreža",
+      "social": "Društvena mreža ECHO ",
       "files": "Datoteke",
       "hints": "Saveti"
     },
@@ -128,12 +128,15 @@ export const sr = {
     "yes": "Da",
     "no": "Ne",
     "classificationIncorrect": "Netačan izbor. Ponovo pregledaj profil.",
-    "classificationCorrectHuman": "Luokittelit profiilin oikein",
+    "classificationCorrectHuman": "Ispravno ste klasifikovali profil",
     "classificationQuizSubtitle": "Može biti više od jednog tačnog odgovora.",
     "openQuiz": "Nastavi test",
     "classificationQuizTitle": "Koje karakteristike ovog profila dovode do toga da se klasifikuje kao bot?",
     "sendQuizAnswer": "Pošalji odgovor",
-    "closeQuiz": "Zatvori test"
+    "closeQuiz": "Zatvori test",
+    "selectAtLeastOne": "Molim odaberi barem jednu karakteristiku",
+    "quizAnswerWrong": "Pogrešan izbor. Pokušaj ponovo.",
+    "quizAnswerPartial": "Djelomično pogrešan izbor. Pokušaj ponovo."
   },
   "explore": {
     "caughtUp": "Stigli ste do kraja!"
@@ -210,7 +213,7 @@ export const sr = {
   },
   "aiGamePage": {
     "user": {
-      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B147,\"\"en\"\",\"\"hr\"\")\"),\"Korisnik\")",
+      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B152,\"\"en\"\",\"\"hr\"\")\"),\"Korisnik\")",
       "result": "Korisnik"
     },
     "ai": "Umjetna inteligencija",
@@ -302,7 +305,7 @@ export const sr = {
       "status": "REŠENO",
       "note": "Mreža je zaštićena. Odličan rad!"
     },
-    "timerExpiredContinue": "Aika on loppunut. Jatka viimeiseen haasteeseen, vaikka et onnistunut hallitsemaan disinformaatiota.",
+    "timerExpiredContinue": "Vreme je isteklo. Nastavi do završnog izazova čak i ako nisi uspeo/la da kontrolišeš dezinformacije.",
     "completionTimeMsg": "Escape room ste završili za {{minutes}} minuta i {{seconds}} sekundi!"
   },
   "errors": {

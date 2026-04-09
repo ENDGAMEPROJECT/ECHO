@@ -409,17 +409,30 @@ function parseAiOkValue(value) {
 }
 
 /**
- * Normalize puzzle indicator values from spreadsheet to boolean.
- * Accepts TRUE/FALSE, 1/0, X/empty.
+ * Normalize puzzle indicator values from spreadsheet.
+ * Returns object with value (boolean) and mandatory (boolean) only for mandatory characteristics.
+ * Values: "m" = mandatory, "x" = optional, null/empty = not present.
  */
 function parsePuzzleIndicatorValue(value) {
-  if (typeof value === "boolean") return value;
-  if (typeof value === "number") return value === 1;
-
   const normalized = String(value ?? "").trim().toUpperCase();
-  if (!normalized) return false;
-
-  return ["TRUE", "1", "X", "YES", "SI", "DA"].includes(normalized);
+  
+  // Empty/falsy values: characteristic not present
+  if (!normalized) {
+    return false;
+  }
+  
+  // "M" = mandatory characteristic (must be selected by user)
+  if (normalized === "M") {
+    return { value: true, mandatory: true };
+  }
+  
+  // "X" = optional characteristic (can be selected but not required)
+  // Solo devuelve true para mantener compatibilidad
+  if (normalized === "X") {
+    return true;
+  }
+  
+  return false;
 }
 
 /**
