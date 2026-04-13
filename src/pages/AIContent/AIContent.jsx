@@ -53,7 +53,9 @@ export const AIContent = () => {
   const { sendStatement, trackChallengeStarted } = useXAPI();
   const completionSentRef = useRef(false);
   const [step, setStep] = useState("list");
-  const [videoEnded, setVideoEnded] = useState(false);
+  const [videoEnded, setVideoEnded] = useState(() => {
+    return sessionStorage.getItem("echo:puzzle2:videoViewed") === "true";
+  });
   const [selectedWords, setSelectedWords] = useState([]);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   const [wrongChoice, setWrongChoice] = useState(null);
@@ -425,14 +427,34 @@ export const AIContent = () => {
                       <video
                         width="100%"
                         controls={false}
-                        autoPlay
+                        autoPlay={!videoEnded}
                         playsInline
-                        onEnded={() => setVideoEnded(true)}
+                        onEnded={() => {
+                          sessionStorage.setItem("echo:puzzle2:videoViewed", "true");
+                          setVideoEnded(true);
+                        }}
                         onPlay={() => setVideoEnded(false)}
                         onError={() => setHasLocalizedVideo(false)}
                         src={localizedVideoSrc}
                         style={{ borderRadius: 12, background: "#000" }}
                       />
+                      {videoEnded && (
+                        <div className="ai-video-replay-overlay">
+                          <button
+                            className="ai-video-replay-btn"
+                            type="button"
+                            onClick={(e) => {
+                              const video = e.currentTarget.closest(".ai-video-container").querySelector("video");
+                              if (video) {
+                                video.currentTime = 0;
+                                video.play();
+                              }
+                            }}
+                          >
+                            ▶ {t("aiVideoPage.replayVideo")}
+                          </button>
+                        </div>
+                      )}
                     </div>
                   )}
 

@@ -237,7 +237,7 @@
           ]
         },
         {
-          "correct": "activitiies",
+          "correct": "activities",
           "percentage": 0.89,
           "alts": [
             "actions",
@@ -892,7 +892,7 @@
           ]
         }
       ],
-      "prompt": ""
+      "prompt": "Kirjoita yksi fakta vesisyklistä."
     },
     {
       "words": [
@@ -985,7 +985,7 @@
           ]
         }
       ],
-      "prompt": ""
+      "prompt": "Kirjoita 1 \"päivän hauska fakta\" ilmastonmuutoksesta."
     },
     {
       "words": [
@@ -1070,7 +1070,7 @@
           ]
         }
       ],
-      "prompt": ""
+      "prompt": "Sano 1 virkkeellä, mitä tarkoittaa että ilmastonmuutos on ihmisen aiheuttama."
     },
     {
       "words": [
@@ -1123,7 +1123,7 @@
           ]
         }
       ],
-      "prompt": ""
+      "prompt": "Kirjoita 1 perustelu kierrättämiselle"
     }
   ],
   "sr": [

@@ -131,8 +131,9 @@ export const es = {
     "misinfoQuestion": "¿Es esta cuenta un posible bot?",
     "yes": "Sí",
     "no": "No",
-    "classificationIncorrect": "Selección incorrecta. Vuelve a mirar el perfil.",
+    "classificationIncorrect": "Selección incompleta. Vuelve a mirar el perfil.",
     "classificationCorrectHuman": "Pravilno ste identifikovali i validirali bota",
+    "classificationCorrectBot": "Has identificado y validado correctamente al bot",
     "classificationQuizSubtitle": "Puede haber más de una respuesta correcta.",
     "openQuiz": "Continuar test",
     "classificationQuizTitle": "¿Qué características de este perfil hace que se clasifique como bot?",
@@ -143,10 +144,9 @@ export const es = {
     "sendQuizAnswer": "Enviar respuesta",
     "closeQuiz": "Cerrar cuestionario",
     "selectAtLeastOne": "Por favor selecciona al menos una característica",
-    "quizAnswerWrong": "Selección incorrecta. Intenta de nuevo.",
+    "quizAnswerWrong": "Selección incorrecta. Inténtalo de nuevo.",
     "quizAnswerPartial": "Selección parcialmente incorrecta. Intenta de nuevo."
   },
-  "classificationCorrectBot": "Has identificado y validado correctamente al bot",
   "explore": {
     "caughtUp": "¡Estás al día!"
   },
@@ -208,7 +208,8 @@ export const es = {
     "title": "¿Cómo funciona la IA generativa?",
     "subtitle": "Observa cómo funciona el proceso de generación.",
     "back": "← Atrás",
-    "nextStep": "Siguiente"
+    "nextStep": "Siguiente",
+    "replayVideo": "Reproducir de nuevo"
   },
   "aiPrompt": {
     "suspiciousBadge": "PROMPT SOSPECHOSO"

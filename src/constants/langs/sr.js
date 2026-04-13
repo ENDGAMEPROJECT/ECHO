@@ -204,7 +204,8 @@ export const sr = {
     "title": "Kako funkcioniše generativna veštačka inteligencija?",
     "subtitle": "Pogledajte kako funkcioniše proces detekcije.",
     "back": "← Nazad",
-    "nextStep": "Dalje"
+    "nextStep": "Dalje",
+    "replayVideo": "Reprodukuj ponovo"
   },
   "aiPrompt": {
     "suspiciousBadge": "SUMNJIV PROMPT"
@@ -218,7 +219,7 @@ export const sr = {
   },
   "aiGamePage": {
     "user": {
-      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B158,\"\"en\"\",\"\"hr\"\")\"),\"Korisnik\")",
+      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B159,\"\"en\"\",\"\"hr\"\")\"),\"Korisnik\")",
       "result": "Korisnik"
     },
     "ai": "Umjetna inteligencija",
