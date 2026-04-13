@@ -5,7 +5,7 @@ import { getLocalizedContent } from '../../../../utils/i18nHelpers.jsx';
 import { createdOnDate } from '../../../../utils/date.jsx';
 import { assetPath } from "../../../../utils/assetPath";
 
-export const UserInfo = ({ username, showClassificationControls = false, selectedClassification, onClassify, isClassificationLocked = false, canOpenClassificationQuiz = false, onOpenClassificationQuiz }) => {
+export const UserInfo = ({ username, showClassificationControls = false, selectedClassification, onClassify, isClassificationLocked = false, canOpenClassificationQuiz = false, onOpenClassificationQuiz, isQuizCompleted = false }) => {
   const { t, i18n } = useTranslation();
   const { userState } = useUser();
 
@@ -30,6 +30,7 @@ export const UserInfo = ({ username, showClassificationControls = false, selecte
   const hasClassification = selectedClassification === 'yes' || selectedClassification === 'no';
   const isIncorrectClassification = hasClassification && selectedClassification !== expectedClassification;
   const isCorrectHumanClassification = hasClassification && selectedClassification === 'no' && expectedClassification === 'no';
+  const isCorrectBotClassification = hasClassification && selectedClassification === 'yes' && expectedClassification === 'yes' && isQuizCompleted;
 
   return (
     <div className="user-info-container">
@@ -79,6 +80,12 @@ export const UserInfo = ({ username, showClassificationControls = false, selecte
             {isCorrectHumanClassification && (
               <p className="profile-classification-feedback profile-classification-feedback--success">
                 {t('profile.classificationCorrectHuman')}
+              </p>
+            )}
+
+            {isCorrectBotClassification && (
+              <p className="profile-classification-feedback profile-classification-feedback--success">
+                {t('profile.classificationCorrectBot')}
               </p>
             )}
           </div>

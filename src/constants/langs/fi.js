@@ -129,6 +129,7 @@ export const fi = {
     "no": "Ei",
     "classificationIncorrect": "Väärä valinta. Tarkista profiili uudelleen.",
     "classificationCorrectHuman": "Luokittelit profiilin oikein",
+    "classificationCorrectBot": "Tunnistit ja validoit botin oikein",
     "classificationQuizSubtitle": "Oikeita vastauksia voi olla useampi kuin yksi.        ",
     "openQuiz": "Jatka testiä",
     "classificationQuizTitle": "Mitkä tämän profiilin ominaisuudet luokittelevat sen botiksi?",

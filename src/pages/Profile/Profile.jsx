@@ -437,6 +437,7 @@ export const Profile = () => {
               setQuizError(null);
               setShowClassificationQuiz(true);
             }}
+            isQuizCompleted={isQuizCompletedForCurrentProfile}
           />
           <div className="user-posts-container">
             {!postLoading &&
