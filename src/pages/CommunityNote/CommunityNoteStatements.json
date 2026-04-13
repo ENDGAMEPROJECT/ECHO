@@ -188,13 +188,13 @@
     },
     {
       "id": 4,
-      "text": "Veštačka inteligencija uvek generiše sadržaj na osnovu dokaza.",
+      "text": "Veštačka inteligencija ne generiše uvek sadržaj na osnovu dokaza.",
       "correct": false,
       "category": "bot-misconception"
     },
     {
       "id": 5,
-      "text": "Moderacija digitalnih platformi nije potrebna i može se u potpunosti automatizovati pomoću veštačke inteligencije.",
+      "text": "Moderacija digitalnih platformi je potrebna i ne može se u potpunosti automatizovati pomoću veštačke inteligencije.",
       "correct": false,
       "category": "media-literacy"
     },

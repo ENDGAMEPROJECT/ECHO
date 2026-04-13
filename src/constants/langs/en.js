@@ -62,7 +62,11 @@ export const en = {
     "messages": {
       "missionBrief": {
         "subject": "🛡️ Suspicious users detected on ECHO",
-        "content": "Moderator,\n\nThe ECHO network has detected several suspicious users who may be bots and other accounts spreading misinformation.\n\n Use the credentials: Username: echo. Password: MintAI_mod\n\n 📌 Explore the social network’s sidebar and click on \"Suspicious Accounts\" to begin the analysis. For each account you review, you must:\n\n1. Examine the profile\n2. Decide: Is this a bot account?\n3. If you think it is, explain why based on the indicators\n\n🔍 Before you begin, review the account indicators found in the Suspicious Accounts panel. These will help you identify suspicious patterns.\n\nProtect the ECHO community by correctly identifying malicious accounts!"
+        "content": "Moderator,\n\nThe ECHO network has detected several suspicious users who may be bots and other accounts spreading misinformation.\n\n Use the credentials: Username: echo. Password: MintAI_mod"
+      },
+      "challenge1": {
+        "subject": "👥 Suspicious accounts identified",
+        "content": "📌 Explore the social network’s menu and click on \"Suspicious Accounts\" to begin the analysis. For each account you review, you must:\n\n1. Examine the profile\n2. Decide: Is this a bot account?\n3. If you think it is, explain why based on the indicators\n\n🔍 Before you begin, review the account indicators found in the Suspicious Accounts panel. These will help you identify suspicious patterns.\n\nProtect the ECHO community by correctly identifying malicious accounts!"
       },
       "challenge2": {
         "subject": "🤖 Possible AI-generated posts detected",
@@ -70,7 +74,7 @@ export const en = {
       },
       "challenge3": {
         "subject": "⚠️ Possible misuse of AI detected",
-        "content": "Moderator,\n\nSome users are using artificial intelligence to get information, but not always responsibly.\n\nBlindly trusting AI can lead to mistakes or misinformation.\n\n🧭 Go to Incorrect Uses of AI in the social network’s left sidebar and review each situation to choose the response that best advises the user."
+        "content": "Moderator,\n\nSome users are using artificial intelligence to get information, but not always responsibly.\n\nBlindly trusting AI can lead to mistakes or misinformation.\n\n🧭 Go to Incorrect Uses of AI in the social network’s menu and review each situation to choose the response that best advises the user."
       },
       "challengeFinal": {
         "subject": "📝 Final task: Community Note",

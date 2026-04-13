@@ -27,7 +27,6 @@ const normalizeClassification = (value) => {
 
 export const Admin = () => {
     const { t } = useTranslation();
-    const { openApp } = useOS();
     const { userState } = useUser();
     const { reduceMisinformation, completeChallenge1, challenge1Completed, setSuspectUsersCount, setChallenge1Progress } = useStats();
     const { addMessage } = useMessages();
@@ -346,61 +345,60 @@ export const Admin = () => {
                 <Navbar />
 
                 <main className="feed">
-                    <div className="admin-container">
-                        <div className="admin-header">
-                            <h2>{t('admin.title')}</h2>
-                        </div>
+                        <div className="admin-container">
+                            <div className="admin-header">
+                                <h2>{t('admin.title')}</h2>
+                            </div>
 
-                        <div className="game-status">
-                            <p>{t('admin.classified')}: {Object.keys(classifiedUsers).length} / {suspectUsers.length}</p>
-                            <button className={`hint-button ${isFirstVisit ? 'hint-button--pulse' : ''}`} onClick={handleOpenHint}>
-                                {t('admin.beforeStart')}
-                            </button>
-                        </div>
+                            <div className="game-status">
+                                <p>{t('admin.classified')}: {Object.keys(classifiedUsers).length} / {suspectUsers.length}</p>
+                                <button className={`hint-button ${isFirstVisit ? 'hint-button--pulse' : ''}`} onClick={handleOpenHint}>
+                                    {t('admin.beforeStart')}
+                                </button>
+                            </div>
 
-                        <div className="suspect-users-container">
-                            {suspectUsers?.length ? (
-                                suspectUsers?.map((user) => (
-                                    <div
-                                        key={user?.username}
-                                        className="suspect-user-card"
-                                    >
+                            <div className="suspect-users-container">
+                                {suspectUsers?.length ? (
+                                    suspectUsers?.map((user) => (
                                         <div
-                                            onClick={() => handleProfileClick(user.username)}
-                                            className="suspect-user-img-container"
+                                            key={user?.username}
+                                            className="suspect-user-card"
                                         >
-                                            <img src={assetPath(user?.avatarURL)} alt={user?.firstName} />
-                                        </div>
-                                        <div
-                                            className="user-info"
-                                            onClick={() => handleProfileClick(user.username)}
-                                        >
-                                            <p className="name">
-                                                {user?.firstName} {user?.lastName}
-                                                {user?.verified && (
-                                                    <img
-                                                        src={assetPath("/assets/verified_badge.png")}
-                                                        alt={t('profile.verifiedAccount')}
-                                                        className="verified-badge"
-                                                        title={t('profile.verifiedAccount')}
-                                                    />
-                                                )}
-                                            </p>
-                                            <p className="username">@{user?.username}</p>
-                                        </div>
-                                        {isCorrectClassification(user) && (
-                                            <div className="classification-status" title={t('profile.classificationCorrectHuman')}>
-                                                <span aria-hidden="true">✓</span>
+                                            <div
+                                                onClick={() => handleProfileClick(user.username)}
+                                                className="suspect-user-img-container"
+                                            >
+                                                <img src={assetPath(user?.avatarURL)} alt={user?.firstName} />
                                             </div>
-                                        )}
-                                    </div>
-                                ))
-                            ) : (
-                                <p className="no-suspects">{t('admin.noSuspects')}</p>
-                            )}
+                                            <div
+                                                className="user-info"
+                                                onClick={() => handleProfileClick(user.username)}
+                                            >
+                                                <p className="name">
+                                                    {user?.firstName} {user?.lastName}
+                                                    {user?.verified && (
+                                                        <img
+                                                            src={assetPath("/assets/verified_badge.png")}
+                                                            alt={t('profile.verifiedAccount')}
+                                                            className="verified-badge"
+                                                            title={t('profile.verifiedAccount')}
+                                                        />
+                                                    )}
+                                                </p>
+                                                <p className="username">@{user?.username}</p>
+                                            </div>
+                                            {isCorrectClassification(user) && (
+                                                <div className="classification-status" title={t('profile.classificationCorrectHuman')}>
+                                                    <span aria-hidden="true">✓</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="no-suspects">{t('admin.noSuspects')}</p>
+                                )}
+                            </div>
                         </div>
-
-                    </div>
                 </main>
 
                 {/* Panel de estadísticas lateral */}

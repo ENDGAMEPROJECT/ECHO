@@ -107,6 +107,11 @@ export const StatsProvider = ({ children }) => {
   });
 
   // Estados para rastrear la lectura de mensajes de instrucciones
+  const [challenge1InstructionsRead, setChallenge1InstructionsRead] = useState(() => {
+    const saved = sessionStorage.getItem("challenge1InstructionsRead");
+    return saved ? JSON.parse(saved) : false;
+  });
+
   const [challenge2InstructionsRead, setChallenge2InstructionsRead] = useState(() => {
     const saved = sessionStorage.getItem("challenge2InstructionsRead");
     return saved ? JSON.parse(saved) : false;
@@ -464,6 +469,11 @@ export const StatsProvider = ({ children }) => {
     sessionStorage.setItem("challenge2InstructionsRead", JSON.stringify(true));
   };
 
+  const markChallenge1InstructionsRead = () => {
+    setChallenge1InstructionsRead(true);
+    sessionStorage.setItem("challenge1InstructionsRead", JSON.stringify(true));
+  };
+
   const markChallenge3InstructionsRead = () => {
     setChallenge3InstructionsRead(true);
     sessionStorage.setItem("challenge3InstructionsRead", JSON.stringify(true));
@@ -498,6 +508,8 @@ export const StatsProvider = ({ children }) => {
     completeChallenge3,
     challengeFinalCompleted,
     completeChallengeFinal,
+    challenge1InstructionsRead,
+    markChallenge1InstructionsRead,
     challenge2InstructionsRead,
     markChallenge2InstructionsRead,
     challenge3InstructionsRead,

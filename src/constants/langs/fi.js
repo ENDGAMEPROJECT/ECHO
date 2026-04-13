@@ -62,7 +62,11 @@ export const fi = {
     "messages": {
       "missionBrief": {
         "subject": "🛡️ Epäilyttäviä käyttäjiä havaittu ECHOssa",
-        "content": "Moderaattori,\n\nECHO-verkko on havainnut useita epäilyttäviä käyttäjiä, jotka voivat olla disinformaatiota levittäviä botteja.\n\n Käytä tunnuksia: Käyttäjänimi: echo. Salasana: MintAI_mod\n\n📌 Avaa sosiaalisen verkoston vasen sivupalkki ja klikkaa \"Epäilyttävät tilit\" aloittaaksesi analyysin. Jokaisen tarkastelemasi tilin kohdalla sinun tulee:\n\n1. Tutkia profiili\n2. Päättää: Vaikuttaako tämä tili botilta?\n3. Jos pidät sitä bottina, perustele miksi indikaattorien perusteella\n\n🔍 Ennen aloittamista tarkista bottitilin indikaattorit, jotka löytyvät Epäilyttävät tilit -paneelista. Ne auttavat sinua tunnistamaan epäilyttäviä toimintamalleja.\n\nSuojele ECHO-yhteisöä tunnistamalla haitalliset tilit oikein!"
+        "content": "Moderaattori,\n\nECHO-verkko on havainnut useita epäilyttäviä käyttäjiä, jotka voivat olla disinformaatiota levittäviä botteja.\n\n Käytä tunnuksia: Käyttäjänimi: echo. Salasana: MintAI_mod"
+      },
+      "challenge1": {
+        "subject": "👥 Epäilyttävät tilit tunnistettu",
+        "content": "📌 Avaa sosiaalisen verkoston vasen sivupalkki ja klikkaa \"Epäilyttävät tilit\" aloittaaksesi analyysin. Jokaisen tarkastelemasi tilin kohdalla sinun tulee:\n\n1. Tutkia profiili\n2. Päättää: Vaikuttaako tämä tili botilta?\n3. Jos pidät sitä bottina, perustele miksi indikaattorien perusteella\n\n🔍 Ennen aloittamista tarkista bottitilin indikaattorit, jotka löytyvät Epäilyttävät tilit -paneelista. Ne auttavat sinua tunnistamaan epäilyttäviä toimintamalleja.\n\nSuojele ECHO-yhteisöä tunnistamalla haitalliset tilit oikein!"
       },
       "challenge2": {
         "subject": "🤖 Mahdollisesti tekoälyn tuottamia julkaisuja havaittu",
@@ -215,7 +219,7 @@ export const fi = {
   },
   "aiGamePage": {
     "user": {
-      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B156,\"\"en\"\",\"\"fi\"\")\"),\"Käyttäjä\")",
+      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B158,\"\"en\"\",\"\"fi\"\")\"),\"Käyttäjä\")",
       "result": "Käyttäjä"
     },
     "ai": "Tekoäly",

@@ -6,6 +6,7 @@ import { FaTimes, FaMinus, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { useStats } from "../../contexts/StatsProvider";
 import { useUser } from "../../contexts/UserProvider";
+import { useMessages } from "../../contexts/MessagesProvider";
 import { useNavigate } from "react-router-dom";
 import { useXAPI, XAPI_VERBS, ECHO_ACTIVITIES } from "../../contexts/XAPIProvider";
 import { assetPath } from "../../utils/assetPath";
@@ -19,6 +20,7 @@ export const SocialMediaApp = ({ mode = "window" }) => {
   const { challenge1Completed, setSuspectUsersCount } = useStats();
   const { userState } = useUser();
   const { sendStatement } = useXAPI();
+  const { addMessage } = useMessages();
   const navigate = useNavigate();
 
   // Calcular el número de cuentas sospechosas en cuanto los usuarios carguen
@@ -54,6 +56,22 @@ export const SocialMediaApp = ({ mode = "window" }) => {
     // Run only when login state changes; route changes should not trigger redirects.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loginDone]);
+
+  // Enviar el mensaje challenge1 después de que el usuario inicie sesión
+  useEffect(() => {
+    if (!loginDone) return;
+    const challenge1InstructionsSent = sessionStorage.getItem("challenge1InstructionsSent");
+    if (!challenge1InstructionsSent) {
+      sessionStorage.setItem("challenge1InstructionsSent", "true");
+      addMessage({
+        fromKey: "messagesApp.author.name",
+        subjectKey: "messagesApp.messages.challenge1.subject",
+        contentKey: "messagesApp.messages.challenge1.content",
+      });
+      window.dispatchEvent(new Event("openDrawer"));
+      window.dispatchEvent(new Event("bossMessage"));
+    }
+  }, [loginDone, addMessage]);
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();

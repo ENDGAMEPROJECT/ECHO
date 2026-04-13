@@ -25,12 +25,8 @@ export const NewPostLauncher = () => {
   });
 
   let lockMessageKey = null;
-  if (!challenge1Completed) {
-    lockMessageKey = "desktop.popup.completeChallenge1";
-  } else if (!challenge2Completed) {
-    lockMessageKey = "desktop.popup.completeChallenge2";
-  } else if (!challenge3Completed) {
-    lockMessageKey = "desktop.popup.completeChallenge3";
+  if (!challenge1Completed || !challenge2Completed || !challenge3Completed) {
+    lockMessageKey = "desktop.popup.completeAllChallenges";
   } else if (!challengeFinalCompleted && !challengeFinalInstructionsRead) {
     lockMessageKey = "desktop.popup.readMessageChallengeFinal";
   }

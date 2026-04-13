@@ -62,7 +62,11 @@ export const sr = {
     "messages": {
       "missionBrief": {
         "subject": "🛡️ Sumnjivi korisnici otkriveni na mreži ECHO",
-        "content": "Moderatore,\nMreža ECHO je otkrila više sumnjivih korisnika koji bi mogli biti botovi koji šire dezinformacije.\nKoristi sledeće podatke: Korisničko ime: echo. Lozinka: MintAI_mod\n📌 Istraži levu bočnu traku društvene mreže i klikni na „Sumnjivi nalozi“ da započneš analizu. Za svaki nalog koji pregledaš, potrebno je da:\nPregledaš profil\nOdlučiš: da li ovaj nalog deluje kao bot?\nAko smatraš da jeste bot, objasni zašto na osnovu indikatora\n🔍 Pre nego što počneš, pogledaj indikatore bot naloga koji se nalaze u panelu „Sumnjivi nalozi“. Oni će ti pomoći da prepoznaš sumnjive obrasce.\nZaštiti ECHO zajednicu tako što ćeš tačno identifikovati zlonamerne naloge!"
+        "content": "Moderatore,\n\nMreža ECHO je otkrila više sumnjivih korisnika koji bi mogli biti botovi koji šire dezinformacije.\n\nKoristi sledeće podatke: Korisničko ime: echo. Lozinka: MintAI_mod\n"
+      },
+      "challenge1": {
+        "subject": "👥 Sumnjivi nalozi identifikovani",
+        "content": "📌 Istraži levu bočnu traku društvene mreže i klikni na „Sumnjivi nalozi“ da započneš analizu. Za svaki nalog koji pregledaš, potrebno je da:\n\n1. Pregledaš profil\n2.Odlučiš: da li ovaj nalog deluje kao bot?\n3.Ako smatraš da jeste bot, objasni zašto na osnovu indikatora\n\n🔍 Pre nego što počneš, pogledaj indikatore bot naloga koji se nalaze u panelu „Sumnjivi nalozi“. Oni će ti pomoći da prepoznaš sumnjive obrasce.\n\nZaštiti ECHO zajednicu tako što ćeš tačno identifikovati zlonamerne naloge!"
       },
       "challenge2": {
         "subject": "🤖 Moguće objave generisane veštačkom inteligencijom",
@@ -214,7 +218,7 @@ export const sr = {
   },
   "aiGamePage": {
     "user": {
-      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B156,\"\"en\"\",\"\"hr\"\")\"),\"Korisnik\")",
+      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B158,\"\"en\"\",\"\"hr\"\")\"),\"Korisnik\")",
       "result": "Korisnik"
     },
     "ai": "Umjetna inteligencija",
@@ -278,7 +282,7 @@ export const sr = {
       "detected": "Označeni nalozi",
       "suspicious": "Sumnjivi nalozi",
       "note": "Koordinovana aktivnost otkrivena na mreži",
-      "resolvedNote": "Mreža mreža neutralisana"
+      "resolvedNote": "Mreža botova je neutralisana"
     },
     "aiModule": {
       "title": "AI detektor",
@@ -364,45 +368,45 @@ export const sr = {
   "survey": {
     "bannerTitle": "Hvala što si igrao/la!",
     "bannerSubtitle": "Dajte nam svoje povratne informacije",
-    "bannerButton": "Ispunite anketu",
-    "requiredHint": "Molim vas odgovorite na sva pitanja",
+    "bannerButton": "Popunite anketu",
+    "requiredHint": "Molimo vas da odgovorite na sva pitanja",
     "previous": "Prethodno",
-    "next": "Sljedeći",
+    "next": "Sledeći",
     "submit": "Pošalji",
-    "title": "Podijelite svoje povratne informacije",
-    "opinionTitle": "What is your general opinion about the escape room? ",
-    "opinionRange": "1 = Very poor, 2 = Poor, 3 = Neutral, 4 = Good, 5 = Very good",
-    "rateTitle": "Rate the following statements on a scale of 1-7",
-    "rateRange": "1 = Strongly Disagree, 2 = Disagree, 3 = Somewhat Disagree , 4 = Neutral, 5 = Somewhat Agree, 6 = Agree, 7 = Strongly Agree).",
+    "title": "Podelite svoje povratne informacije",
+    "opinionTitle": "Kakvo je vaše opšte mišljenje o escape room-u?",
+    "opinionRange": "1 = Veoma loše, 2 = Loše, 3 = Neutralno, 4 = Dobro, 5 = Veoma dobro",
+    "rateTitle": "Ocenite sledeće tvrdnje na skali od 1–7",
+    "rateRange": "1 = Uopšte se ne slažem, 2 = Ne slažem se, 3 = Delimično se ne slažem, 4 = Neutralno, 5 = Delimično se slažem, 6 = Slažem se, 7 = U potpunosti se slažem",
     "learningTitle": "Koliko si naučio/naučila?",
     "learningItems": {
-      "0": "Eskejp soba je proširila moje znanje o tome kako veštačka inteligencija funkcioniše",
-      "1": "Eskejp soba je proširila moje znanje o tome kako se veštačka inteligencija koristi na društvenim mrežama",
-      "2": "Eskejp soba je proširila moje znanje o tome koje su odgovarajuće upotrebe veštačke inteligencije"
+      "0": "Escape room je proširio moje znanje o tome kako veštačka inteligencija funkcioniše",
+      "1": "Escape room je proširio moje znanje o tome kako se veštačka inteligencija koristi na društvenim mrežama",
+      "2": "Escape room je proširio moje znanje o tome koje su odgovarajuće upotrebe veštačke inteligencije"
     },
     "guessTitle": "Kako vam se dopao način igre?",
     "guessItems": {
-      "0": "Kontrole u ​​Escape room-u su mi jednostavne.",
-      "1": "Interfejs Escape room-a mi je lak za navigaciju.",
-      "2": "Od samog početka me je očaravala priča Escape room-a.",
-      "3": "Uživam u priči koju Escape room pruža.",
-      "4": "Osećam se odvojeno od spoljašnjeg sveta dok igram Escape room.",
-      "5": "Ne zanima me da proveravam događaje koji se dešavaju u stvarnom svetu tokom Escape room-a.",
-      "6": "Mislim da je Escape room zabavan.",
-      "7": "Dosadno mi je dok igram Escape room.",
-      "8": "Osećam da mi Escape room omogućava da budem maštovit.",
-      "9": "Osećam se kreativno dok igram Escape room.",
-      "10": "Veoma sam fokusiran na sopstveni nastup dok igram Escape room.",
-      "11": "Želim da budem što bolji tokom Escape room-a.",
-      "12": "Uživam u grafici Escape room-a.",
-      "13": "Mislim da je Escape room vizuelno privlačan."
+      "0": "Kontrole u escape room-u su mi jednostavne",
+      "1": "Interfejs escape room-a mi je lak za navigaciju",
+      "2": "Od samog početka me je privukla priča escape room-a",
+      "3": "Uživam u priči koju escape room pruža",
+      "4": "Osećam se odvojeno od spoljašnjeg sveta dok igram escape room",
+      "5": "Ne zanima me da proveravam događaje koji se dešavaju u stvarnom svetu tokom escape room-a",
+      "6": "Mislim da je escape room zabavan",
+      "7": "Dosadno mi je dok igram escape room",
+      "8": "Osećam da mi escape room omogućava da budem maštovit/a",
+      "9": "Osećam se kreativno dok igram escape room",
+      "10": "Veoma sam fokusiran/a na sopstveni nastup dok igram escape room",
+      "11": "Želim da budem što bolji/a tokom escape room-a",
+      "12": "Uživam u grafici escape room-a",
+      "13": "Mislim da je escape room vizuelno privlačan"
     },
-    "comments": "Imate li kakvih dodatnih komentara ili prijedloga?"
+    "comments": "Imate li dodatnih komentara ili predloga?"
   },
   "sessionDialog": {
-    "title": "Dobrodošli natrag",
-    "message": "Imate prethodnu sesiju. Želite li nastaviti tamo gdje ste stali?",
-    "resume": "Životopis",
+    "title": "Dobrodošli nazad",
+    "message": "Imate prethodnu sesiju. Da li želite da nastavite tamo gde ste stali?",
+    "resume": "Nastavi",
     "startOver": "Počni ispočetka"
   },
   "escapeRoomEnd": {

@@ -62,7 +62,11 @@ export const es = {
     "messages": {
       "missionBrief": {
         "subject": "🛡️ Usuarios sospechosos detectados en ECHO",
-        "content": "Moderador,\n\nLa red ECHO ha detectado varios usuarios sospechosos que podrían ser bots u otras cuentas generando desinformación.\n\n Usa las credenciales: Usuario: echo. Contraseña: MintAI_mod\n\n 📌 Explora la barra lateral izquierda de la red social y haz clic en \"Cuentas Sospechosas\" para comenzar el análisis. Para cada cuenta que visualices, deberás:\n\n1. Examinar el perfil\n2. Decidir: ¿Esta cuenta podría ser un bot?\n3. Si consideras que sí, explica por qué basándote en los indicadores\n\n🔍 Antes de empezar revisa los indicadores de cuenta desinformadora que se encuentran dentro del panel de Cuentas Sospechosas. Estos te ayudarán a identificar patrones sospechosos.\n\n¡Protege la comunidad de ECHO identificando correctamente las cuentas maliciosas!"
+        "content": "Moderador,\n\nLa red ECHO ha detectado varios usuarios sospechosos que podrían ser bots u otras cuentas generando desinformación.\n\n Usa las credenciales: Usuario: echo. Contraseña: MintAI_mod"
+      },
+      "challenge1": {
+        "subject": "👥 Cuentas sospechosas identificadas",
+        "content": "📌 Explora el menú de la red social y haz clic en \"Cuentas Sospechosas\" para comenzar el análisis. Para cada cuenta que visualices, deberás:\n\n1. Examinar el perfil\n2. Decidir: ¿Esta cuenta podría ser un bot?\n3. Si consideras que sí, explica por qué basándote en los indicadores\n\n🔍 Antes de empezar revisa los indicadores de cuenta desinformadora que se encuentran dentro del panel de Cuentas Sospechosas. Estos te ayudarán a identificar patrones sospechosos.\n\n¡Protege la comunidad de ECHO identificando correctamente las cuentas maliciosas!"
       },
       "challenge2": {
         "subject": "🤖 Posibles publicaciones generadas por IA detectadas",
@@ -70,7 +74,7 @@ export const es = {
       },
       "challenge3": {
         "subject": "⚠️ Posible uso incorrecto de la IA detectado",
-        "content": "Moderador,\n\nAlgunos usuarios están utilizando inteligencia artificial para obtener información, pero no siempre de forma responsable.\n\nConfiar ciegamente en la IA puede provocar errores o desinformación.\n\n🧭 Accede a Usos Incorrectos de IA en el panel lateral izquierdo de la red social y revisa cada situación para elegir la respuesta que mejor aconseje al usuario."
+        "content": "Moderador,\n\nAlgunos usuarios están utilizando inteligencia artificial para obtener información, pero no siempre de forma responsable.\n\nConfiar ciegamente en la IA puede provocar errores o desinformación.\n\n🧭 Accede a Usos Incorrectos de IA en el menú de la red social y revisa cada situación para elegir la respuesta que mejor aconseje al usuario."
       },
       "challengeFinal": {
         "subject": "📝 Misión final: Nota de la comunidad",
@@ -128,7 +132,7 @@ export const es = {
     "yes": "Sí",
     "no": "No",
     "classificationIncorrect": "Selección incorrecta. Vuelve a mirar el perfil.",
-    "classificationCorrectHuman": "Has clasificado el perfil correctamente",
+    "classificationCorrectHuman": "Pravilno ste identifikovali i validirali bota",
     "classificationQuizSubtitle": "Puede haber más de una respuesta correcta.",
     "openQuiz": "Continuar test",
     "classificationQuizTitle": "¿Qué características de este perfil hace que se clasifique como bot?",

@@ -35,6 +35,20 @@ const buildInitialMessages = () => {
     read: missionBriefRead,
   });
 
+  // Challenge 1 instructions (sent after user logs in to the social network)
+  const challenge1InstructionsSent = sessionStorage.getItem("challenge1InstructionsSent");
+  const challenge1InstructionsRead = sessionStorage.getItem("challenge1InstructionsRead");
+  if (challenge1InstructionsSent) {
+    messages.push({
+      id: id++,
+      fromKey: "messagesApp.author.name",
+      subjectKey: "messagesApp.messages.challenge1.subject",
+      contentKey: "messagesApp.messages.challenge1.content",
+      timestamp: new Date(),
+      read: challenge1InstructionsRead === "true",
+    });
+  }
+
   // Challenge 2 instructions (sent after completing challenge 1)
   const challenge2InstructionsSent = sessionStorage.getItem("challenge2InstructionsSent");
   const challenge2InstructionsRead = sessionStorage.getItem("challenge2InstructionsRead");
@@ -83,6 +97,7 @@ const buildInitialMessages = () => {
 export const MessagesProvider = ({ children }) => {
   const { t } = useTranslation();
   const {
+    markChallenge1InstructionsRead,
     markChallenge2InstructionsRead,
     markChallenge3InstructionsRead,
     markChallengeFinalInstructionsRead,
@@ -154,6 +169,26 @@ export const MessagesProvider = ({ children }) => {
             id: `${ECHO_ACTIVITIES.PUZZLE_1.id}/instructions`,
             definition: {
               name: { en: "Puzzle 1 Instructions" },
+              type: "http://adlnet.gov/expapi/activities/lesson",
+            },
+          },
+          null,
+          {
+            contextActivities: {
+              parent: [ECHO_ACTIVITIES.PUZZLE_1],
+              grouping: [ECHO_ACTIVITIES.GAME],
+            },
+          }
+        );
+      }
+      if (target.contentKey === "messagesApp.messages.challenge1.content") {
+        markChallenge1InstructionsRead();
+        sendStatement(
+          XAPI_VERBS.LOOKED_AT,
+          {
+            id: `${ECHO_ACTIVITIES.PUZZLE_1.id}/challenge1`,
+            definition: {
+              name: { en: "Challenge 1 Instructions" },
               type: "http://adlnet.gov/expapi/activities/lesson",
             },
           },

@@ -237,17 +237,17 @@
       },
       {
         "context": "Ne znam kako da prepoznam bot naloge",
-        "clue": "Da biste otkrili naloge koji šire dezinformacije, potrebno je da posmatrate kako se ti nalozi ponašaju: da li ponavljaju poruke, uvek objavljuju istu stvar, imaju previše redovnu aktivnost ili jedva komuniciraju sa drugim korisnicima. Ovi obrasci mogu ukazivati na automatizaciju."
+        "clue": "Da bi otkrio naloge koji šire dezinformacije, potrebno je da posmatraš kako se ti nalozi ponašaju: da li ponavljaju poruke, uvek objavljuju istu stvar, imaju previše redovnu aktivnost ili jedva komuniciraju sa drugim korisnicima. Ovi obrasci mogu ukazivati na automatizaciju."
       }
     ],
     "2": [
       {
         "context": "Ne znam kako da nastavim",
-        "clue": "Uspeo si da identifikuješ neke sumnjive naloge, ali problem se tu ne završava. Naš detektor sadržaja generisanog veštačkom inteligencijom je na održavanju, i sada je tvoja dužnost kao moderatora da ručno proceniš da li je objava generisana pomoću veštačke inteligencije. Proveri novu poruku koju si primio i pripremi se da analiziraš ovu vrstu sadržaja. Ako ne pročitaš poruku, nećeš moći da nastaviš."
+        "clue": "Uspeo si da identifikuješ neke sumnjive naloge, ali problem se tu ne završava. Naš detektor sadržaja generisanog veštačkom inteligencijom je na održavanju i sada je tvoja dužnost kao moderatora da ručno proceniš da li je objava generisana pomoću veštačke inteligencije. Proveri novu poruku koju si primio i pripremi se da analiziraš ovu vrstu sadržaja. Ako ne pročitaš poruku, nećeš moći da nastaviš."
       },
       {
         "context": "Ne mogu da pronađem izazov na društvenoj mreži",
-        "clue": "Da bi istražio ovaj novi problem, moraš pristupiti panelu gde se pregledaju sumnjive objave. Unutar društvene mreže, idi na levi bočni panel i klikni na „Sadržaj generisan veštačkom inteligencijom“. Tamo ćeš pronaći sledeći izazov."
+        "clue": "Da bi istražio ovaj novi problem, moraš da pristupiš panelu gde se pregledaju sumnjive objave. Unutar društvene mreže idi na levi bočni panel i klikni na „Sadržaj generisan veštačkom inteligencijom“. Tamo ćeš pronaći sledeći izazov."
       },
       {
         "context": "Kada pristupim panelu \"Sadržaj generisan veštačkom inteligencijom\", ne znam šta da radim",
@@ -265,7 +265,7 @@
       },
       {
         "context": "Ne mogu da pronađem izazov na društvenoj mreži",
-        "clue": "Da bi analizirao ove slučajeve, moraš pristupiti odgovarajućem alatu za moderaciju. Unutar društvene mreže, idi na levi bočni panel i klikni na „Zloupotreba veštačke inteligencije“. Tamo ćeš pronaći situacije koje zahtevaju tvoju intervenciju."
+        "clue": "Da bi analizirao ove slučajeve, moraš da pristupiš odgovarajućem alatu za moderaciju. Unutar društvene mreže idi na levi bočni panel i klikni na „Zloupotreba veštačke inteligencije“. Tamo ćeš pronaći situacije koje zahtevaju tvoju intervenciju."
       },
       {
         "context": "Ne razumem igru",

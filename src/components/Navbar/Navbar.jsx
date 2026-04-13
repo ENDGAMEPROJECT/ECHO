@@ -18,7 +18,7 @@ export const Navbar = ({ blocked = false }) => {
   const { t } = useTranslation();
   const {
     challenge1Completed, challenge2Completed, challenge3Completed,
-    challenge2InstructionsRead, challenge3InstructionsRead,
+    challenge1InstructionsRead, challenge2InstructionsRead, challenge3InstructionsRead,
     suspectUsersCount, challenge1Progress,
     challenge2Total, challenge2Progress,
     challenge3Total, challenge3Progress
@@ -47,7 +47,6 @@ export const Navbar = ({ blocked = false }) => {
   const getDisabledStyle = () => ({
     color: "rgba(255, 255, 255, 0.3)",
     cursor: "not-allowed",
-    pointerEvents: "none",
   });
 
   const handleShowBlockedPopup = (e, messageKey = "desktop.popup.playChallenge") => {
@@ -77,6 +76,9 @@ export const Navbar = ({ blocked = false }) => {
     setPopup({ ...popup, visible: false });
   };
 
+  const challenge1InstructionsSent = sessionStorage.getItem("challenge1InstructionsSent") === "true";
+  const isChallenge1Locked = challenge1InstructionsSent && !challenge1InstructionsRead;
+
   const pendingChallenge1 = challenge1Completed ? 0 : Math.max(0, suspectUsersCount - challenge1Progress);
   const pendingChallenge2 = challenge2Completed ? 0 : Math.max(0, challenge2Total - challenge2Progress);
   const pendingChallenge3 = challenge3Completed ? 0 : Math.max(0, challenge3Total - challenge3Progress);
@@ -101,13 +103,28 @@ export const Navbar = ({ blocked = false }) => {
           </NavLink>
         </li>
         <li>
-          <NavLink className="navlink" style={getActiveStyle} to="/admin" onClick={() => startIfNotStarted('1', 'Puzzle 1 - Bot Detection', challenge1Completed)}>
-            <MdAdminPanelSettings className="navlink-icon" />
-            <p className="navlink-label">
-              <span className="navlink-label-text">{t('nav.admin')}</span>
-              {pendingChallenge1 > 0 && <span className="nav-badge">{pendingChallenge1}</span>}
-            </p>
-          </NavLink>
+          {!isChallenge1Locked ? (
+            <NavLink className="navlink" style={getActiveStyle} to="/admin" onClick={() => startIfNotStarted('1', 'Puzzle 1 - Bot Detection', challenge1Completed)}>
+              <MdAdminPanelSettings className="navlink-icon" />
+              <p className="navlink-label">
+                <span className="navlink-label-text">{t('nav.admin')}</span>
+                {pendingChallenge1 > 0 && <span className="nav-badge">{pendingChallenge1}</span>}
+              </p>
+            </NavLink>
+          ) : (
+            <div
+              className="navlink disabled"
+              style={getDisabledStyle()}
+              onClick={(e) => handleShowBlockedPopup(e, "desktop.popup.readMessage")}
+              role="button"
+            >
+              <MdAdminPanelSettings className="navlink-icon" />
+              <p className="navlink-label">
+                <span className="navlink-label-text">{t('nav.admin')}</span>
+                {pendingChallenge1 > 0 && <span className="nav-badge">{pendingChallenge1}</span>}
+              </p>
+            </div>
+          )}
         </li>
         <li>
           {challenge2InstructionsRead ? (
