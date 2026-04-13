@@ -62,7 +62,7 @@ export const en = {
     "messages": {
       "missionBrief": {
         "subject": "🛡️ Suspicious users detected on ECHO",
-        "content": "Moderator,\n\nThe ECHO network has detected several suspicious users who may be bots and other accounts spreading misinformation.\n\n Use the credentials: Username: echo. Password: MintAI_mod\n\n 📌 Explore the social network’s left sidebar and click on \"Suspicious Accounts\" to begin the analysis. For each account you review, you must:\n\n1. Examine the profile\n2. Decide: Is this a bot account?\n3. If you think it is, explain why based on the indicators\n\n🔍 Before you begin, review the account indicators found in the Suspicious Accounts panel. These will help you identify suspicious patterns.\n\nProtect the ECHO community by correctly identifying malicious accounts!"
+        "content": "Moderator,\n\nThe ECHO network has detected several suspicious users who may be bots and other accounts spreading misinformation.\n\n Use the credentials: Username: echo. Password: MintAI_mod\n\n 📌 Explore the social network’s sidebar and click on \"Suspicious Accounts\" to begin the analysis. For each account you review, you must:\n\n1. Examine the profile\n2. Decide: Is this a bot account?\n3. If you think it is, explain why based on the indicators\n\n🔍 Before you begin, review the account indicators found in the Suspicious Accounts panel. These will help you identify suspicious patterns.\n\nProtect the ECHO community by correctly identifying malicious accounts!"
       },
       "challenge2": {
         "subject": "🤖 Possible AI-generated posts detected",
@@ -129,8 +129,7 @@ export const en = {
     "no": "No",
     "classificationIncorrect": "Incorrect selection. Review the profile again.",
     "classificationCorrectHuman": "You classified the profile correctly",
-    "classificationCorrectBot": "You correctly identified and validated the bot",
-    "classificationQuizSubtitle": "There may be more than one correct answer.",
+    "classificationQuizSubtitle": "There may be more than one correct answer.        ",
     "openQuiz": "Continue quiz",
     "classificationQuizTitle": "What characteristics of this profile make it classified as a bot?",
     "classificationQuiz": {
@@ -143,6 +142,7 @@ export const en = {
     "quizAnswerWrong": "Incorrect selection. Try again.",
     "quizAnswerPartial": "Partially incorrect selection. Try again."
   },
+  "classificationCorrectBot": "You correctly identified and validated the bot",
   "explore": {
     "caughtUp": "You are all caught up!"
   },

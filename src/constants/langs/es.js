@@ -129,7 +129,6 @@ export const es = {
     "no": "No",
     "classificationIncorrect": "Selección incorrecta. Vuelve a mirar el perfil.",
     "classificationCorrectHuman": "Has clasificado el perfil correctamente",
-    "classificationCorrectBot": "Has identificado y validado correctamente al bot",
     "classificationQuizSubtitle": "Puede haber más de una respuesta correcta.",
     "openQuiz": "Continuar test",
     "classificationQuizTitle": "¿Qué características de este perfil hace que se clasifique como bot?",
@@ -143,6 +142,7 @@ export const es = {
     "quizAnswerWrong": "Selección incorrecta. Intenta de nuevo.",
     "quizAnswerPartial": "Selección parcialmente incorrecta. Intenta de nuevo."
   },
+  "classificationCorrectBot": "Has identificado y validado correctamente al bot",
   "explore": {
     "caughtUp": "¡Estás al día!"
   },

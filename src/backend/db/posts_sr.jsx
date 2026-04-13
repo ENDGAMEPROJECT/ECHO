@@ -240,7 +240,7 @@ export const postsSR = [
           upvotedBy: [],
           downvotedBy: []
         },
-        createdAt: new Date("April 13 2026 08:30:43"),
+        createdAt: new Date("April 13 2026 10:35:47"),
         updatedAt: "formatDate()"
       }
     ]
@@ -271,7 +271,7 @@ export const postsSR = [
           upvotedBy: [],
           downvotedBy: []
         },
-        createdAt: new Date("April 13 2026 08:30:42"),
+        createdAt: new Date("April 13 2026 10:35:47"),
         updatedAt: "formatDate()"
       }
     ]
@@ -302,7 +302,7 @@ export const postsSR = [
           upvotedBy: [],
           downvotedBy: []
         },
-        createdAt: new Date("April 13 2026 08:30:42"),
+        createdAt: new Date("April 13 2026 10:35:47"),
         updatedAt: "formatDate()"
       }
     ]

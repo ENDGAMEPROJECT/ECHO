@@ -148,10 +148,10 @@ export const StatsPanel = () => {
     setCelebrating1(true);
     setTimeout(() => setCelebrating1(false), 2400);
     animateValue(stats.botActivity.percentage, 0, setAnimBotPct);
-    animateValue(stats.botActivity.detected,   0, setAnimBotDetected);
+    animateValue(stats.botActivity.detected,   stats.botActivity.detected + suspectUsersCount, setAnimBotDetected);
     animateValue(suspectUsersCount,             0, setAnimBotSuspect);
     animateValue(78, 52, setAnimThreat);
-  }, [challenge1Completed]);
+  }, [challenge1Completed, stats.botActivity.detected, suspectUsersCount]);
 
   useEffect(() => {
     if (!challenge2Completed || prevC2.current) return;

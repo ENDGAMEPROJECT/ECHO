@@ -62,11 +62,11 @@ export const sr = {
     "messages": {
       "missionBrief": {
         "subject": "🛡️ Sumnjivi korisnici otkriveni na mreži ECHO",
-        "content": "Moderatore,\n\nMreža ECHO je otkrila više sumnjivih korisnika koji bi mogli biti botovi koji šire dezinformacije.\n\n Koristi sledeće podatke: Korisničko ime: echo. Lozinka: MintAI_mod\n\n📌 Istraži levu bočnu traku društvene mreže i klikni na \"Sumnjivi nalozi\" da započneš analizu. Za svaki nalog koji pregledaš, potrebno je da:\n\n1. Pregledaš profil\n2. Odlučiš: Da li ovaj nalog deluje kao bot?\n3. Ako smatraš da jeste bot, objasni zašto na osnovu indikatora\n\n🔍 Pre nego što počneš, pogledaj indikatore bot naloga koji se nalaze u panelu Sumnjivi nalozi. Oni će ti pomoći da prepoznaš sumnjive obrasce.\n\nZaštiti ECHO zajednicu tako što ćeš tačno identifikovati zlonamerne naloge!"
+        "content": "Moderatore,\nMreža ECHO je otkrila više sumnjivih korisnika koji bi mogli biti botovi koji šire dezinformacije.\nKoristi sledeće podatke: Korisničko ime: echo. Lozinka: MintAI_mod\n📌 Istraži levu bočnu traku društvene mreže i klikni na „Sumnjivi nalozi“ da započneš analizu. Za svaki nalog koji pregledaš, potrebno je da:\nPregledaš profil\nOdlučiš: da li ovaj nalog deluje kao bot?\nAko smatraš da jeste bot, objasni zašto na osnovu indikatora\n🔍 Pre nego što počneš, pogledaj indikatore bot naloga koji se nalaze u panelu „Sumnjivi nalozi“. Oni će ti pomoći da prepoznaš sumnjive obrasce.\nZaštiti ECHO zajednicu tako što ćeš tačno identifikovati zlonamerne naloge!"
       },
       "challenge2": {
         "subject": "🤖 Moguće objave generisane veštačkom inteligencijom",
-        "content": "Moderatore,\n\nOtkrivamo objave koje bi mogle biti generisane veštačkom inteligencijom i moramo ih označiti kao \"automatizirani sadržaj\".\n\nNaš automatski detektor je na održavanju, pa je potrebno da ručno pregledaš objavu.\n\n🧠 Idi na Sadržaj generisan veštačkom inteligencijom i analiziraj objavu."
+        "content": "Moderatore,\nOtkrivamo objave koje bi mogle biti generisane veštačkom inteligencijom i moramo ih označiti kao „automatizovani sadržaj“.\nNaš automatski detektor je na održavanju, pa je potrebno da ručno pregledaš objavu.\n🧠 Idi na „Sadržaj generisan veštačkom inteligencijom“ i analiziraj objavu."
       },
       "challenge3": {
         "subject": "⚠️ Moguća zloupotreba veštačke inteligencije je otkrivena",
@@ -97,7 +97,7 @@ export const sr = {
     "incorrectSelection": "Pogrešan izbor. Pokušaj ponovo!",
     "selected": "izabrano",
     "publishConclusion": "Objavi ",
-    "conclusionText": "Da bismo zaštitili našu zajednicu od dezinformacija, ključno je proveriti ono što vidimo pre nego što to podelimo. Ponekad automatizovani nalozi ili botovi prikazuju obmanjujuće poruke koje imaju za cilj da izazovu snažne emocionalne reakcije kod korisnika. Takođe, sadržaji generisani pomoću alata veštačke inteligencije zasnivaju se na statističkim obrascima, pa njihove rezultate uvek treba proveriti sa pouzdanim izvorima i jasno označiti. U ECHO-u, odgovorno informisanje znači i brigu o drugima."
+    "conclusionText": "Da bismo zaštitili našu zajednicu od dezinformacija, ključno je da proverimo ono što vidimo pre nego što to podelimo. Ponekad automatizovani nalozi ili botovi prikazuju obmanjujuće poruke koje imaju za cilj da izazovu snažne emocionalne reakcije kod korisnika. Takođe, sadržaji generisani pomoću alata veštačke inteligencije zasnivaju se na statističkim obrascima, pa njihove rezultate uvek treba proveriti sa pouzdanim izvorima i jasno označiti. U ECHO-u, odgovorno informisanje znači i brigu o drugima."
   },
   "post": {
     "editPost": "Izmeni objavu",
@@ -129,7 +129,6 @@ export const sr = {
     "no": "Ne",
     "classificationIncorrect": "Netačan izbor. Ponovo pregledaj profil.",
     "classificationCorrectHuman": "Ispravno ste klasifikovali profil",
-    "classificationCorrectBot": "Pravilno ste identifikovali i validirali bota",
     "classificationQuizSubtitle": "Može biti više od jednog tačnog odgovora.",
     "openQuiz": "Nastavi test",
     "classificationQuizTitle": "Koje karakteristike ovog profila dovode do toga da se klasifikuje kao bot?",
@@ -158,13 +157,13 @@ export const sr = {
     "allCorrect": "Odlično! Pravilno ste identifikovali sve korisnike.",
     "tryAgain": "Neke klasifikacije su netačne. Pokušajte ponovo!",
     "playAgain": "Igraj ponovo",
-    "hintTitle": "Pokazatelji dezinformacija o računu",
+    "hintTitle": "Pokazatelji dezinformacija o nalogu",
     "hintContent": {
-      "emotions": "Apeliranje na emocije: Koristi pretjerani ili senzacionalistički jezik osmišljen da izazove snažne reakcije - poput straha, hitnosti ili ogorčenja - umjesto da pruži objektivne informacije.",
+      "emotions": "Apelovanje na emocije: Koristi preterani ili senzacionalistički jezik osmišljen da izazove snažne reakcije – poput straha, hitnosti ili ogorčenja – umesto da pruži objektivne informacije.",
       "targetAudience": "Nedostatak jasne ciljne publike: Sadržaj nije prilagođen određenoj publici i može se ponavljati na više jezika bez jasne strategije.",
-      "temporalActivity": "Sumnjivi obrasci objavljivanja: Objave se pojavljuju u vrlo redovitim intervalima ili u neuobičajeno vrijeme, što može ukazivati ​​na automatiziranu aktivnost.",
-      "abnormalRatio": "Nenormalan omjer angažmana: Račun prati mnogo korisnika, ali prima vrlo malo stvarne interakcije (lajkova, komentara ili dijeljenja), što sugerira nekvalitetnu ili neautentičnu publiku.",
-      "recentAccount": "Nedavno kreiran račun: Profil je nedavno kreiran i od samog početka pokazuje neuobičajeno visoku razinu aktivnosti."
+      "temporalActivity": "Sumnjivi obrasci objavljivanja: Objave se pojavljuju u vrlo redovnim intervalima ili u neuobičajeno vreme, što može ukazivati na automatizovanu aktivnost.",
+      "abnormalRatio": "Nenormalan odnos angažovanja: Nalog prati mnogo korisnika, ali dobija vrlo malo stvarne interakcije (lajkova, komentara ili deljenja), što ukazuje na nekvalitetnu ili neautentičnu publiku.",
+      "recentAccount": "Nedavno kreiran nalog: Profil je nedavno kreiran i od samog početka pokazuje neuobičajeno visok nivo aktivnosti."
     }
   },
   "editPost": {
@@ -215,7 +214,7 @@ export const sr = {
   },
   "aiGamePage": {
     "user": {
-      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B155,\"\"en\"\",\"\"hr\"\")\"),\"Korisnik\")",
+      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B156,\"\"en\"\",\"\"hr\"\")\"),\"Korisnik\")",
       "result": "Korisnik"
     },
     "ai": "Umjetna inteligencija",

@@ -129,7 +129,6 @@ export const fi = {
     "no": "Ei",
     "classificationIncorrect": "Väärä valinta. Tarkista profiili uudelleen.",
     "classificationCorrectHuman": "Luokittelit profiilin oikein",
-    "classificationCorrectBot": "Tunnistit ja validoit botin oikein",
     "classificationQuizSubtitle": "Oikeita vastauksia voi olla useampi kuin yksi.        ",
     "openQuiz": "Jatka testiä",
     "classificationQuizTitle": "Mitkä tämän profiilin ominaisuudet luokittelevat sen botiksi?",
@@ -140,6 +139,7 @@ export const fi = {
     "quizAnswerWrong": "Väärä valinta. Yritä uudelleen.",
     "quizAnswerPartial": "Osittain väärä valinta. Yritä uudelleen."
   },
+  "classificationCorrectBot": "Tunnistit ja validoit botin oikein",
   "explore": {
     "caughtUp": "Olet ajan tasalla!"
   },
@@ -215,7 +215,7 @@ export const fi = {
   },
   "aiGamePage": {
     "user": {
-      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B155,\"\"en\"\",\"\"fi\"\")\"),\"Käyttäjä\")",
+      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B156,\"\"en\"\",\"\"fi\"\")\"),\"Käyttäjä\")",
       "result": "Käyttäjä"
     },
     "ai": "Tekoäly",
