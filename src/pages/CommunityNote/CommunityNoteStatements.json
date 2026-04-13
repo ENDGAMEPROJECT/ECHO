@@ -132,7 +132,7 @@
     },
     {
       "id": 4,
-      "text": "Tekoäly tuottaa aina sisältöä todisteiden perusteella.",
+      "text": "Tekoäly tuottaa aina sisältöä, joka perustuu todistettuun tietoon.",
       "correct": false,
       "category": "bot-misconception"
     },
@@ -162,7 +162,7 @@
     },
     {
       "id": 9,
-      "text": "Tilien, jotka levittävät väärää tietoa, kieli pyrkii herättämään voimakkaita tunteita.",
+      "text": "Väärää tietoa levittävien tilien kieli pyrkii herättämään voimakkaita tunteita.",
       "correct": true,
       "category": "misinformation-style"
     }

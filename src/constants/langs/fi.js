@@ -18,7 +18,7 @@ export const fi = {
   "desktop": {
     "apps": {
       "messages": "Viestit",
-      "social": "Sosiaalinen verkko ECHO",
+      "social": "ECHO",
       "files": "Tiedostot",
       "hints": "Vihjeet"
     },
@@ -132,6 +132,7 @@ export const fi = {
     "classificationQuizSubtitle": "Oikeita vastauksia voi olla useampi kuin yksi.        ",
     "openQuiz": "Jatka testiä",
     "classificationQuizTitle": "Mitkä tämän profiilin ominaisuudet luokittelevat sen botiksi?",
+    "classificationQuiz": {},
     "sendQuizAnswer": "Lähetä vastaus",
     "closeQuiz": "Sulje testi",
     "selectAtLeastOne": "Valitse vähintään yksi ominaisuus",
@@ -213,7 +214,7 @@ export const fi = {
   },
   "aiGamePage": {
     "user": {
-      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B152,\"\"en\"\",\"\"fi\"\")\"),\"Käyttäjä\")",
+      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B155,\"\"en\"\",\"\"fi\"\")\"),\"Käyttäjä\")",
       "result": "Käyttäjä"
     },
     "ai": "Tekoäly",

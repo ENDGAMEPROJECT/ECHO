@@ -125,11 +125,11 @@ export const Profile = () => {
 
   const sortedPostsByUser = postsByUser
     ? [
-        ...postsByUser.filter((p) => p.isCommunityNote),
-        ...postsByUser
-          .filter((p) => !p.isCommunityNote)
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
-      ]
+      ...postsByUser.filter((p) => p.isCommunityNote),
+      ...postsByUser
+        .filter((p) => !p.isCommunityNote)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
+    ]
     : [];
 
   const isClassificationLocked = (() => {
@@ -230,15 +230,15 @@ export const Profile = () => {
   // Validar si todos los indicadores obligatorios están seleccionados
   const getMissingMandatoryIndicators = () => {
     if (!currentUser?.puzzle) return [];
-    
+
     return QUIZ_INDICATOR_KEYS.filter((key) => {
       const indicator = currentUser.puzzle[key];
-      
+
       // Solo las características con { mandatory: true } son obligatorias
       if (indicator && typeof indicator === 'object' && indicator.mandatory === true) {
         return !selectedQuizOptions.includes(key);
       }
-      
+
       return false;
     });
   };
@@ -246,27 +246,27 @@ export const Profile = () => {
   // Obtener indicadores que PUEDEN ser seleccionados (tanto obligatorios como opcionales)
   const getSelectableIndicators = () => {
     if (!currentUser?.puzzle) return [];
-    
+
     return QUIZ_INDICATOR_KEYS.filter((key) => {
       const indicator = currentUser.puzzle[key];
-      
+
       // Característica obligatoria: { value: true, mandatory: true }
       if (indicator && typeof indicator === 'object' && indicator.value === true) {
         return true;
       }
-      
+
       // Característica opcional: true (booleano)
       if (indicator === true) {
         return true;
       }
-      
+
       return false;
     });
   };
 
   const missingMandatory = getMissingMandatoryIndicators();
   const selectableIndicators = getSelectableIndicators();
-  
+
   // El botón SIEMPRE está habilitado, la validación ocurre al enviar
   const canSubmitQuiz = true;
 
@@ -276,17 +276,17 @@ export const Profile = () => {
     // Validar que haya seleccionado al menos una característica
     if (selectedQuizOptions.length === 0) {
       setQuizError(t('profile.selectAtLeastOne'));
-      return; 
+      return;
     }
 
     // Obtener los indicadores correctos (lo que debería haber seleccionado)
     const correctIndicators = QUIZ_INDICATOR_KEYS.filter((key) => {
       const indicator = currentUser?.puzzle?.[key];
-      
+
       if (indicator && typeof indicator === 'object' && 'value' in indicator) {
         return indicator.value === true;
       }
-      
+
       return indicator === true;
     });
 
@@ -294,10 +294,10 @@ export const Profile = () => {
     if (missingMandatory.length > 0) {
       // Verificar si seleccionó algo incorrecto (no está en correctIndicators)
       const incorrectSelected = selectedQuizOptions.filter(option => !correctIndicators.includes(option));
-      
+
       // Verificar si seleccionó algo correcto (aunque falten obligatorias)
       const correctSelected = selectedQuizOptions.filter(option => correctIndicators.includes(option));
-      
+
       // Si seleccionó algo incorrecto, es error completo
       if (incorrectSelected.length > 0 || correctSelected.length === 0) {
         // No seleccionó NADA correcto O seleccionó algo incorrecto
@@ -306,7 +306,7 @@ export const Profile = () => {
         // Seleccionó solo características correctas pero le faltan obligatorias
         setQuizError(t('profile.quizAnswerPartial'));
       }
-      return; 
+      return;
     }
 
     // Limpiar error si llegamos aquí (respuesta válida)
@@ -384,7 +384,7 @@ export const Profile = () => {
         post.isCommunityNote &&
         String(post.createdAt) === String(highlightedCreatedAt) &&
         String(getLocalizedContent(post.content, i18n.language)) ===
-          String(highlightedContent),
+        String(highlightedContent),
     );
     if (!postToHighlight?._id) {
       setHighlightedPostId(null);
@@ -491,26 +491,33 @@ export const Profile = () => {
                         onChange={() => toggleQuizOption(optionKey)}
                       />
 
-                      <div>
+                      <div style={{ display: "flex", flexDirection:"column", gap: "0.5rem" }}>
+                        <div style={{ display: "flex", flexDirection:"row", gap: "0.5rem" }}>
                         <strong>
                           {t(`admin.hintContent.${optionKey}`).split(":")[0]}
-                        </strong>
+                        
+                        {" "}  {" "} 
                         <button
                           type="button"
                           onClick={() => toggleDescription(optionKey)}
                           className="hint-toggle-button"
                         >
+                      
                           {expandedHints[optionKey]
-                            ? "Ver menos"
-                            : "Ver más"}
+                            ? t("profile.classificationQuiz.SeeLess")
+                            : t("profile.classificationQuiz.SeeMore")
+                          }
                         </button>
-                        <br></br>
+                        </strong>
+                       
+                        </div>
+                   
                         <span
                           style={{
                             color: "#ffffffbb",
                             fontSize: "0.85rem",
                             marginTop: "0.25rem",
-                          
+
                             display: expandedHints[optionKey] ? "inline" : "none",
                           }}
                         >

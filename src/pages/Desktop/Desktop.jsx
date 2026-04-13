@@ -377,10 +377,7 @@ export const Desktop = () => {
 
       <div
         className={`app-drawer open ${unreadCount > 0 ? "has-unread" : ""}`}
-        style={{
-          "--drawer-translate": `0px`,
-          "--drawer-height": `84px`,
-        }}
+     
       >
         {/* <button
           className="app-drawer-handle"
@@ -415,8 +412,8 @@ export const Desktop = () => {
             title={t("desktop.apps.social")}
           >
             <img
-              className="launcher-image"
-              src={assetPath("/assets/echo-logo-short-neg.png")}
+              className="launcher-image launcher-image--echo" 
+              src={assetPath("/assets/echo-logo-short.png")}
               alt={t("desktop.apps.social")}
             />
             <span className="launcher-label">
@@ -430,7 +427,7 @@ export const Desktop = () => {
             title={t("desktop.apps.files")}
           >
             <img
-              className="launcher-image"
+              className="launcher-image launcher-image--files"
               src={assetPath("/assets/folder.png")}
               alt={t("desktop.apps.files")}
             />

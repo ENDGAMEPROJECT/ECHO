@@ -72,6 +72,7 @@
 .ai-alert-icon {
     width: 22px;
     height: 22px;
+    aspect-ratio: 1/1;
     border-radius: 50%;
     background: #ff4d4f;
     color: #fff;
@@ -80,6 +81,7 @@
     justify-content: center;
     font-weight: 700;
     font-size: 14px;
+    align-self: start;
 }
 
 .ai-content-verify {
@@ -88,8 +90,9 @@
     background: #8b5cf6;
     color: #fff;
     padding: 8px 16px;
-    border-radius: 8px;
+    border-radius: 99px;
     font-weight: 600;
+     font-size: 15px;
     cursor: pointer;
     box-shadow: 0 6px 14px rgba(69, 37, 130, 0.35);
 }
@@ -308,6 +311,7 @@
     border: none;
     padding: 10px 18px;
     border-radius: 999px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
       white-space: nowrap;
@@ -320,6 +324,7 @@
     padding: 10px 18px;
     border-radius: 999px;
     font-weight: 600;
+     font-size: 15px;
     cursor: pointer;
 }
 
@@ -414,16 +419,24 @@
 }
 
 /* Brief Panel Styles */
-.ai-brief-panel {
+.ai-brief {
     background: #e1d7ff;
     border-radius: 14px;
     padding: 18px 28px;
     color: #2b2434;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 28px;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
     align-items: flex-start;
+}
+.ai-brief-panel {
+    display: flex;
+    gap: 24px;
+    flex-direction: row;
+      @media screen and (max-width: 640px) {
+        flex-direction: column;
+    }
 }
 
 .ai-brief-left {
@@ -476,10 +489,10 @@
     border: none;
     padding: 14px 32px;
     border-radius: 999px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+
     width: fit-content;
       white-space: nowrap;
 }
@@ -487,6 +500,7 @@
 .ai-brief-button:hover {
     background: #5b21b6;
     transform: translateY(-2px);
+    
     box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
 }
 
@@ -574,7 +588,7 @@
 .ai-game-prompt-container {
     background: #3a3a3d;
     border-radius: 12px;
-    padding: 24px;
+    padding: 18px 24px 24px 24px;
     position: relative;
     min-height: 150px;
 }
@@ -592,10 +606,10 @@
 
 .ai-game-badge {
     background: #ff8a80;
-    padding: 10px 18px;
+    padding: 6px 18px 10px 18px;
     border-radius: 8px;
     position: absolute;
-    top: 24px;
+    top: 18px;
     right: 24px;
 }
 
@@ -961,7 +975,7 @@
         flex-direction: column;
         gap: 16px;
         min-height: auto;
-        padding: 16px;
+        padding: 10px 16px 16px 16px;
     }
 
     .ai-game-prompt {
@@ -971,6 +985,8 @@
     .ai-game-badge {
         position: static;
         align-self: flex-start;
+        width: max-content;
+        margin-top: 0.6rem;
     }
 
     .ai-game-actions {
