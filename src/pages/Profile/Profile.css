@@ -226,6 +226,10 @@
   padding: 1.5rem;
   color: var(--text-color);
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+      margin-bottom: 90px;
+    height: calc(90vh - 90px);
+    overflow: scroll;
+
 }
 
 .classification-quiz-close {
@@ -328,14 +332,15 @@
   transform: translateY(-2px);
 }
 .hint-toggle-button {
-
-  padding: 0 0.9rem;
+  display: inline;
+  /* padding: 0 0.9rem; */
   border: none;
   text-decoration: underline;
   background-color: transparent;
   color: #bda8ff;
   font-size: 0.85rem;
   cursor: pointer;
+   white-space: nowrap
 }
 .profile-classification-buttons button {
   padding: 0.5rem 1.2rem;

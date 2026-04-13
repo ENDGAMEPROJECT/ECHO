@@ -183,13 +183,13 @@ p {
   left: 50%;
   bottom: 14px;
   width: min(330px, 90vw);
-  height: var(--drawer-height, 80px);
+  height: auto;
   transform: translate(-50%, var(--drawer-translate, 60px));
   background: rgba(20, 24, 44, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
-  padding: 2px 12px 6px;
+  padding: 6px 12px 8px;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -345,14 +345,23 @@ p {
 .launcher-image {
   width: 56px;
   height: 56px;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.95);
-  padding: 8px;
+  padding: 2px;
 }
 
 .launcher-image.launcher-image--messages {
-  padding: 2px;
+  padding:  0px;
+}
+
+.launcher-image--echo{
+  background-color: #1b1135;
+    padding: 2px;
+}
+.launcher-image--files {
+  background-color: #594b3f;
+  padding: 8px;
 }
 
 .launcher-label {
@@ -597,7 +606,7 @@ p {
   .app-drawer {
     width: 92vw;
     height: auto !important;
-    padding: 6px 12px 10px;
+    padding: 8px 12px 10px;
   }
 
   .app-launcher-card {

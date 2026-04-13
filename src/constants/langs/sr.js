@@ -18,7 +18,7 @@ export const sr = {
   "desktop": {
     "apps": {
       "messages": "Poruke",
-      "social": "Društvena mreža ECHO ",
+      "social": "ECHO",
       "files": "Datoteke",
       "hints": "Saveti"
     },
@@ -133,6 +133,7 @@ export const sr = {
     "classificationQuizSubtitle": "Može biti više od jednog tačnog odgovora.",
     "openQuiz": "Nastavi test",
     "classificationQuizTitle": "Koje karakteristike ovog profila dovode do toga da se klasifikuje kao bot?",
+    "classificationQuiz": {},
     "sendQuizAnswer": "Pošalji odgovor",
     "closeQuiz": "Zatvori test",
     "selectAtLeastOne": "Molim odaberi barem jednu karakteristiku",
@@ -214,7 +215,7 @@ export const sr = {
   },
   "aiGamePage": {
     "user": {
-      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B152,\"\"en\"\",\"\"hr\"\")\"),\"Korisnik\")",
+      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B155,\"\"en\"\",\"\"hr\"\")\"),\"Korisnik\")",
       "result": "Korisnik"
     },
     "ai": "Umjetna inteligencija",

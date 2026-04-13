@@ -18,7 +18,7 @@ export const en = {
   "desktop": {
     "apps": {
       "messages": "Messages",
-      "social": "Social Network ECHO",
+      "social": "ECHO",
       "files": "Files",
       "hints": "Hints"
     },
@@ -133,6 +133,10 @@ export const en = {
     "classificationQuizSubtitle": "There may be more than one correct answer.",
     "openQuiz": "Continue quiz",
     "classificationQuizTitle": "What characteristics of this profile make it classified as a bot?",
+    "classificationQuiz": {
+      "SeeMore": "See more",
+      "SeeLess": "See less"
+    },
     "sendQuizAnswer": "Submit answer",
     "closeQuiz": "Close quiz",
     "selectAtLeastOne": "Please select at least one characteristic",

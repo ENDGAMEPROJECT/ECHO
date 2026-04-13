@@ -820,75 +820,306 @@
     {
       "words": [
         {
-          "correct": "Arvostan",
+          "correct": "Tiesitkö",
           "percentage": 0.7,
           "alts": [
-            "Minä",
+            "Opi",
+            "Fakta"
+          ]
+        },
+        {
+          "correct": "että",
+          "percentage": 0.8,
+          "alts": [
+            "miten",
+            "miksi"
+          ]
+        },
+        {
+          "correct": "suurin",
+          "percentage": 0.65,
+          "alts": [
+            "on",
+            "miten"
+          ]
+        },
+        {
+          "correct": "osa",
+          "percentage": 0.45,
+          "alts": [
+            "määrä",
+            "vesimäärä"
+          ]
+        },
+        {
+          "correct": "veden",
+          "percentage": 0.93,
+          "alts": [
+            "veteen",
+            "kaikkeen"
+          ]
+        },
+        {
+          "correct": "haihtumisesta",
+          "percentage": 0.57,
+          "alts": [
+            "valumisesta",
+            "kulutukseen"
+          ]
+        },
+        {
+          "correct": "tapahtuu",
+          "percentage": 0.64,
+          "alts": [
+            "liittyy",
+            "näkyy"
+          ]
+        },
+        {
+          "correct": "valtamerien",
+          "percentage": 0.89,
+          "alts": [
+            "kun",
+            "koska"
+          ]
+        },
+        {
+          "correct": "pinnalta?",
+          "percentage": 0.74,
+          "alts": [
+            "takia.",
+            "alla."
+          ]
+        }
+      ],
+      "prompt": ""
+    },
+    {
+      "words": [
+        {
+          "correct": "Jotkut",
+          "percentage": "",
+          "alts": [
+            "Tämä",
+            "On"
+          ]
+        },
+        {
+          "correct": "kasvit",
+          "percentage": "",
+          "alts": [
+            "ihmiset",
+            "luulevat"
+          ]
+        },
+        {
+          "correct": "kasvavat",
+          "percentage": "",
+          "alts": [
+            "ovat",
+            "elävät"
+          ]
+        },
+        {
+          "correct": "nopeammin",
+          "percentage": "",
+          "alts": [
+            "aavikolla.",
+            "nopeasti."
+          ]
+        },
+        {
+          "correct": "runsaan",
+          "percentage": "",
+          "alts": [
+            "kuin",
+            "koska"
+          ]
+        },
+        {
+          "correct": "CO2:n",
+          "percentage": "",
+          "alts": [
+            "kastelun",
+            "valon"
+          ]
+        },
+        {
+          "correct": "takia,",
+          "percentage": "",
+          "alts": [
+            "myötä.",
+            "aiheuttamana."
+          ]
+        },
+        {
+          "correct": "mutta",
+          "percentage": "",
+          "alts": [
+            "koska",
+            "jotta"
+          ]
+        },
+        {
+          "correct": "tulevat",
+          "percentage": "",
+          "alts": [
+            "ovat",
+            "sen"
+          ]
+        },
+        {
+          "correct": "vähemmän",
+          "percentage": "",
+          "alts": [
+            "enemmän",
+            "siksi"
+          ]
+        },
+        {
+          "correct": "ravinteikkaiksi.",
+          "percentage": "",
+          "alts": [
+            "vihreiksi",
+            "syötäväksi."
+          ]
+        }
+      ],
+      "prompt": ""
+    },
+    {
+      "words": [
+        {
+          "correct": "Ilmaston",
+          "percentage": "",
+          "alts": [
+            "Mitä",
             "Tämä"
           ]
         },
         {
-          "correct": "tätä",
-          "percentage": 0.8,
+          "correct": "lämpeneminen",
+          "percentage": "",
           "alts": [
-            ", miten",
-            "että"
+            "kriisi",
+            "järjestelmä"
           ]
         },
         {
-          "correct": "syvästi",
-          "percentage": 0.65,
+          "correct": "johtuu",
+          "percentage": "",
           "alts": [
-            "lähestyt",
-            "käsittelet"
+            "on",
+            "ja"
           ]
         },
         {
-          "correct": "—",
-          "percentage": 0.45,
+          "correct": "ihmisen",
+          "percentage": "",
           "alts": [
-            ". Erittäin",
-            ". Selkeä"
+            "ilmaston",
+            "hiilidioksidin"
           ]
         },
         {
-          "correct": "erittäin",
-          "percentage": 0.93,
+          "correct": "toiminnasta",
+          "percentage": "",
           "alts": [
-            "tasapainoinen",
-            "vakuuttava"
+            "toimintaan",
+            "kaupunkien"
           ]
         },
         {
-          "correct": "oivaltava",
-          "percentage": 0.57,
+          "correct": "kuten",
+          "percentage": "",
           "alts": [
-            "vakuuttava",
-            "selkeä"
+            "kun",
+            "mutta"
+          ]
+        },
+        {
+          "correct": "metsien",
+          "percentage": "",
+          "alts": [
+            "autoilun",
+            "auringon"
+          ]
+        },
+        {
+          "correct": "kaatamisesta",
+          "percentage": "",
+          "alts": [
+            "hiilinielujen",
+            "kasvun"
           ]
         },
         {
           "correct": "ja",
-          "percentage": 0.64,
+          "percentage": "",
           "alts": [
-            "näkökulma",
-            "huomio"
+            "tai",
+            "mutta"
           ]
         },
         {
-          "correct": "merkityksellinen",
-          "percentage": 0.89,
+          "correct": "kasvihuonepäästöistä.",
+          "percentage": "",
           "alts": [
-            "tasapainoinen",
-            "selkeä"
+            "lentoliikenteestä",
+            "hiilikierrosta"
+          ]
+        }
+      ],
+      "prompt": ""
+    },
+    {
+      "words": [
+        {
+          "correct": "Kierrättäminen",
+          "percentage": "",
+          "alts": [
+            "Sinä",
+            "Se"
           ]
         },
         {
-          "correct": "näkökulma",
-          "percentage": 0.74,
+          "correct": "vähentää",
+          "percentage": "",
           "alts": [
-            "kokonaisuus",
-            "huomio"
+            "on",
+            "säilöö"
+          ]
+        },
+        {
+          "correct": "jätettä",
+          "percentage": "",
+          "alts": [
+            "saastumista",
+            "päästöjä"
+          ]
+        },
+        {
+          "correct": "ja",
+          "percentage": "",
+          "alts": [
+            "kun",
+            "joka"
+          ]
+        },
+        {
+          "correct": "säästää",
+          "percentage": "",
+          "alts": [
+            "vähentää",
+            "lisää"
+          ]
+        },
+        {
+          "correct": "luonnonvaroja.",
+          "percentage": "",
+          "alts": [
+            "materiaaleja.",
+            "luonnonympäristöjä."
           ]
         }
       ],

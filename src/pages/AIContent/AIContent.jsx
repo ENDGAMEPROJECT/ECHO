@@ -16,8 +16,8 @@ import aiContent from "./AIContent.json";
 import { assetPath } from "../../utils/assetPath";
 
 export const AIContent = () => {
-    // Estado para bloquear el panel lateral
-    const [sidebarBlocked, setSidebarBlocked] = useState(false);
+  // Estado para bloquear el panel lateral
+  const [sidebarBlocked, setSidebarBlocked] = useState(false);
   const { t } = useTranslation();
   const currentLang = t("langKey");
   const [hasLocalizedVideo, setHasLocalizedVideo] = useState(true);
@@ -79,6 +79,7 @@ export const AIContent = () => {
   );
   const isCompleted = selectedWords.length === gameData.words.length;
   const canAdvanceFromVideo = !hasLocalizedVideo || videoEnded;
+
 
   // Bloquear el sidebar mientras el video está activo
   useEffect(() => {
@@ -280,10 +281,10 @@ export const AIContent = () => {
                   </div> */}
 
                   <section className="ai-verify-panel">
-                          <div className="ai-verify-header">
-                    <h1>{t("aiVerifyPage.title")}</h1>
-                    <p>{t("aiVerifyPage.subtitle")}</p>
-                  </div>
+                    <div className="ai-verify-header">
+                      <h1>{t("aiVerifyPage.title")}</h1>
+                      <p>{t("aiVerifyPage.subtitle")}</p>
+                    </div>
                     {challenge2Completed ? (
                       <div className="ai-content-alert ai-content-alert--resolved">
                         <div className="ai-content-alert-left">
@@ -367,7 +368,7 @@ export const AIContent = () => {
                 <section className="ai-verify-panel">
                   <div className="ai-verify-header">
                     <h1>{t("aiVerifyPage.title")}</h1>
-                
+
                   </div>
 
                   <div className="ai-verify-card">
@@ -377,7 +378,7 @@ export const AIContent = () => {
                         <span className="ai-verify-name">
                           {t("aiVerifyPage.postTitle")}
                         </span>
-                        <span className="ai-verify-handle">@{t("aiVerifyPage.tweetAuthor","quesofresco85")}@</span>
+                        <span className="ai-verify-handle">@{t("aiVerifyPage.tweetAuthor", "quesofresco85")}@</span>
                         <span className="ai-verify-date">
                           {t("aiVerifyPage.postDate")}
                         </span>
@@ -457,68 +458,71 @@ export const AIContent = () => {
                   </div>
                 </section>
               ) : step === "brief" ? (
-                <section className="ai-brief-panel">
-                  <div className="ai-brief-left">
-                    <div className="ai-brief-header">
-                      <h1>{t("aiChallengeBriefPage.title")}</h1>
+                <section className="ai-brief">
+                  <div className="ai-brief-header">
+                    <h1>{t("aiChallengeBriefPage.title")}</h1>
+                  </div>
+                  <div className="ai-brief-panel">
+                    <div className="ai-brief-left">
+                      <div className="ai-brief-content">
+                        <p className="ai-brief-system">
+                          {t("aiChallengeBriefPage.systemMessage")
+                            .split(/<strong>|<\/strong>/)
+                            .map((text, i) =>
+                              i % 2 === 0 ? (
+                                text
+                              ) : (
+                                <strong key={i}>{text}</strong>
+                              ),
+                            )}
+                        </p>
+
+                        <p className="ai-brief-explanation">
+                          {t("aiChallengeBriefPage.explanation")}
+                        </p>
+
+                        <p className="ai-brief-instructions">
+                          {t("aiChallengeBriefPage.instructions")
+                            .split(/<strong>|<\/strong>/)
+                            .map((text, i) =>
+                              i % 2 === 0 ? (
+                                text
+                              ) : (
+                                <strong key={i}>{text}</strong>
+                              ),
+                            )}
+                        </p>
+                      </div>
+
                     </div>
 
-                    <div className="ai-brief-content">
-                      <p className="ai-brief-system">
-                        {t("aiChallengeBriefPage.systemMessage")
-                          .split(/<strong>|<\/strong>/)
-                          .map((text, i) =>
-                            i % 2 === 0 ? (
-                              text
-                            ) : (
-                              <strong key={i}>{text}</strong>
-                            ),
-                          )}
-                      </p>
-
-                      <p className="ai-brief-explanation">
-                        {t("aiChallengeBriefPage.explanation")}
-                      </p>
-
-                      <p className="ai-brief-instructions">
-                        {t("aiChallengeBriefPage.instructions")
-                          .split(/<strong>|<\/strong>/)
-                          .map((text, i) =>
-                            i % 2 === 0 ? (
-                              text
-                            ) : (
-                              <strong key={i}>{text}</strong>
-                            ),
-                          )}
-                      </p>
+                    <div className="ai-brief-right">
+                      <div className="ai-brief-prompt-container">
+                        <div className="ai-brief-badge">
+                          {t("aiPrompt.suspiciousBadge")}
+                        </div>
+                        <div className="ai-brief-prompt-box">
+                          <p>{gameData.prompt}</p>
+                        </div>
+                      </div>
                     </div>
+                  
+                  </div>
                     <div className="ai-game-btn-container">
-                    <button
-                      className="ai-verify-back"
-                      type="button"
-                      onClick={() => setStep("video")}
-                    >
-                      {t("aiVideoPage.back")}
-                    </button>
-                    <button
-                      className="ai-brief-button"
-                      onClick={() => setStep("game")}
-                    >
-                      {t("aiChallengeBriefPage.buttonText")}
-                    </button>
+                      <button
+                        className="ai-verify-back"
+                        type="button"
+                        onClick={() => setStep("video")}
+                      >
+                        {t("aiVideoPage.back")}
+                      </button>
+                      <button
+                        className="ai-brief-button"
+                        onClick={() => setStep("game")}
+                      >
+                        {t("aiChallengeBriefPage.buttonText")}
+                      </button>
                     </div>
-                  </div>
-
-                  <div className="ai-brief-right">
-                    <div className="ai-brief-prompt-container">
-                      <div className="ai-brief-badge">
-                        {t("aiPrompt.suspiciousBadge")}
-                      </div>
-                      <div className="ai-brief-prompt-box">
-                        <p>{gameData.prompt}</p>
-                      </div>
-                    </div>
-                  </div>
                 </section>
               ) : step === "game" ? (
                 <section className="ai-game-panel">
@@ -542,7 +546,7 @@ export const AIContent = () => {
                     </div>
 
                     <div className="ai-game-words-container">
-                      <b>{t("aiGamePage.ai","AI")}:</b>
+                      <b>{t("aiGamePage.ai", "AI")}:</b>
                       <div
                         className={`ai-game-sentence ${isCompleted ? "completed" : ""}`}
                       >
@@ -595,13 +599,12 @@ export const AIContent = () => {
                                   (word) => (
                                     <button
                                       key={`${selectedWords.length}-${word}`}
-                                      className={`ai-game-word-button ${
-                                        wrongChoice?.step ===
+                                      className={`ai-game-word-button ${wrongChoice?.step ===
                                           selectedWords.length &&
-                                        wrongChoice?.word === word
+                                          wrongChoice?.word === word
                                           ? "wrong-word"
                                           : ""
-                                      }`}
+                                        }`}
                                       onClick={() => handleWordClick(word)}
                                     >
                                       <span className="ai-game-word-text">
@@ -616,25 +619,25 @@ export const AIContent = () => {
                         )}
                       </div>
 
-                                            {showMatch && (
-                                                <div className="ai-game-match">
-                                                    <p className="ai-game-match-label">{t("aiGamePage.coincidenceWithPost")}</p>
-                                                    <article className="ai-game-match-card">
-                                                        <div className="ai-game-match-avatar" aria-hidden="true" />
-                                                        <div className="ai-game-match-content">
-                                                            <div className="ai-game-match-meta">
-                                                                <strong>{t("aiVerifyPage.postTitle","Critical Thinking 🍅🌶️🥑")}</strong>
-                                                                <span>@{t("aiVerifyPage.tweetAuthorHandle","quesofresco85")}</span>
-                                                                <span>{t("aiVerifyPage.postDate")}</span>
-                                                            </div>
-                                                            <p>{reconstructedSentence}</p>
-                                                            <span className="ai-game-match-tag">{t("aiGamePage.postGeneratedWithAi")}</span>
-                                                        </div>
-                                                    </article>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
+                      {showMatch && (
+                        <div className="ai-game-match">
+                          <p className="ai-game-match-label">{t("aiGamePage.coincidenceWithPost")}</p>
+                          <article className="ai-game-match-card">
+                            <div className="ai-game-match-avatar" aria-hidden="true" />
+                            <div className="ai-game-match-content">
+                              <div className="ai-game-match-meta">
+                                <strong>{t("aiVerifyPage.postTitle", "Critical Thinking 🍅🌶️🥑")}</strong>
+                                <span>@{t("aiVerifyPage.tweetAuthorHandle", "quesofresco85")}</span>
+                                <span>{t("aiVerifyPage.postDate")}</span>
+                              </div>
+                              <p>{reconstructedSentence}</p>
+                              <span className="ai-game-match-tag">{t("aiGamePage.postGeneratedWithAi")}</span>
+                            </div>
+                          </article>
+                        </div>
+                      )}
+                    </div>
+                  </div>
 
                   <div className="ai-game-actions">
                     {!isCompleted && (

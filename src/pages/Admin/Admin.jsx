@@ -413,11 +413,12 @@ export const Admin = () => {
                 <div className="hint-modal-overlay" onClick={() => setShowHint(false)}>
                     <div className="hint-modal" onClick={(e) => e.stopPropagation()}>
                         <div className="hint-modal-header">
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                         <RxInfoCircled/>
+                            <div style={{ display: 'flex', alignItems: 'start', gap: '0.5rem' }}>
+                         <RxInfoCircled style={{ marginTop: '0.3rem' ,fontSize: '1.25rem', minWidth: "1rem",aspectRatio: "1/1", }}/>
                                 <h3>{t('admin.hintTitle')}</h3>
+                                  <button className="close-button" onClick={() => setShowHint(false)}>×</button>
                             </div>
-                            <button className="close-button" onClick={() => setShowHint(false)}>×</button>
+                         
                         </div>
                         <div className="hint-modal-content">
                             <ul>

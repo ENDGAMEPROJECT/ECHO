@@ -18,7 +18,7 @@ export const es = {
   "desktop": {
     "apps": {
       "messages": "Mensajes",
-      "social": "Red Social ECHO",
+      "social": "ECHO",
       "files": "Archivos",
       "hints": "Pistas"
     },
@@ -133,6 +133,10 @@ export const es = {
     "classificationQuizSubtitle": "Puede haber más de una respuesta correcta.",
     "openQuiz": "Continuar test",
     "classificationQuizTitle": "¿Qué características de este perfil hace que se clasifique como bot?",
+    "classificationQuiz": {
+      "SeeMore": "Ver más",
+      "SeeLess": "Ver menos"
+    },
     "sendQuizAnswer": "Enviar respuesta",
     "closeQuiz": "Cerrar cuestionario",
     "selectAtLeastOne": "Por favor selecciona al menos una característica",
