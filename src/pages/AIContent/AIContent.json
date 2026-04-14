@@ -898,7 +898,7 @@
       "words": [
         {
           "correct": "Jotkut",
-          "percentage": "",
+          "percentage": 0.7,
           "alts": [
             "Tämä",
             "On"
@@ -906,7 +906,7 @@
         },
         {
           "correct": "kasvit",
-          "percentage": "",
+          "percentage": 0.8,
           "alts": [
             "ihmiset",
             "luulevat"
@@ -914,7 +914,7 @@
         },
         {
           "correct": "kasvavat",
-          "percentage": "",
+          "percentage": 0.65,
           "alts": [
             "ovat",
             "elävät"
@@ -922,7 +922,7 @@
         },
         {
           "correct": "nopeammin",
-          "percentage": "",
+          "percentage": 0.45,
           "alts": [
             "aavikolla.",
             "nopeasti."
@@ -930,7 +930,7 @@
         },
         {
           "correct": "runsaan",
-          "percentage": "",
+          "percentage": 0.93,
           "alts": [
             "kuin",
             "koska"
@@ -938,7 +938,7 @@
         },
         {
           "correct": "CO2:n",
-          "percentage": "",
+          "percentage": 0.57,
           "alts": [
             "kastelun",
             "valon"
@@ -946,7 +946,7 @@
         },
         {
           "correct": "takia,",
-          "percentage": "",
+          "percentage": 0.64,
           "alts": [
             "myötä.",
             "aiheuttamana."
@@ -954,7 +954,7 @@
         },
         {
           "correct": "mutta",
-          "percentage": "",
+          "percentage": 0.89,
           "alts": [
             "koska",
             "jotta"
@@ -962,7 +962,7 @@
         },
         {
           "correct": "tulevat",
-          "percentage": "",
+          "percentage": 0.74,
           "alts": [
             "ovat",
             "sen"
@@ -970,7 +970,7 @@
         },
         {
           "correct": "vähemmän",
-          "percentage": "",
+          "percentage": 0.7,
           "alts": [
             "enemmän",
             "siksi"
@@ -978,7 +978,7 @@
         },
         {
           "correct": "ravinteikkaiksi.",
-          "percentage": "",
+          "percentage": 0.8,
           "alts": [
             "vihreiksi",
             "syötäväksi."
@@ -991,7 +991,7 @@
       "words": [
         {
           "correct": "Ilmaston",
-          "percentage": "",
+          "percentage": 0.65,
           "alts": [
             "Mitä",
             "Tämä"
@@ -999,7 +999,7 @@
         },
         {
           "correct": "lämpeneminen",
-          "percentage": "",
+          "percentage": 0.45,
           "alts": [
             "kriisi",
             "järjestelmä"
@@ -1007,7 +1007,7 @@
         },
         {
           "correct": "johtuu",
-          "percentage": "",
+          "percentage": 0.93,
           "alts": [
             "on",
             "ja"
@@ -1015,7 +1015,7 @@
         },
         {
           "correct": "ihmisen",
-          "percentage": "",
+          "percentage": 0.57,
           "alts": [
             "ilmaston",
             "hiilidioksidin"
@@ -1023,7 +1023,7 @@
         },
         {
           "correct": "toiminnasta",
-          "percentage": "",
+          "percentage": 0.64,
           "alts": [
             "toimintaan",
             "kaupunkien"
@@ -1031,7 +1031,7 @@
         },
         {
           "correct": "kuten",
-          "percentage": "",
+          "percentage": 0.89,
           "alts": [
             "kun",
             "mutta"
@@ -1039,7 +1039,7 @@
         },
         {
           "correct": "metsien",
-          "percentage": "",
+          "percentage": 0.74,
           "alts": [
             "autoilun",
             "auringon"
@@ -1047,7 +1047,7 @@
         },
         {
           "correct": "kaatamisesta",
-          "percentage": "",
+          "percentage": 0.7,
           "alts": [
             "hiilinielujen",
             "kasvun"
@@ -1055,7 +1055,7 @@
         },
         {
           "correct": "ja",
-          "percentage": "",
+          "percentage": 0.8,
           "alts": [
             "tai",
             "mutta"
@@ -1063,7 +1063,7 @@
         },
         {
           "correct": "kasvihuonepäästöistä.",
-          "percentage": "",
+          "percentage": 0.65,
           "alts": [
             "lentoliikenteestä",
             "hiilikierrosta"
@@ -1076,7 +1076,7 @@
       "words": [
         {
           "correct": "Kierrättäminen",
-          "percentage": "",
+          "percentage": 0.45,
           "alts": [
             "Sinä",
             "Se"
@@ -1084,7 +1084,7 @@
         },
         {
           "correct": "vähentää",
-          "percentage": "",
+          "percentage": 0.93,
           "alts": [
             "on",
             "säilöö"
@@ -1092,7 +1092,7 @@
         },
         {
           "correct": "jätettä",
-          "percentage": "",
+          "percentage": 0.57,
           "alts": [
             "saastumista",
             "päästöjä"
@@ -1100,7 +1100,7 @@
         },
         {
           "correct": "ja",
-          "percentage": "",
+          "percentage": 0.64,
           "alts": [
             "kun",
             "joka"
@@ -1108,7 +1108,7 @@
         },
         {
           "correct": "säästää",
-          "percentage": "",
+          "percentage": 0.89,
           "alts": [
             "vähentää",
             "lisää"
@@ -1116,7 +1116,7 @@
         },
         {
           "correct": "luonnonvaroja.",
-          "percentage": "",
+          "percentage": 0.74,
           "alts": [
             "materiaaleja.",
             "luonnonympäristöjä."

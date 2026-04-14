@@ -179,7 +179,7 @@
 .hint-modal-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
   padding: 1.5rem;
   border-bottom: 1px solid var(--border-color);
 }
@@ -189,6 +189,10 @@
   color: var(--text-color);
   font-size: 1.3rem;
 }
+.hint-modal-title {
+  display: flex;
+  gap: 0.5rem
+}
 
 .close-button {
   background: none;
@@ -197,12 +201,13 @@
   font-size: 2rem;
   cursor: pointer;
   padding: 0;
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  align-self: start
 }
 
 .close-button:hover {

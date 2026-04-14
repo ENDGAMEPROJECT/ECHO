@@ -13,6 +13,7 @@
 .new-post-container .input-container {
   flex-grow: 1;
   justify-content: flex-start;
+  overflow-y: hidden
 }
 
 .new-post-container .media-container video {

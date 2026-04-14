@@ -65,7 +65,7 @@ export const Admin = () => {
         if (!sessionStorage.getItem('echo:challengeStart:1')) {
             trackChallengeStarted('1', 'Puzzle 1 - Bot Detection');
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleOpenHint = () => {
@@ -75,7 +75,7 @@ export const Admin = () => {
             sessionStorage.setItem('echo:adminHintSeen:1', '1');
         }
     };
-    
+
     const [suspectUsers, setSuspectUsers] = useState(() => []);
 
     // Seleccionar 5 usuarios: 3 bots y 2 humanos
@@ -340,65 +340,65 @@ export const Admin = () => {
 
     return (
         <>
-   
+
             <div className="app-container">
                 <Navbar />
 
                 <main className="feed">
-                        <div className="admin-container">
-                            <div className="admin-header">
-                                <h2>{t('admin.title')}</h2>
-                            </div>
-
-                            <div className="game-status">
-                                <p>{t('admin.classified')}: {Object.keys(classifiedUsers).length} / {suspectUsers.length}</p>
-                                <button className={`hint-button ${isFirstVisit ? 'hint-button--pulse' : ''}`} onClick={handleOpenHint}>
-                                    {t('admin.beforeStart')}
-                                </button>
-                            </div>
-
-                            <div className="suspect-users-container">
-                                {suspectUsers?.length ? (
-                                    suspectUsers?.map((user) => (
-                                        <div
-                                            key={user?.username}
-                                            className="suspect-user-card"
-                                        >
-                                            <div
-                                                onClick={() => handleProfileClick(user.username)}
-                                                className="suspect-user-img-container"
-                                            >
-                                                <img src={assetPath(user?.avatarURL)} alt={user?.firstName} />
-                                            </div>
-                                            <div
-                                                className="user-info"
-                                                onClick={() => handleProfileClick(user.username)}
-                                            >
-                                                <p className="name">
-                                                    {user?.firstName} {user?.lastName}
-                                                    {user?.verified && (
-                                                        <img
-                                                            src={assetPath("/assets/verified_badge.png")}
-                                                            alt={t('profile.verifiedAccount')}
-                                                            className="verified-badge"
-                                                            title={t('profile.verifiedAccount')}
-                                                        />
-                                                    )}
-                                                </p>
-                                                <p className="username">@{user?.username}</p>
-                                            </div>
-                                            {isCorrectClassification(user) && (
-                                                <div className="classification-status" title={t('profile.classificationCorrectHuman')}>
-                                                    <span aria-hidden="true">✓</span>
-                                                </div>
-                                            )}
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p className="no-suspects">{t('admin.noSuspects')}</p>
-                                )}
-                            </div>
+                    <div className="admin-container">
+                        <div className="admin-header">
+                            <h2>{t('admin.title')}</h2>
                         </div>
+
+                        <div className="game-status">
+                            <p>{t('admin.classified')}: {Object.keys(classifiedUsers).length} / {suspectUsers.length}</p>
+                            <button className={`hint-button ${isFirstVisit ? 'hint-button--pulse' : ''}`} onClick={handleOpenHint}>
+                                {t('admin.beforeStart')}
+                            </button>
+                        </div>
+
+                        <div className="suspect-users-container">
+                            {suspectUsers?.length ? (
+                                suspectUsers?.map((user) => (
+                                    <div
+                                        key={user?.username}
+                                        className="suspect-user-card"
+                                    >
+                                        <div
+                                            onClick={() => handleProfileClick(user.username)}
+                                            className="suspect-user-img-container"
+                                        >
+                                            <img src={assetPath(user?.avatarURL)} alt={user?.firstName} />
+                                        </div>
+                                        <div
+                                            className="user-info"
+                                            onClick={() => handleProfileClick(user.username)}
+                                        >
+                                            <p className="name">
+                                                {user?.firstName} {user?.lastName}
+                                                {user?.verified && (
+                                                    <img
+                                                        src={assetPath("/assets/verified_badge.png")}
+                                                        alt={t('profile.verifiedAccount')}
+                                                        className="verified-badge"
+                                                        title={t('profile.verifiedAccount')}
+                                                    />
+                                                )}
+                                            </p>
+                                            <p className="username">@{user?.username}</p>
+                                        </div>
+                                        {isCorrectClassification(user) && (
+                                            <div className="classification-status" title={t('profile.classificationCorrectHuman')}>
+                                                <span aria-hidden="true">✓</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="no-suspects">{t('admin.noSuspects')}</p>
+                            )}
+                        </div>
+                    </div>
                 </main>
 
                 {/* Panel de estadísticas lateral */}
@@ -411,12 +411,14 @@ export const Admin = () => {
                 <div className="hint-modal-overlay" onClick={() => setShowHint(false)}>
                     <div className="hint-modal" onClick={(e) => e.stopPropagation()}>
                         <div className="hint-modal-header">
-                            <div style={{ display: 'flex', alignItems: 'start', gap: '0.5rem' }}>
-                         <RxInfoCircled style={{ marginTop: '0.3rem' ,fontSize: '1.25rem', minWidth: "1rem",aspectRatio: "1/1", }}/>
+                            <div className="hint-modal-title">
+                              
+                                <RxInfoCircled style={{ marginTop: '0.2rem', fontSize: '1.25rem', minWidth: "1rem", aspectRatio: "1/1" }} />
                                 <h3>{t('admin.hintTitle')}</h3>
-                                  <button className="close-button" onClick={() => setShowHint(false)}>×</button>
-                            </div>
-                         
+                            </div>    
+                                <button className="close-button" onClick={() => setShowHint(false)}>×</button>
+                            
+
                         </div>
                         <div className="hint-modal-content">
                             <ul>
