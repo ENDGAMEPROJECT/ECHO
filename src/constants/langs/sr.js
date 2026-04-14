@@ -133,6 +133,7 @@ export const sr = {
     "no": "Ne",
     "classificationIncorrect": "Netačan izbor. Ponovo pregledaj profil.",
     "classificationCorrectHuman": "Ispravno ste klasifikovali profil",
+    "classificationCorrectBot": "Pravilno ste identifikovali i validirali bota",
     "classificationQuizSubtitle": "Može biti više od jednog tačnog odgovora.",
     "openQuiz": "Nastavi test",
     "classificationQuizTitle": "Koje karakteristike ovog profila dovode do toga da se klasifikuje kao bot?",

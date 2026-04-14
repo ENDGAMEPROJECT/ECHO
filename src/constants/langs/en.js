@@ -131,7 +131,7 @@ export const en = {
     "misinfoQuestion": "Is this account possibly bot?",
     "yes": "Yes",
     "no": "No",
-    "classificationIncorrect": "Incomplete selection. Review the profile again.",
+    "classificationIncorrect": "Incorrect selection. Review the profile again.",
     "classificationCorrectHuman": "You classified the profile correctly",
     "classificationCorrectBot": "You correctly identified and validated the bot",
     "classificationQuizSubtitle": "There may be more than one correct answer.        ",

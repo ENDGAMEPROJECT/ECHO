@@ -131,8 +131,8 @@ export const es = {
     "misinfoQuestion": "¿Es esta cuenta un posible bot?",
     "yes": "Sí",
     "no": "No",
-    "classificationIncorrect": "Selección incompleta. Vuelve a mirar el perfil.",
-    "classificationCorrectHuman": "Pravilno ste identifikovali i validirali bota",
+    "classificationIncorrect": "Selección incorrecta. Vuelve a mirar el perfil.",
+    "classificationCorrectHuman": "Has clasificado el perfil correctamente",
     "classificationCorrectBot": "Has identificado y validado correctamente al bot",
     "classificationQuizSubtitle": "Puede haber más de una respuesta correcta.",
     "openQuiz": "Continuar test",
@@ -145,7 +145,7 @@ export const es = {
     "closeQuiz": "Cerrar cuestionario",
     "selectAtLeastOne": "Por favor selecciona al menos una característica",
     "quizAnswerWrong": "Selección incorrecta. Inténtalo de nuevo.",
-    "quizAnswerPartial": "Selección parcialmente incorrecta. Intenta de nuevo."
+    "quizAnswerPartial": "Selección parcialmente incorrecta. Inténtalo de nuevo."
   },
   "explore": {
     "caughtUp": "¡Estás al día!"
