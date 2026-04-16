@@ -1,21 +1,33 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom"; // Importa el hook useLocation para obtener la ruta actual
+import { useLocation } from "react-router-dom";
 
 /**
- * Componente que desplaza automáticamente la ventana al inicio
- * cada vez que el usuario navega a una ruta diferente.
+ * ScrollToTop Component
  * 
- * Este componente mejora la experiencia de usuario asegurando que
- * al cambiar de página, la vista comience desde arriba en lugar de
- * mantener la posición de scroll de la página anterior.
+ * Automatically scrolls the page to the top whenever the user navigates to a different route.
+ * This improves user experience by ensuring that when changing pages, the view starts from
+ * the top instead of maintaining the scroll position from the previous page.
+ * 
+ * This is a non-rendering component (returns null) that only manages side effects.
+ * 
+ * @component
+ * @returns {null} This component does not render any visible elements
  */
-
 export const ScrollToTop = () => {
-  const { pathname } = useLocation(); // Obtiene la ruta actual (pathname) de React Router
+  // Get the current pathname from React Router
+  // This hook provides the current location/route path
+  const { pathname } = useLocation();
 
+  /**
+   * Effect: Scroll to top when route changes
+   * Dependencies: [pathname] - runs whenever the pathname changes (user navigates)
+   * Action: Scroll window to position (0, 0) which is the top-left of the page
+   */
   useEffect(() => {
-    window.scrollTo(0, 0); // Desplaza la ventana a la posición (0, 0) - inicio de la página
-  }, [pathname]); // Dependencia: se ejecuta cuando pathname cambia
+    // Scroll to the top of the page when route changes
+    window.scrollTo(0, 0);
+  }, [pathname]); // Re-run this effect whenever the route pathname changes
 
+  // This component doesn't render any visible HTML elements
   return null;
 };

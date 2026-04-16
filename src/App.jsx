@@ -1,22 +1,18 @@
+// App: Main root component - handles session management, onboarding, desktop layout, and notifications
+
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./App.css";
-import { Desktop } from "./pages/Desktop/Desktop";
-import { ScrollToTop } from "./components/ScrollToTop/ScrollToTop.jsx";
-import { Toaster } from "react-hot-toast";
-import { PlayerOnboarding } from "./components/PlayerOnboarding/PlayerOnboarding";
-import { useTranslation } from "react-i18next";
-import { useXAPI, XAPI_VERBS, ECHO_ACTIVITIES } from "./contexts/XAPIProvider";
-import { useStats } from "./contexts/StatsProvider";
+import { Desktop } from "./pages/Desktop/Desktop";  // Desktop OS interface
+import { ScrollToTop } from "./components/ScrollToTop/ScrollToTop.jsx";  // Reset scroll on route change
+import { Toaster } from "react-hot-toast";  // Notification system
+import { PlayerOnboarding } from "./components/PlayerOnboarding/PlayerOnboarding";  // Setup questionnaire
+import { useTranslation } from "react-i18next";  // i18n support
+import { useXAPI, XAPI_VERBS, ECHO_ACTIVITIES } from "./contexts/XAPIProvider";  // Learning tracking
+import { useStats } from "./contexts/StatsProvider";  // Game statistics
 
-const RESUME_WINDOW_MS = 5 * 60 * 1000; // 5 minutes
+const RESUME_WINDOW_MS = 5 * 60 * 1000; // Allow resume for 5 min after completion
 
-/**
- * Check if there's an existing session with meaningful progress.
- * - Incomplete game: always offer resume.
- * - Completed game (survey done) within 5 min: offer resume.
- * - Completed game older than 5 min: auto-restart.
- * Returns: "resume" | "restart" | false
- */
+// Check if player has an existing session - returns "resume" | "restart" | false
 const checkExistingSession = () => {
   try {
     const playerData = sessionStorage.getItem('playerData');
@@ -38,6 +34,7 @@ const checkExistingSession = () => {
   }
 };
 
+// Get stored XAPI actor (user identity) for learning statements
 const getStoredXapiActor = () => {
   try {
     const raw = sessionStorage.getItem("xapiActor");
@@ -47,22 +44,16 @@ const getStoredXapiActor = () => {
   }
 };
 
-/**
- * Componente principal de la aplicación
- *
- * Configura la estructura base de la aplicación con un sistema operativo simulado:
- * - Cuestionario inicial para configuración del jugador
- * - Escritorio con barra de tareas
- * - Aplicaciones (Red Social y Mensajes)
- * - Sistema de notificaciones toast
- */
 function App() {
   const { t } = useTranslation();
   const { sendStatement } = useXAPI();
   const { pauseEscapeTimer, resumeEscapeTimer } = useStats();
+  
   const [onboardingComplete, setOnboardingComplete] = useState(false);
   const [showSessionDialog, setShowSessionDialog] = useState(false);
   const sessionDialogInitRef = useRef(false);
+
+  // Wrapper for XAPI tracking with fallback actor
 
   const sendWithFallbackActor = useCallback((verb, object, result = null, context = null, options = null) => {
     const fallbackActor = getStoredXapiActor();
@@ -85,32 +76,30 @@ function App() {
     }
   }, [pauseEscapeTimer, sendWithFallbackActor]);
 
+  // Handle resume: continue previous game
   const handleResume = () => {
     resumeEscapeTimer();
-    // Send "resumed" statement
     sendWithFallbackActor(XAPI_VERBS.RESUMED, ECHO_ACTIVITIES.GAME);
     setShowSessionDialog(false);
     setOnboardingComplete(true);
   };
 
+  // Handle start over: clear storage and restart game
   const handleStartOver = async () => {
     await sendWithFallbackActor(XAPI_VERBS.EXITED_ADL, ECHO_ACTIVITIES.GAME);
-
-    // Give the browser a short window to flush keepalive requests before reload.
     await new Promise((resolve) => setTimeout(resolve, 150));
-
     sessionStorage.clear();
-    // Reload to reset all provider states
     window.location.reload();
   };
 
+  // Handle onboarding complete: proceed to game
   const handleOnboardingComplete = (playerData) => {
     setOnboardingComplete(true);
   };
 
   return (
     <div className="App">
-      {/* Session resume dialog */}
+      {/* Session resume dialog - offer to continue or restart */}
       {showSessionDialog && (
         <div className="session-dialog-overlay">
           <div className="session-dialog">
@@ -128,16 +117,16 @@ function App() {
         </div>
       )}
 
-      {/* Mostrar cuestionario si no está completado y no hay diálogo de sesión */}
+      {/* Onboarding questionnaire - only show if not complete and no session dialog */}
       {!onboardingComplete && !showSessionDialog && <PlayerOnboarding onComplete={handleOnboardingComplete} />}
       
-      {/* Componente que resetea el scroll al inicio al cambiar de ruta */}
+      {/* Scroll to top on route changes */}
       <ScrollToTop />
       
-      {/* Sistema de escritorio con aplicaciones */}
+      {/* Desktop OS interface */}
       <Desktop />
       
-      {/* Configuración del sistema de notificaciones toast */}
+      {/* Notifications */}
       <Toaster
         position="top-center"
         reverseOrder={false}

@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+// Context providers: posts, XAPI tracking, user data
 import { usePosts } from "../../contexts/PostsProvider.jsx";
 import { Post } from "../../components/Post/Post";
 import { UserInfo } from "./components/UserInfo/UserInfo";
@@ -14,40 +15,60 @@ import {
 } from "../../contexts/XAPIProvider.jsx";
 import { useUser } from "../../contexts/UserProvider.jsx";
 import { StatsPanel } from "../../components/StatsPanel/StatsPanel";
+// Utilities: localization helper
 import { getLocalizedContent } from "../../utils/i18nHelpers.jsx";
 
+// Classification constants for bot/human detection
 const CLASSIFICATION = {
-  YES: "yes",
-  NO: "no",
+  YES: "yes",  // Bot or misinfo
+  NO: "no",    // Human or legit
 };
 
+// Convert classification values: normalize from multiple formats to standard format
+// Handles: "AI" -> "yes", "Humano" -> "no", or returns unchanged
 const normalizeClassification = (value) => {
   if (value === "AI") return CLASSIFICATION.YES;
   if (value === "Humano") return CLASSIFICATION.NO;
   return value;
 };
 
+// Get expected classification based on user's actual puzzle type
+// Returns 'yes' if user is bot, 'no' if human
 const expectedClassificationFromIsBot = (isBot) =>
   isBot ? CLASSIFICATION.YES : CLASSIFICATION.NO;
 
+// Determine if quiz is required: user classified as bot AND user is actually a bot
 const requiresQuizSubmission = (classification, user) =>
   normalizeClassification(classification) === CLASSIFICATION.YES &&
   user?.puzzle?.isBot === true;
 
+// Array of detectable bot indicators for quiz questions
+// Users must identify mandatory indicators when classifying as bot
 const QUIZ_INDICATOR_KEYS = [
-  "abnormalRatio",
-  "recentAccount",
-  "temporalActivity",
-  "targetAudience",
-  "emotions",
+  "abnormalRatio",      // Unusual engagement ratio
+  "recentAccount",      // Account created recently
+  "temporalActivity",   // Posts at unusual times
+  "targetAudience",     // Specific target audience
+  "emotions",           // Emotional manipulation tactics
 ];
 
+/**
+ * Profile: displays user profile with admin puzzle controls
+ * Features: account classification (bot/human), optional quiz for bot detection indicators
+ * Used in: puzzle 1 (admin game), main app profile pages
+ */
 export const Profile = () => {
+  // Multi-language support
   const { t, i18n } = useTranslation();
+  // Router navigation
   const navigate = useNavigate();
+  // Admin mode state: true if coming from admin puzzle
   const [fromAdmin, setFromAdmin] = useState(false);
+  // Quiz UI state: show/hide classification quiz modal
   const [showClassificationQuiz, setShowClassificationQuiz] = useState(false);
+  // Quiz error: validation error message
   const [quizError, setQuizError] = useState(null);
+  // Quiz submission state: stores which users have completed quiz
   const [quizSubmittedByUser, setQuizSubmittedByUser] = useState(() => {
     const saved = sessionStorage.getItem("adminGameQuizState");
     if (!saved) return {};
@@ -59,8 +80,11 @@ export const Profile = () => {
       return {};
     }
   });
+  // Quiz selection state: which indicators user selected in quiz
   const [selectedQuizOptions, setSelectedQuizOptions] = useState([]);
+  // Post highlighting state: for emphasizing specific posts (final challenge)
   const [highlightedPostId, setHighlightedPostId] = useState(null);
+  // Classification results: tracks user classifications for all suspect accounts
   const [classifiedUsers, setClassifiedUsers] = useState(() => {
     const saved = sessionStorage.getItem("adminGameState");
     if (!saved) return {};
@@ -72,14 +96,20 @@ export const Profile = () => {
       ]),
     );
   });
+  // XAPI tracking: send learning statements to LMS
   const { sendStatement, trackQuizAnswered } = useXAPI();
+  // Tracking: cache to avoid duplicate XAPI lookAt statements
   const lookedAtSentRef = useRef(new Set());
+  // User context: all users data
   const { userState } = useUser();
 
+  // Posts and routing context
   const { allPosts, postLoading } = usePosts();
   const { username } = useParams();
 
+  // Quiz UI: expanded hints for quiz options
   const [expandedHints, setExpandedHints] = useState({});
+  // Toggle expanded/collapsed state for quiz option descriptions
   const toggleDescription = (optionKey) => {
     setExpandedHints((prev) => ({
       ...prev,
@@ -87,6 +117,7 @@ export const Profile = () => {
     }));
   };
 
+  // XAPI tracking: record when user views a profile (only once per session)
   useEffect(() => {
     if (lookedAtSentRef.current.has(username)) return;
     lookedAtSentRef.current.add(username);
@@ -108,8 +139,11 @@ export const Profile = () => {
     );
   }, [username]);
 
+  // Filter posts: get all posts for current username
   const postsByUser = allPosts?.filter((post) => post.username === username);
+  // Get current user data from all users
   const currentUser = userState?.allUsers?.find((u) => u.username === username);
+  // Get suspect usernames list from admin game
   const suspectUsernames = (() => {
     const raw = sessionStorage.getItem("adminGameUsernames");
     if (!raw) return [];
@@ -120,9 +154,11 @@ export const Profile = () => {
       return [];
     }
   })();
+  // Check if current user is a suspect (bot) in admin puzzle
   const isSuspectUser =
     Boolean(currentUser) && suspectUsernames.includes(username);
 
+  // Sort posts: community notes first (pinned), then regular posts by date (newest first)
   const sortedPostsByUser = postsByUser
     ? [
       ...postsByUser.filter((p) => p.isCommunityNote),
@@ -132,6 +168,7 @@ export const Profile = () => {
     ]
     : [];
 
+  // Check if classification is locked (user already correctly classified this account)
   const isClassificationLocked = (() => {
     if (!currentUser) return false;
     const currentClassification = normalizeClassification(
@@ -142,16 +179,19 @@ export const Profile = () => {
     return currentClassification === expectedClassificationFromIsBot(isBot);
   })();
 
+  // Check if user came from admin puzzle (controls showing/hiding quiz controls)
   useEffect(() => {
     const cameFromAdmin = sessionStorage.getItem("fromAdmin");
     setFromAdmin(cameFromAdmin === "true");
   }, []);
 
+  // Handle back button: return to admin game and clear session
   const handleBackToGame = () => {
     sessionStorage.removeItem("fromAdmin");
     navigate("/admin");
   };
 
+  // Handle user classification: validate and send XAPI statement
   const handleClassification = (classification) => {
     if (!currentUser) return;
     if (isClassificationLocked) return;
@@ -161,6 +201,7 @@ export const Profile = () => {
     const expectedClassification = expectedClassificationFromIsBot(isBot);
     const isCorrect = normalizedClassification === expectedClassification;
 
+    // Send XAPI statement: record classification attempt
     sendStatement(
       XAPI_VERBS.ATTEMPTED,
       {
@@ -194,6 +235,7 @@ export const Profile = () => {
       },
     );
 
+    // Save classification to session
     setClassifiedUsers((prev) => {
       const newState = {
         ...prev,
@@ -203,6 +245,7 @@ export const Profile = () => {
       return newState;
     });
 
+    // If bot classification and quiz required, show quiz; otherwise close
     const shouldRequireQuiz = requiresQuizSubmission(
       normalizedClassification,
       currentUser,
@@ -216,6 +259,7 @@ export const Profile = () => {
     setShowClassificationQuiz(false);
   };
 
+  // Toggle quiz option selection (checkbox)
   const toggleQuizOption = (optionKey) => {
     setSelectedQuizOptions((prev) => {
       if (prev.includes(optionKey)) {
@@ -223,18 +267,18 @@ export const Profile = () => {
       }
       return [...prev, optionKey];
     });
-    // Limpiar error cuando el usuario cambia sus selecciones
+    // Clear error when user changes selections
     setQuizError(null);
   };
 
-  // Validar si todos los indicadores obligatorios están seleccionados
+  // Get missing mandatory indicators (required for correct answer)
   const getMissingMandatoryIndicators = () => {
     if (!currentUser?.puzzle) return [];
 
     return QUIZ_INDICATOR_KEYS.filter((key) => {
       const indicator = currentUser.puzzle[key];
 
-      // Solo las características con { mandatory: true } son obligatorias
+      // Only features marked with { mandatory: true } are required
       if (indicator && typeof indicator === 'object' && indicator.mandatory === true) {
         return !selectedQuizOptions.includes(key);
       }
@@ -243,19 +287,19 @@ export const Profile = () => {
     });
   };
 
-  // Obtener indicadores que PUEDEN ser seleccionados (tanto obligatorios como opcionales)
+  // Get selectable indicators (features user can choose from)
   const getSelectableIndicators = () => {
     if (!currentUser?.puzzle) return [];
 
     return QUIZ_INDICATOR_KEYS.filter((key) => {
       const indicator = currentUser.puzzle[key];
 
-      // Característica obligatoria: { value: true, mandatory: true }
+      // Mandatory feature: { value: true, mandatory: true }
       if (indicator && typeof indicator === 'object' && indicator.value === true) {
         return true;
       }
 
-      // Característica opcional: true (booleano)
+      // Optional feature: true (boolean)
       if (indicator === true) {
         return true;
       }
@@ -267,19 +311,20 @@ export const Profile = () => {
   const missingMandatory = getMissingMandatoryIndicators();
   const selectableIndicators = getSelectableIndicators();
 
-  // El botón SIEMPRE está habilitado, la validación ocurre al enviar
+  // Quiz submit button: always enabled (validation on submit)
   const canSubmitQuiz = true;
 
+  // Handle quiz submission: validate and save results
   const handleSubmitQuiz = () => {
     if (!currentUser) return;
 
-    // Validar que haya seleccionado al menos una característica
+    // Validate: at least one option selected
     if (selectedQuizOptions.length === 0) {
       setQuizError(t('profile.selectAtLeastOne'));
       return;
     }
 
-    // Obtener los indicadores correctos (lo que debería haber seleccionado)
+    // Get correct indicators (what user should have selected)
     const correctIndicators = QUIZ_INDICATOR_KEYS.filter((key) => {
       const indicator = currentUser?.puzzle?.[key];
 
@@ -290,38 +335,36 @@ export const Profile = () => {
       return indicator === true;
     });
 
-    // Validar que todos los indicadores obligatorios estén seleccionados
+    // Validate: all mandatory indicators selected
     if (missingMandatory.length > 0) {
-      // Verificar si seleccionó algo incorrecto (no está en correctIndicators)
+      // Check if user selected incorrect options
       const incorrectSelected = selectedQuizOptions.filter(option => !correctIndicators.includes(option));
-
-      // Verificar si seleccionó algo correcto (aunque falten obligatorias)
       const correctSelected = selectedQuizOptions.filter(option => correctIndicators.includes(option));
 
-      // Si seleccionó algo incorrecto, es error completo
+      // If incorrect selected or nothing correct selected = full error
       if (incorrectSelected.length > 0 || correctSelected.length === 0) {
-        // No seleccionó NADA correcto O seleccionó algo incorrecto
         setQuizError(t('profile.quizAnswerWrong'));
       } else {
-        // Seleccionó solo características correctas pero le faltan obligatorias
+        // User selected only correct options but missing mandatory = partial error
         setQuizError(t('profile.quizAnswerPartial'));
       }
       return;
     }
 
-    // Limpiar error si llegamos aquí (respuesta válida)
+    // Clear error if valid
     setQuizError(null);
 
-    // Si llegamos aquí, la respuesta es válida - guardar
+    // Valid answer: save and send XAPI
     const selectedIndicators = selectedQuizOptions.filter(Boolean);
 
-    // Enviar statement xAPI
+    // Send XAPI: track quiz answer
     trackQuizAnswered(
       currentUser.username,
       selectedIndicators,
       correctIndicators,
     );
 
+    // Save quiz completion for this user
     setQuizSubmittedByUser((prev) => {
       const newState = { ...prev, [currentUser.username]: true };
       sessionStorage.setItem("adminGameQuizState", JSON.stringify(newState));
@@ -330,6 +373,7 @@ export const Profile = () => {
     setShowClassificationQuiz(false);
   };
 
+  // Compute all classification state for current profile
   const currentClassification = normalizeClassification(
     classifiedUsers[username],
   );
@@ -344,31 +388,38 @@ export const Profile = () => {
     currentClassification,
     currentUser,
   );
+  // Is this a puzzle profile (suspect user in admin game)
   const isPuzzleProfile = fromAdmin && isSuspectUser && username !== "ECHO";
   const isQuizCompletedForCurrentProfile = Boolean(
     currentUser && quizSubmittedByUser[currentUser.username],
   );
+  // Profile is resolved when: correct classification AND (no quiz required OR quiz completed)
   const isCurrentProfileResolved =
     isClassificationCorrectForCurrentProfile &&
     (!shouldRequireQuizForCurrentProfile || isQuizCompletedForCurrentProfile);
   const canReturnToGame = true;
 
+  // Can user open quiz: quiz required AND not already completed
   const canOpenQuiz =
     shouldRequireQuizForCurrentProfile &&
     currentUser &&
     !quizSubmittedByUser[currentUser.username];
+  // Lock global navigation in admin mode for puzzle accounts
   const shouldLockGlobalNavigation = isPuzzleProfile && !canReturnToGame;
 
+  // Clear quiz options when username changes (new user)
   useEffect(() => {
     setSelectedQuizOptions([]);
   }, [username]);
 
+  // Handle post highlighting for final challenge (ECHO profile only)
   useEffect(() => {
     if (username !== "ECHO") {
       setHighlightedPostId(null);
       return;
     }
 
+    // Check if highlighting is enabled
     const shouldHighlight =
       sessionStorage.getItem("echo:highlightFinalCommunityNote") === "true";
     const highlightedCreatedAt = sessionStorage.getItem(
@@ -379,6 +430,7 @@ export const Profile = () => {
     );
     if (!shouldHighlight || !sortedPostsByUser.length) return;
 
+    // Find post matching the stored metadata
     const postToHighlight = sortedPostsByUser.find(
       (post) =>
         post.isCommunityNote &&
@@ -391,6 +443,7 @@ export const Profile = () => {
       return;
     }
 
+    // Set highlight and auto-clear after 2.8 seconds
     setHighlightedPostId(postToHighlight._id);
     sessionStorage.removeItem("echo:highlightFinalCommunityNote");
     sessionStorage.removeItem("echo:highlightFinalCommunityNoteCreatedAt");
@@ -405,14 +458,18 @@ export const Profile = () => {
 
   return (
     <>
+      {/* Main container with profile layout */}
       <div className="app-container">
+        {/* Navigation bar: locked styling if in admin puzzle mode */}
         <div
           className={shouldLockGlobalNavigation ? "profile-navbar-locked" : ""}
         >
           <Navbar />
         </div>
 
+        {/* Main profile feed */}
         <main className="feed profile-feed">
+          {/* Back to game button: shown only in admin mode */}
           {fromAdmin && (
             <div className="back-to-game-container">
               <button
@@ -424,6 +481,7 @@ export const Profile = () => {
               </button>
             </div>
           )}
+          {/* User info section: profile details + classification controls */}
           <UserInfo
             username={username}
             showClassificationControls={
@@ -439,6 +497,7 @@ export const Profile = () => {
             }}
             isQuizCompleted={isQuizCompletedForCurrentProfile}
           />
+          {/* Posts section: user's posts with optional highlighting */}
           <div className="user-posts-container">
             {!postLoading &&
               (sortedPostsByUser.length ? (
@@ -456,6 +515,7 @@ export const Profile = () => {
               ))}
           </div>
 
+          {/* Classification quiz modal: shown after user classifies account as bot */}
           {showClassificationQuiz && (
             <div
               className="classification-quiz-overlay"
@@ -465,6 +525,7 @@ export const Profile = () => {
                 className="classification-quiz-modal"
                 onClick={(e) => e.stopPropagation()}
               >
+                {/* Close button */}
                 <button
                   className="classification-quiz-close"
                   type="button"
@@ -473,6 +534,7 @@ export const Profile = () => {
                 >
                   ×
                 </button>
+                {/* Quiz header */}
                 <h3 className="classification-quiz-title">
                   {t("profile.classificationQuizTitle")}
                 </h3>
@@ -480,12 +542,14 @@ export const Profile = () => {
                   {t("profile.classificationQuizSubtitle")}
                 </p>
 
+                {/* Quiz options: checkboxes for bot indicators */}
                 <div className="classification-quiz-options">
                   {QUIZ_INDICATOR_KEYS.map((optionKey) => (
                     <label
                       key={optionKey}
                       className="classification-quiz-option"
                     >
+                      {/* Checkbox: select indicator */}
                       <input
                         type="checkbox"
                         checked={selectedQuizOptions.includes(optionKey)}
@@ -495,6 +559,7 @@ export const Profile = () => {
                       <div style={{ display: "flex", flexDirection:"column", gap: "0.5rem" }}>
                         <div style={{ display: "flex", flexDirection:"row", gap: "0.5rem" }}>
                         <strong>
+                          {/* Indicator label (title only) */}
                           {t(`admin.hintContent.${optionKey}`).split(":")[0]}
                         
                         {" "}  {" "} 

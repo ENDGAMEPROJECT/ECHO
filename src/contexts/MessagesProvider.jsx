@@ -4,18 +4,49 @@ import { useStats } from "./StatsProvider.jsx";
 import { useXAPI, XAPI_VERBS, ECHO_ACTIVITIES } from "./XAPIProvider.jsx";
 
 /**
- * Contexto para gestionar los mensajes del jefe
- * Proporciona las pistas del juego al jugador
+ * MessagesContext
+ * 
+ * React Context for managing messages from the security team (game instructions and hints).
+ * Provides:
+ * - Mission briefing message
+ * - Challenge instructions for each puzzle (Challenge 1, 2, 3, and Final)
+ * - Message read/unread state
+ * - Toast notifications when new messages arrive
+ * 
+ * Integrates with:
+ * - SessionStorage for persisting message read status
+ * - xAPI for tracking when players read instructions (learning analytics)
+ * - StatsProvider for marking challenge milestones as read
  */
 const MessagesContext = createContext();
 
+/**
+ * useMessages Hook
+ * 
+ * Custom hook to access the messages context from any component.
+ * 
+ * Returns context object with:
+ * - messages: Array of message objects
+ * - unreadCount: Number of unread messages
+ * - markAsRead(messageId): Function to mark a message as read
+ * - addMessage(message): Function to add a new message
+ * 
+ * Usage:
+ *   const { messages, unreadCount, markAsRead } = useMessages();
+ * 
+ * Throws error if used in a component not wrapped by MessagesProvider.
+ * 
+ * @returns {Object} Messages context containing state and functions
+ * @throws {Error} If context not found (component not within MessagesProvider)
+ */
 export const useMessages = () => {
   const context = useContext(MessagesContext);
   if (!context) {
-    throw new Error("useMessages debe usarse dentro de MessagesProvider");
+    throw new Error("useMessages must be used within MessagesProvider");
   }
   return context;
 };
+
 
 /**
  * Build initial messages array from sessionStorage state
@@ -24,7 +55,7 @@ const buildInitialMessages = () => {
   const messages = [];
   let id = 1;
 
-  // Mission brief is always present
+  // Mission brief is always present - initial game instructions
   const missionBriefRead = sessionStorage.getItem("missionBriefRead") === "true";
   messages.push({
     id: id++,
@@ -94,21 +125,73 @@ const buildInitialMessages = () => {
   return messages;
 };
 
+/**
+ * MessagesProvider Component
+ * 
+ * Context provider for managing game messages and notifications.
+ * 
+ * Responsibilities:
+ * - Initialize messages array from sessionStorage
+ * - Track unread message count
+ * - Handle marking messages as read
+ * - Send xAPI learning analytics statements when instructions are read
+ * - Dispatch callbacks to StatsProvider for challenge milestone tracking
+ * - Show toast notifications when new messages arrive or onboarding completes
+ * - Prevent duplicate xAPI statements using a ref guard
+ * 
+ * Integrations:
+ * - SessionStorage: Persists message read status
+ * - StatsProvider: Marks challenge instructions as read for stats tracking
+ * - XAPIProvider: Sends "LOOKED_AT" statements for learning analytics
+ * - Window events: Listens for onboardingComplete, dispatches openDrawer and bossMessage
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.children - Child components
+ * @returns {JSX.Element} Context provider wrapping children
+ */
 export const MessagesProvider = ({ children }) => {
+  // Get translation function for multilingual message content
   const { t } = useTranslation();
+  
+  // Get functions to mark challenges as read in stats
   const {
     markChallenge1InstructionsRead,
     markChallenge2InstructionsRead,
     markChallenge3InstructionsRead,
     markChallengeFinalInstructionsRead,
   } = useStats();
+  
+  // Get xAPI function to send learning analytics statements
   const { sendStatement } = useXAPI();
 
+  // Messages state: initialized from sessionStorage
+  // Contains all message objects with id, fromKey, subjectKey, contentKey, timestamp, read
   const [messages, setMessages] = useState(() => buildInitialMessages());
+  
+  // Unread message count: updated whenever messages change
+  // Used to display badge on Messages app icon in Taskbar
   const [unreadCount, setUnreadCount] = useState(0);
+  
+  // Guard to prevent duplicate toast notifications
+  // Set to true after first notification is shown
   const notificationShownRef = useRef(false);
+  
+  // Guard to prevent duplicate xAPI statements
+  // Stores message IDs that have already sent xAPI statements
+  // Necessary because markAsRead can be called multiple times in React Strict Mode
   const xapiSentRef = useRef(new Set());
 
+  /**
+   * Show mission/boss message toast notification
+   * 
+   * Dispatches window events to:
+   * 1. "openDrawer" - Opens the Messages app drawer
+   * 2. "bossMessage" - Triggers boss message toast animation
+   * 
+   * Only shows once per session (guarded by notificationShownRef)
+   * to prevent notification spam.
+   */
   const showMissionToast = () => {
     if (notificationShownRef.current) {
       return;
@@ -118,12 +201,21 @@ export const MessagesProvider = ({ children }) => {
     notificationShownRef.current = true;
   };
 
-  // Mostrar notificación cuando el onboarding se completa o hay mensajes no leídos
+  /**
+   * Effect: Show notification when onboarding completes or there are unread messages
+   * 
+   * Triggers:
+   * 1. When "onboardingComplete" window event fires
+   * 2. On mount if player has already completed onboarding and has unread messages
+   * 
+   * Shows the mission toast notification to alert player of pending messages.
+   */
   useEffect(() => {
     const handleOnboardingComplete = () => {
       showMissionToast();
     };
 
+    // Check if onboarding was already completed in a previous session
     const playerData = sessionStorage.getItem("playerData");
     if (playerData) {
       const data = JSON.parse(playerData);
@@ -136,33 +228,62 @@ export const MessagesProvider = ({ children }) => {
       }
     }
 
+    // Listen for onboarding completion event during current session
     window.addEventListener("onboardingComplete", handleOnboardingComplete);
     return () => {
       window.removeEventListener("onboardingComplete", handleOnboardingComplete);
     };
   }, []);
 
-  // Actualizar contador de mensajes no leídos
+  /**
+   * Effect: Update unread message count whenever messages change
+   * 
+   * Counts messages with read: false
+   * Updates Taskbar Messages app badge with this count
+   */
   useEffect(() => {
     const count = messages.filter((msg) => !msg.read).length;
     setUnreadCount(count);
   }, [messages]);
 
   /**
-   * Marca un mensaje como leído
-   * @param {number} messageId - ID del mensaje
+   * Mark a message as read
+   * 
+   * Performs multiple actions:
+   * 1. Updates message.read = true in state
+   * 2. Saves read status to sessionStorage for persistence
+   * 3. Dispatch to StatsProvider to mark challenge as read (for stats tracking)
+   * 4. Send xAPI LOOKED_AT statement for learning analytics
+   * 
+   * Special Handling by Message Type:
+   * - Mission Brief: Saves to sessionStorage, sends xAPI with Puzzle 1 context
+   * - Challenge 1: Calls markChallenge1InstructionsRead(), sends xAPI
+   * - Challenge 2: Calls markChallenge2InstructionsRead(), sends xAPI with Puzzle 2 context
+   * - Challenge 3: Calls markChallenge3InstructionsRead(), sends xAPI with Puzzle 3 context
+   * - Final: Calls markChallengeFinalInstructionsRead(), sends xAPI with Final context
+   * 
+   * xAPI Statements:
+   * - VERB: LOOKED_AT (player viewed the instructions)
+   * - OBJECT: Lesson activity with ID like "puzzle1/instructions"
+   * - CONTEXT: Parent activity (puzzle) and grouping (game)
+   * - Prevents duplicates using xapiSentRef guard (needed for React Strict Mode)
+   * 
+   * @param {number} messageId - ID of the message to mark as read
    */
   const markAsRead = (messageId) => {
     const target = messages.find((msg) => msg.id === messageId);
     if (!target || target.read) return;
 
-    // Guard síncrono: evita duplicados si markAsRead se llama dos veces
-    // antes de que React procese el setMessages (p.ej. Strict Mode)
+    // Guard: prevents duplicate xAPI statements if markAsRead is called multiple times
+    // before React processes the state update (e.g., in React Strict Mode)
     if (!xapiSentRef.current.has(messageId)) {
       xapiSentRef.current.add(messageId);
 
+      // Handle each message type differently based on content
       if (target.contentKey === "messagesApp.messages.missionBrief.content") {
+        // Mission Brief: Mark as read in sessionStorage
         sessionStorage.setItem("missionBriefRead", "true");
+        // Send xAPI statement: player viewed Puzzle 1 instructions
         sendStatement(
           XAPI_VERBS.LOOKED_AT,
           {
@@ -182,7 +303,9 @@ export const MessagesProvider = ({ children }) => {
         );
       }
       if (target.contentKey === "messagesApp.messages.challenge1.content") {
+        // Challenge 1: Mark as read in StatsProvider
         markChallenge1InstructionsRead();
+        // Send xAPI statement: player viewed Challenge 1 instructions
         sendStatement(
           XAPI_VERBS.LOOKED_AT,
           {
@@ -202,7 +325,9 @@ export const MessagesProvider = ({ children }) => {
         );
       }
       if (target.contentKey === "messagesApp.messages.challenge2.content") {
+        // Challenge 2: Mark as read in StatsProvider
         markChallenge2InstructionsRead();
+        // Send xAPI statement: player viewed Challenge 2 instructions
         sendStatement(
           XAPI_VERBS.LOOKED_AT,
           {
@@ -222,7 +347,9 @@ export const MessagesProvider = ({ children }) => {
         );
       }
       if (target.contentKey === "messagesApp.messages.challenge3.content") {
+        // Challenge 3: Mark as read in StatsProvider
         markChallenge3InstructionsRead();
+        // Send xAPI statement: player viewed Challenge 3 instructions
         sendStatement(
           XAPI_VERBS.LOOKED_AT,
           {
@@ -242,7 +369,9 @@ export const MessagesProvider = ({ children }) => {
         );
       }
       if (target.contentKey === "messagesApp.messages.challengeFinal.content") {
+        // Final Challenge: Mark as read in StatsProvider
         markChallengeFinalInstructionsRead();
+        // Send xAPI statement: player viewed Final challenge instructions
         sendStatement(
           XAPI_VERBS.LOOKED_AT,
           {
@@ -263,21 +392,38 @@ export const MessagesProvider = ({ children }) => {
       }
     }
 
+    // Update message read status in state
     setMessages((prev) =>
       prev.map((msg) => (msg.id === messageId ? { ...msg, read: true } : msg))
     );
   };
 
   /**
-   * Agrega un nuevo mensaje
-   * @param {Object} message - Nuevo mensaje
+   * Add a new message to the messages array
+   * 
+   * Process:
+   * 1. Check if a message with the same contentKey already exists
+   * 2. If already exists, skip adding (prevent duplicates)
+   * 3. If new, generate unique ID and add to start of array
+   * 4. Set read: false (new messages are always unread)
+   * 5. Set timestamp: current date/time
+   * 
+   * Usage:
+   * Called when a challenge is completed and new instructions are sent
+   * (from StatsProvider or other components)
+   * 
+   * @param {Object} message - Message object to add
+   * @param {string} message.fromKey - Translation key for sender name
+   * @param {string} message.subjectKey - Translation key for subject
+   * @param {string} message.contentKey - Translation key for content
    */
   const addMessage = (message) => {
     setMessages((prev) => {
-      // Check if message with same contentKey already exists
+      // Check if message with same contentKey already exists (prevent duplicates)
       const exists = prev.some((msg) => msg.contentKey === message.contentKey);
       if (exists) return prev;
 
+      // Create new message with auto-generated ID, current timestamp, and unread status
       const newMessage = {
         ...message,
         id: Math.max(...prev.map((m) => m.id), 0) + 1,
@@ -288,11 +434,12 @@ export const MessagesProvider = ({ children }) => {
     });
   };
 
+  // Context value: all state and functions available to consuming components
   const value = {
-    messages,
-    unreadCount,
-    markAsRead,
-    addMessage,
+    messages,              // Array of message objects
+    unreadCount,           // Count of unread messages
+    markAsRead,            // Function to mark a message as read
+    addMessage,            // Function to add a new message
   };
 
   return (

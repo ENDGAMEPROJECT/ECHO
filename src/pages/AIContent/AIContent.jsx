@@ -15,8 +15,13 @@ import {
 import aiContent from "./AIContent.json";
 import { assetPath } from "../../utils/assetPath";
 
+/**
+ * Challenge 2 (AI Content Generated) game page.
+ * Players reconstruct an AI-generated sentence by selecting correct words from shuffled options.
+ * Multi-step flow: list → verify → video → brief → game.
+ */
 export const AIContent = () => {
-  // Estado para bloquear el panel lateral
+  // Sidebar blocked during video playback (until video completes)
   const [sidebarBlocked, setSidebarBlocked] = useState(false);
   const { t } = useTranslation();
   const currentLang = t("langKey");
@@ -26,16 +31,14 @@ export const AIContent = () => {
     [currentLang],
   );
 
-  // Pick a random sentence ONCE per session and persist the index so navigating
-  // away and back always shows the same sentence.  Languages with only one
-  // sentence always get index 0.
+  // Random sentence (persisted by index in sessionStorage). Changes by language; clamps if index goes out of range
   const gameData = useMemo(() => {
     const allSentences = aiContent[currentLang] || aiContent.en;
 
     const storedIdx = sessionStorage.getItem("echo:puzzle2:sentenceIndex");
     let idx;
     if (storedIdx !== null) {
-      // Clamp in case the stored index is out of range for the current language
+      // Restore saved index, clamped if language changed and has fewer sentences
       idx = Math.min(Number(storedIdx), allSentences.length - 1);
     } else {
       idx =
@@ -53,13 +56,18 @@ export const AIContent = () => {
   const { sendStatement, trackChallengeStarted } = useXAPI();
   const completionSentRef = useRef(false);
   const [step, setStep] = useState("list");
+  // Video watched flag (persisted in sessionStorage)
   const [videoEnded, setVideoEnded] = useState(() => {
     return sessionStorage.getItem("echo:puzzle2:videoViewed") === "true";
   });
+  // Correctly selected words so far (builds the sentence step by step)
   const [selectedWords, setSelectedWords] = useState([]);
   const [showCompletionModal, setShowCompletionModal] = useState(false);
+  // Wrong word selection during current step (used for visual feedback, clears after animation)
   const [wrongChoice, setWrongChoice] = useState(null);
+  // Show reconstructed sentence vs. original post (delayed display after completion)
   const [showMatch, setShowMatch] = useState(false);
+  // Shuffled answer options for each word position
   const optionsByStep = useMemo(
     () =>
       gameData.words.map((item) =>
@@ -67,10 +75,12 @@ export const AIContent = () => {
       ),
     [gameData],
   );
+  // Player's sentence from selected words (punctuation moved to word boundaries)
   const reconstructedSentence = useMemo(
     () => selectedWords.join(" ").replace(/\s([.,!?;:])/g, "$1"),
     [selectedWords],
   );
+  // Correct AI-generated sentence (from gameData)
   const correctSentence = useMemo(
     () =>
       gameData.words
@@ -80,10 +90,11 @@ export const AIContent = () => {
     [gameData],
   );
   const isCompleted = selectedWords.length === gameData.words.length;
+  // Can advance when video ends or no localized video exists
   const canAdvanceFromVideo = !hasLocalizedVideo || videoEnded;
 
 
-  // Bloquear el sidebar mientras el video está activo
+  // Block sidebar during mandatory video watching
   useEffect(() => {
     if (step === "video" && !canAdvanceFromVideo) {
       setSidebarBlocked(true);
@@ -92,19 +103,16 @@ export const AIContent = () => {
     }
   }, [step, canAdvanceFromVideo]);
 
-  // Pausar el timer mientras se reproduce el video, reanudar cuando termine
+  // Pause escape room timer during video playback, resume afterward
   useEffect(() => {
-    // Si el video está en reproducción (step === "video" y videoEnded === false)
     if (step === "video" && !videoEnded) {
       pauseEscapeTimer();
     } else {
-      // Si el video terminó o se salió de la sección de video, reanudar
       resumeEscapeTimer();
     }
   }, [step, videoEnded, pauseEscapeTimer, resumeEscapeTimer]);
 
-  // Sync challenge 2 progress to StatsProvider for navbar badge
-  // Challenge 2 is a single task (complete the word game), so total=1
+  // Update navbar badge: challenge has 1 task (complete the word reconstruction)
   useEffect(() => {
     setChallenge2Total(1);
     setChallenge2Progress(isCompleted ? 1 : 0);
@@ -120,7 +128,7 @@ export const AIContent = () => {
     };
   }, []);
 
-  // Fallback: asegurar que el timer empieza aunque el usuario llegue por URL directa
+  // Initialize challenge timer (fallback for direct URL access)
   useEffect(() => {
     if (challenge2Completed) return;
     if (!sessionStorage.getItem("echo:challengeStart:2")) {
@@ -129,6 +137,7 @@ export const AIContent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Delay showing sentence comparison (showMatch) after completion for visual effect
   useEffect(() => {
     if (!isCompleted) {
       setShowMatch(false);
@@ -139,10 +148,12 @@ export const AIContent = () => {
     return () => clearTimeout(timer);
   }, [isCompleted]);
 
+  // Reset video status when language changes (forces fresh video load)
   useEffect(() => {
     setHasLocalizedVideo(true);
   }, [localizedVideoSrc]);
 
+  // Complete challenge, send Challenge 3 instructions message
   const handleCompletionClose = () => {
     setShowCompletionModal(false);
     completeChallenge2();
@@ -156,6 +167,7 @@ export const AIContent = () => {
     window.dispatchEvent(new Event("bossMessage"));
   };
 
+  // Send xAPI succeeded+completed statements once at completion, then show modal
   useEffect(() => {
     if (!isCompleted || challenge2Completed) return;
 
@@ -164,13 +176,14 @@ export const AIContent = () => {
     );
     if (instructionsSent) return;
 
+    // Fire-once guard: only send xAPI on first render of completed state
     if (!completionSentRef.current) {
       completionSentRef.current = true;
     } else {
       return;
     }
 
-    // Guard dedup + xAPI (immediate — records actual completion time)
+    // Dedup: prevent double xAPI send if component re-renders
     const completedKey2 = "echo:challengeCompleted:2";
     if (!sessionStorage.getItem(completedKey2)) {
       sessionStorage.setItem(completedKey2, "1");
@@ -182,7 +195,7 @@ export const AIContent = () => {
         },
       };
 
-      // succeeded: resolución correcta con score detallado
+      // Send "succeeded" with perfect score (all words correct)
       sendStatement(
         XAPI_VERBS.SUCCEEDED,
         ECHO_ACTIVITIES.PUZZLE_2,
@@ -199,7 +212,7 @@ export const AIContent = () => {
         context2,
       );
 
-      // completed: duración desde que se inició el reto
+      // Send "completed" with duration from challenge start
       const startRaw2 = sessionStorage.getItem("echo:challengeStart:2");
       const completedResult2 = { completion: true };
       if (startRaw2 && Number.isFinite(Number(startRaw2))) {
@@ -221,12 +234,13 @@ export const AIContent = () => {
     setShowCompletionModal(true);
   }, [isCompleted, challenge2Completed, sendStatement, gameData.words.length]);
 
+  // Handle word selection: validate, send xAPI, and advance or reset
   const handleWordClick = (word) => {
-    if (wrongChoice) return;
+    if (wrongChoice) return; // Ignore clicks during wrong answer animation
     const currentStep = selectedWords.length;
     const isCorrect = word === gameData.words[currentStep].correct;
 
-    // Send xAPI statement for token selection
+    // Send xAPI with correctness and word selected
     sendStatement(
       XAPI_VERBS.ANSWERED,
       {
@@ -256,12 +270,13 @@ export const AIContent = () => {
       },
     );
 
+    // Correct: add word and move to next step. Wrong: show animation and reset
     if (isCorrect) {
       setSelectedWords([...selectedWords, word]);
     } else {
       setWrongChoice({ step: currentStep, word });
       setTimeout(() => {
-        setSelectedWords([]);
+        setSelectedWords([]); // Reset all selections
         setWrongChoice(null);
       }, 550);
     }
@@ -685,6 +700,7 @@ export const AIContent = () => {
       </div>
 
       {showCompletionModal && (
+        // Challenge complete modal (shows briefly before closing challenge)
         <div className="challenge-completion-overlay">
           <div className="challenge-completion-modal">
             <div className="challenge-completion-icon">🎉</div>

@@ -333,7 +333,8 @@ export const es = {
       "3": "Reto 3: Usos Incorrectos de IA",
       "4": "Reto 4: Community Note"
     },
-    "back": "Volver"
+    "back": "Volver",
+    "rewatchIntro": "Volver a ver vídeo de intro"
   },
   "filesApp": {
     "title": "Explorador de archivos",
@@ -414,7 +415,7 @@ export const es = {
   "escapeRoomEnd": {
     "title": "Escape room finalizado",
     "description": "¿Qué te gustaría hacer ahora?",
-    "restart": "Volver al principio",
+    "restart": "Volver al inicio",
     "continueExploring": "Continuar explorando ECHO",
     "visitResources": "Ir a los recursos de ENDGAME"
   }

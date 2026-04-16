@@ -2,15 +2,16 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useStats } from "../../contexts/StatsProvider.jsx";
-import { usePosts } from "../../contexts/PostsProvider.jsx";
-import { useLoggedInUser } from "../../contexts/LoggedInUserProvider.jsx";
-import { useXAPI, XAPI_VERBS, ECHO_ACTIVITIES } from "../../contexts/XAPIProvider.jsx";
-import { IoMdClose } from "../../utils/icons.jsx";
-import statementsData from "./CommunityNoteStatements.json";
-import { assetPath } from "../../utils/assetPath";
+import { useStats } from "../../contexts/StatsProvider.jsx"; // Stats tracking (challenge completion)
+import { usePosts } from "../../contexts/PostsProvider.jsx"; // Create posts (final conclusion)
+import { useLoggedInUser } from "../../contexts/LoggedInUserProvider.jsx"; // Current user data
+import { useXAPI, XAPI_VERBS, ECHO_ACTIVITIES } from "../../contexts/XAPIProvider.jsx"; // xAPI learning events
+import { IoMdClose } from "../../utils/icons.jsx"; // Close button icon
+import statementsData from "./CommunityNoteStatements.json"; // Statements to display (multi-language)
+import { assetPath } from "../../utils/assetPath"; // Asset path helper
 import "./CommunityNote.css";
 
+// Helper: convert milliseconds duration to MM:SS format for xAPI records
 const toMinutesSecondsLabel = (durationMs) => {
   const totalSeconds = Math.max(0, Math.round(durationMs / 1000));
   const minutes = Math.floor(totalSeconds / 60);
@@ -18,17 +19,19 @@ const toMinutesSecondsLabel = (durationMs) => {
   return `${String(minutes).padStart(2, "0")}min${String(seconds).padStart(2, "0")}seg`;
 };
 
+// Challenge 4 (final): Community Note - select correct statements to conclude the game
 export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-content" }) => {
-  const { t } = useTranslation();
-  const currentLang = t("langKey");
-  const { completeChallengeFinal } = useStats();
-  const { createPost } = usePosts();
-  const { loggedInUserState } = useLoggedInUser();
-  const { trackChallengeStarted, sendStatement } = useXAPI();
-  const navigate = useNavigate();
+  const { t } = useTranslation(); // Multi-language support
+  const currentLang = t("langKey"); // Current language code
+  const { completeChallengeFinal } = useStats(); // Mark challenge 4 as complete
+  const { createPost } = usePosts(); // Create the final conclusion post
+  const { loggedInUserState } = useLoggedInUser(); // Get current user data
+  const { trackChallengeStarted, sendStatement } = useXAPI(); // xAPI event tracking
+  const navigate = useNavigate(); // Route navigation
+  // Track which statements player selected (user selections)
   const [selectedStatements, setSelectedStatements] = useState([]);
 
-  // Fallback: asegurar que el timer empieza aunque el modal se abra sin pasar por NewPostLauncher
+  // Initialize challenge timer if not already started (fallback for direct modal open)
   useEffect(() => {
     if (!sessionStorage.getItem('echo:challengeStart:4')) {
       trackChallengeStarted('4', 'Puzzle 4 - Community Note');
@@ -36,21 +39,25 @@ export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-co
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Get statements in current language and shuffle them
   const statements = useMemo(
     () => (statementsData[currentLang] || statementsData.en || []).sort(() => Math.random() - 0.5),
     [currentLang]
   );
+  // Count how many correct statements must be selected
   const requiredCorrectCount = useMemo(
     () => statements.filter((statement) => statement.correct).length,
     [statements]
   );
+  // Display instruction: "Select X correct statements"
   const challengeDescription = useMemo(
     () => t("createPost.selectCorrectCount", { count: requiredCorrectCount }),
     [t, requiredCorrectCount]
   );
 
+  // Validate selected statements when language or required count changes
   useEffect(() => {
-    // Keep only valid ids for the active language and enforce the current cap.
+    // Remove invalid statement IDs and trim excess selections
     const validIds = new Set(statements.map((statement) => statement.id));
     setSelectedStatements((prev) => {
       const filtered = prev.filter((id) => validIds.has(id));
@@ -58,20 +65,26 @@ export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-co
     });
   }, [statements, requiredCorrectCount]);
 
+  // Toggle statement selection (add/remove from selection)
   const handleStatementClick = (id) => {
     setSelectedStatements((prev) => {
       const isSelected = prev.includes(id);
       if (isSelected) {
+        // Deselect if already selected
         return prev.filter((statementId) => statementId !== id);
       }
+      // Add selection if not at max count
       if (prev.length < requiredCorrectCount) {
         return [...prev, id];
       }
+      // Ignore if at max (can't select more)
       return prev;
     });
   };
 
+  // Submit: validate selections, create conclusion post, send xAPI events
   const handleSubmit = () => {
+    // First validation: user selected required count of statements
     if (selectedStatements.length !== requiredCorrectCount) {
       toast.error(
         t("createPost.incorrectSelection") + ` (${selectedStatements.length}/${requiredCorrectCount})`
@@ -79,25 +92,28 @@ export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-co
       return;
     }
 
+    // Second validation: all selected statements are correct
     const correctSelections = selectedStatements.every((id) => {
       const statement = statements.find((s) => s.id === id);
       return statement.correct;
     });
 
     if (!correctSelections) {
-      // failed: frases incorrectas seleccionadas
+      // Failed path: incorrect selections made - prepare xAPI FAILED event
       const selectedStatementsData = selectedStatements.map((id) => {
         const s = statements.find((st) => st.id === id);
         return s;
       });
-
+      // Count correct vs incorrect selections for xAPI tracking
       const correctCount = selectedStatementsData.filter((s) => s.correct).length;
       const incorrectCount = selectedStatementsData.filter((s) => !s.correct).length;
 
+      // Format all statements as response string for xAPI
       const responseString = statements
         .map((stmt, index) => `${index + 1}: ${stmt.text}`)
         .join(' | ');
 
+      // Send xAPI FAILED statement with incorrect selections details
       sendStatement(
         XAPI_VERBS.FAILED,
         ECHO_ACTIVITIES.FINAL,
@@ -105,11 +121,13 @@ export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-co
           completion: false,
           response: responseString,
           extensions: {
+            // Track which statements were selected and their correctness
             "https://endgameproject.github.io/xapi/ext/communityNoteSelections": selectedStatementsData.map((s) => ({
               id: s.id,
               text: s.text,
               correct: s.correct,
             })),
+            // Track counts: correct vs incorrect selections
             "https://endgameproject.github.io/xapi/ext/communityNoteCorrectCount": correctCount,
             "https://endgameproject.github.io/xapi/ext/communityNoteIncorrectCount": incorrectCount,
           },
@@ -121,38 +139,43 @@ export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-co
           },
         }
       );
+      // Show error and reset selection for retry
       toast.error(t("createPost.incorrectSelection"));
       setSelectedStatements([]);
       return;
     }
+    // Success path: all selections correct - proceed with conclusion
 
+    // Record timestamp for the conclusion post
     const finalCommunityNoteCreatedAt = new Date().toISOString();
+    // Build conclusion post object with ECHO account details
     const conclusionPost = {
       firstName: loggedInUserState?.firstName,
       lastName: loggedInUserState?.lastName,
-      content: t("createPost.conclusionText"),
+      content: t("createPost.conclusionText"), // Final message from ECHO
       mediaUrl: "",
-      isCommunityNote: true,
+      isCommunityNote: true, // Mark as conclusion post
       avatarURL: "/assets/echo-logo-bg.png",
       createdAt: finalCommunityNoteCreatedAt,
     };
-
+    // Create the conclusion post in feed
     createPost(new Event("submit"), conclusionPost, "admin-token");
+    // Update stats: mark challenge 4 as complete
     completeChallengeFinal();
 
-    // Guard dedup
+    // Guard dedup: ensure xAPI events sent only once per session
     const completedKey4 = 'echo:challengeCompleted:4';
     if (!sessionStorage.getItem(completedKey4)) {
-      sessionStorage.setItem(completedKey4, '1');
+      sessionStorage.setItem(completedKey4, '1'); // Mark as processed
 
+      // xAPI context: link this event to Challenge 4 and the game
       const context4 = {
         contextActivities: {
           parent: [ECHO_ACTIVITIES.FINAL],
           grouping: [ECHO_ACTIVITIES.GAME],
         },
       };
-
-      // succeeded: resolución correcta
+      // Send xAPI SUCCEEDED: challenge completed successfully
       sendStatement(
         XAPI_VERBS.SUCCEEDED,
         ECHO_ACTIVITIES.FINAL,
@@ -160,7 +183,7 @@ export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-co
         context4
       );
 
-      // completed: duración desde que se inició el reto
+      // Send xAPI COMPLETED: record challenge 4 duration
       const startRaw4 = sessionStorage.getItem('echo:challengeStart:4');
       const completedResult4 = { completion: true };
       if (startRaw4 && Number.isFinite(Number(startRaw4))) {
@@ -171,12 +194,13 @@ export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-co
       sessionStorage.removeItem('echo:challengeStart:4');
       sendStatement(XAPI_VERBS.COMPLETED, ECHO_ACTIVITIES.FINAL, completedResult4, context4);
 
-      // Send COMPLETED statement for the entire ECHO GAME with total duration
+      // Send xAPI COMPLETED for entire ECHO game: total duration from start to finish
       const escapeTimerStartedAt = sessionStorage.getItem('escapeTimerStartedAt');
       const gameCompletedResult = { 
         completion: true,
         success: true,
       };
+      // Calculate and record total game duration
       if (escapeTimerStartedAt && Number.isFinite(Number(escapeTimerStartedAt))) {
         const totalDurationMs = Date.now() - Number(escapeTimerStartedAt);
         gameCompletedResult.duration = toMinutesSecondsLabel(totalDurationMs);
@@ -193,15 +217,19 @@ export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-co
         }
       );
     }
+    // Save conclusion post metadata for highlighting in feed
     sessionStorage.setItem("echo:highlightFinalCommunityNote", "true");
     sessionStorage.setItem("echo:highlightFinalCommunityNoteCreatedAt", finalCommunityNoteCreatedAt);
     sessionStorage.setItem("echo:highlightFinalCommunityNoteContent", t("createPost.conclusionText"));
+    // Close modal if applicable
     setIsCreateNewPostClicked && setIsCreateNewPostClicked(false);
+    // Navigate to profile to see the new conclusion post
     navigate(`/profile/${loggedInUserState?.username || "Katherine"}`);
   };
 
   return (
     <form className={`new-post-container conclusion-challenge-form ${className}`} onSubmit={(e) => e.preventDefault()}>
+      {/* User avatar: clickable to navigate to profile */}
       <div
         onClick={() => navigate(`/profile/${loggedInUserState?.username}`)}
         className="img-container"
@@ -214,13 +242,16 @@ export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-co
       </div>
 
       <div className="input-container">
+        {/* Close button: shown if modal was opened via callback */}
         {setIsCreateNewPostClicked && (
           <IoMdClose
             onClick={() => setIsCreateNewPostClicked(false)}
             className="close-create-post-modal challenge-close-btn"
           />
         )}
+        {/* Main challenge content */}
         <div className="challenge-content">
+          {/* Header: badge, selection counter, and instructions */}
           <div className="cn-header">
             <div className="cn-header-top">
               <span className="cn-badge">📋 Community Note</span>
@@ -231,6 +262,7 @@ export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-co
             <p className="challenge-description">{challengeDescription}</p>
           </div>
 
+          {/* Statement options: display shuffled statements with checkmark toggle */}
           <div className="statements-list">
             {statements.map((statement) => (
               <div
@@ -242,6 +274,7 @@ export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-co
                 role="checkbox"
                 aria-checked={selectedStatements.includes(statement.id)}
               >
+                {/* Checkbox: shows checkmark when selected */}
                 <div className="statement-check">
                   {selectedStatements.includes(statement.id) && (
                     <span className="check">✓</span>
@@ -252,6 +285,7 @@ export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-co
             ))}
           </div>
 
+          {/* Footer: publish button disabled until exact number of statements selected */}
           <div className="cn-footer">
             <div className="post-btn-container">
               <button
