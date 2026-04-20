@@ -576,7 +576,7 @@ p {
   }
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   .app-overlay {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -591,7 +591,7 @@ p {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 767px) {
   .desktop-shell {
     padding: 48px 16px 140px;
   }

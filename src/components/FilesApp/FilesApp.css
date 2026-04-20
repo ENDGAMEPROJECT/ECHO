@@ -297,7 +297,7 @@
 }
 
 /* ─── Responsive ────────────────────────────────────────────── */
-@media (max-width: 600px) {
+@media (max-width: 767px) {
   .files-app-window {
     width: 96vw;
     height: 82vh;

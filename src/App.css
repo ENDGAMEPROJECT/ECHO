@@ -64,7 +64,7 @@ a {
   bottom: 0px;
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   .feed {
     flex: none;
     overflow: visible;
@@ -110,7 +110,7 @@ a {
   color: var(--muted-text);
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1025px) {
   .app-container {
     flex-flow: row;
     flex: 1;
@@ -131,7 +131,7 @@ a {
   }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1025px) {
   .feed {
     width: 85%;
   }
@@ -223,7 +223,7 @@ a {
   color: var(--white);
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 1025px) {
   .feed {
     flex: 1;
     /* padding-right: 1rem; */

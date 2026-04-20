@@ -200,7 +200,7 @@
 }
 
 /* ── Mobile ── */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .conclusion-challenge-form {
     max-height: 90vh;
   }

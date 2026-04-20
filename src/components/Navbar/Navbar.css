@@ -7,7 +7,7 @@
   flex-flow: column nowrap;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1025px) {
   .navbar {
     padding: 0.5rem 1rem;
   }
@@ -97,7 +97,7 @@
   min-width: 0;
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   .navlink {
     position: relative;
     justify-content: center;
@@ -139,7 +139,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .navlink-label-text {
     display: none;
   }
@@ -209,7 +209,7 @@
   align-items: center;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1025px) {
   .navbar ul {
     flex-flow: column nowrap;
     align-items: center;
@@ -235,7 +235,7 @@
   display: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1025px) {
   .navbar .create-new-post-btn {
     position: relative;
     bottom: 0;

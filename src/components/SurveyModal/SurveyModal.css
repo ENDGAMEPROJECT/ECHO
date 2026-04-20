@@ -313,7 +313,7 @@
 }
 
 /* Mobile adjustments */
-@media (max-width: 500px) {
+@media (max-width: 767px) {
   .survey-modal {
     padding: 1rem;
     max-height: 95vh;

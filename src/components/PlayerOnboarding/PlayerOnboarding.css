@@ -316,7 +316,7 @@
 }
 
 /* Responsive */
-@media (max-width: 640px) {
+@media (max-width: 767px) {
   .onboarding-overlay {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -359,7 +359,7 @@
 }
 
 /* Tablet/iPad view - flag appears left of language name */
-@media (min-width: 768px) and (max-width: 1200px) {
+@media (min-width: 768px) and (max-width: 1024px) {
   .onboarding-container {
     max-width: 550px;
     padding: 28px 24px;

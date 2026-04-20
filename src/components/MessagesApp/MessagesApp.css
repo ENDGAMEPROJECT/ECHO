@@ -291,7 +291,7 @@
   flex-shrink: 0;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 767px) {
   .messages-app-window {
     width: 96vw;
     height: 85vh;
@@ -299,10 +299,18 @@
   }
 }
 
-/* Tablet/iPad view - messages app centered with reduced height */
-@media (min-width: 768px) and (max-width: 1180px) {
+/* Tablet view - messages app centered with reduced height */
+@media (min-width: 768px) and (max-width: 1024px) {
   .messages-app-window {
     top: 50%;
     height: min(80vh, 520px);
+  }
+}
+
+/* Desktop view - messages app with standard dimensions */
+@media (min-width: 1025px) {
+  .messages-app-window {
+    top: 50%;
+    height: min(82vh, 680px);
   }
 }

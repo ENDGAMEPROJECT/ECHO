@@ -147,7 +147,7 @@
   }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1025px) {
   .user-comment {
     max-width: 100%;
     width: 100%;
