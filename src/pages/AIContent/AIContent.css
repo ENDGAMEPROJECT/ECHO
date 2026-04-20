@@ -1174,3 +1174,65 @@ html.ai-content-no-scroll {
     padding: 12px 16px;
   }
 }
+
+/* Landscape orientation - Tablet and above */
+@media (min-width: 768px) and (orientation: landscape) {
+  .ai-game-panel {
+    max-height: none;
+    overflow: visible;
+    padding: 16px 20px;
+    gap: 10px;
+  }
+
+  .ai-game-content {
+    overflow: visible;
+    min-height: auto;
+    gap: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .ai-game-words-container {
+    min-height: auto;
+    overflow: visible;
+    max-height: none;
+    padding: 14px;
+    gap: 14px;
+    flex: 1;
+    min-width: 45%;
+  }
+
+  .ai-game-prompt-container {
+    min-height: auto;
+    padding: 16px 20px;
+    flex: 1;
+    min-width: 45%;
+  }
+
+  .ai-game-prompt {
+    padding-right: 140px;
+  }
+
+  .ai-game-prompt-text {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .ai-verify-panel {
+    max-height: none;
+    overflow: visible;
+    padding: 16px 20px;
+  }
+
+  .ai-verify-actions {
+    flex-direction: row;
+    gap: 14px;
+  }
+
+  .ai-video-panel {
+    max-height: none;
+    overflow: visible;
+    padding: 16px 20px;
+  }
+}

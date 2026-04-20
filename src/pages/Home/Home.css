@@ -73,3 +73,15 @@
     width: 15vw;
   }
 }
+
+/* Landscape orientation */
+@media (min-width: 768px) and (orientation: landscape) {
+  .sorting-container {
+    margin: 0.4rem 0;
+    flex-flow: row;
+  }
+
+  .dropdown-list-container {
+    width: 12vw;
+  }
+}

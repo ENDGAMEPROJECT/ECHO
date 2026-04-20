@@ -132,3 +132,12 @@
     margin-top: 10%;
   }
 }
+
+/* Landscape orientation */
+@media (min-width: 768px) and (orientation: landscape) {
+  .modal-emoji-body {
+    width: 35%;
+    margin-top: 8%;
+    max-height: 80vh;
+  }
+}

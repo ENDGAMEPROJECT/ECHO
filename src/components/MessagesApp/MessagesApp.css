@@ -307,6 +307,15 @@
   }
 }
 
+/* Tablet view - landscape orientation */
+@media (min-width: 768px) and (orientation: landscape) {
+  .messages-app-window {
+    top: 40%;
+    width: min(85vw, 640px);
+    height: min(75vh, 580px);
+  }
+}
+
 /* Desktop view - messages app with standard dimensions */
 @media (min-width: 1025px) {
   .messages-app-window {

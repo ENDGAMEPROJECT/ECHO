@@ -277,3 +277,24 @@ a {
     background: #999;
   }
 }
+
+/* Landscape orientation optimization */
+@media (min-width: 1025px) and (orientation: landscape) {
+  .navbar {
+    width: 280px;
+  }
+
+  .discover {
+    width: 35%;
+    padding: 0 1.2rem;
+  }
+
+  .feed {
+    flex: 1;
+  }
+
+  .stats-sidebar {
+    width: 20%;
+    padding: 0.5rem;
+  }
+}

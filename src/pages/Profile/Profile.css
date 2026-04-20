@@ -514,6 +514,15 @@
     margin-top: 2%;
   }
 }
+
+/* Landscape orientation - optimize modal sizing */
+@media (min-width: 768px) and (orientation: landscape) {
+  .modal-content {
+    width: 50%;
+    top: 8%;
+    max-height: 85vh;
+  }
+}
 .echo-logo {
   border: rgba(255, 255, 255, 0.349) solid 3px;
 }

@@ -249,6 +249,24 @@
   }
 }
 
+/* Landscape orientation - optimize navbar */
+@media (min-width: 1025px) and (orientation: landscape) {
+  .navbar ul {
+    flex-flow: column nowrap;
+    align-items: center;
+    margin-top: 8px;
+    gap: 4px;
+  }
+
+  .navlink {
+    padding: 8px 14px;
+  }
+
+  .navlink-icon {
+    font-size: 22px;
+  }
+}
+
 .create-post-modal {
   position: fixed;
   inset: 0;
