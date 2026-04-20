@@ -394,8 +394,8 @@
 .sp-color--ok      { color: #27ae60; }
 .sp-color--offline { color: #95a5a6; }
 
-/* ── Responsive hide ── */
-@media (max-width: 1200px) {
+/* ── Responsive hide - hide only on mobile ── */
+@media (max-width: 767px) {
   .stats-panel { display: none; }
 }
 

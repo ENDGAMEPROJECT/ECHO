@@ -226,10 +226,9 @@
   padding: 1.5rem;
   color: var(--text-color);
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
-      margin-bottom: 90px;
-    height: calc(90vh - 90px);
-    overflow: scroll;
-
+  max-height: 90vh;
+  height: auto;
+  overflow-y: auto;
 }
 
 .classification-quiz-close {

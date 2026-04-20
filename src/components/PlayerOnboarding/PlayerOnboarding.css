@@ -357,3 +357,25 @@
     height: 27px;
   }
 }
+
+/* Tablet/iPad view - flag appears left of language name */
+@media (min-width: 768px) and (max-width: 1180px) {
+  .language-option {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 16px 20px;
+    gap: 12px;
+  }
+
+  .language-flag {
+    width: 40px;
+    height: 30px;
+    flex-shrink: 0;
+    order: 1;
+  }
+
+  .language-name {
+    order: 2;
+  }
+}
