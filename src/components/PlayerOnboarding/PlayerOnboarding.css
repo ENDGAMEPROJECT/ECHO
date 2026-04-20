@@ -359,23 +359,53 @@
 }
 
 /* Tablet/iPad view - flag appears left of language name */
-@media (min-width: 768px) and (max-width: 1180px) {
+@media (min-width: 768px) and (max-width: 1200px) {
+  .onboarding-container {
+    max-width: 550px;
+    padding: 28px 24px;
+  }
+
+  .onboarding-container--wide {
+    max-width: 600px;
+  }
+
+  .onboarding-title {
+    font-size: 44px;
+  }
+
+  .onboarding-subtitle {
+    font-size: 16px;
+  }
+
+  .onboarding-form {
+    gap: 16px;
+  }
+
+  .onboarding-step-content {
+    gap: 12px;
+  }
+
+  .onboarding-step-title {
+    font-size: 22px;
+  }
+
   .language-option {
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    padding: 16px 20px;
-    gap: 12px;
+    padding: 12px 16px;
+    gap: 10px;
   }
 
   .language-flag {
-    width: 40px;
-    height: 30px;
+    width: 36px;
+    height: 27px;
     flex-shrink: 0;
     order: 1;
   }
 
   .language-name {
     order: 2;
+    font-size: 14px;
   }
 }
