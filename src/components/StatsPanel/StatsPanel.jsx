@@ -169,14 +169,15 @@ export const StatsPanel = () => {
   // Local state for countdown flash effect when timer is critical
   const [countdownFlash, setCountdownFlash] = useState(false);
   
+  // State to track the order of modules - reordered after completion animations
+  // Modules with completion=false appear first (urgent), completed modules appear last
+  const [moduleOrder, setModuleOrder] = useState([0, 1, 2]); // Indices for [module1, module2, module3]
+  
   // Ref to track last flash tick seen (prevents duplicate flash animations)
   const lastHandledFlashTickRef = useRef(escapeTimerFlashTick);
   const isCountdownCritical = escapeTimerRemainingMs <= 5 * 60 * 1000;
 
-  // █████████████████████████████████████
-  // COUNTDOWN FLASH EFFECT
-  // █████████████████████████████████████
-  
+
   /**
    * Effect: Handle countdown flash animation
    * 
@@ -205,10 +206,7 @@ export const StatsPanel = () => {
     return () => clearTimeout(timeoutId);
   }, [escapeTimerFlashTick, escapeTimerStarted, challengeFinalCompleted, isCountdownCritical]);
 
-  // █████████████████████████████████████
-  // COUNTDOWN TEXT FORMATTING
-  // █████████████████████████████████████
-  
+
   /**
    * Format remaining time as MM:SS string
    * Displays "00:00" when time is up or not started
@@ -222,10 +220,6 @@ export const StatsPanel = () => {
     return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   })();
 
-  // █████████████████████████████████████
-  // ANIMATED STATE VALUES
-  // █████████████████████████████████████
-  
   /**
    * Animated values for challenge metrics
    * These animate from old to new values when challenges complete
@@ -254,10 +248,6 @@ export const StatsPanel = () => {
     challenge3Completed ? 0 : challenge2Completed ? 26 : challenge1Completed ? 52 : 78
   );
 
-  // █████████████████████████████████████
-  // CELEBRATION FLAGS
-  // █████████████████████████████████████
-  
   /**
    * Flags to trigger celebration animations when challenges complete
    * Set to true on completion, reset to false after 2400ms animation
@@ -266,10 +256,7 @@ export const StatsPanel = () => {
   const [celebrating2, setCelebrating2] = useState(false);
   const [celebrating3, setCelebrating3] = useState(false);
 
-  // █████████████████████████████████████
-  // PREVIOUS STATE TRACKING
-  // █████████████████████████████████████
-  
+
   /**
    * Refs to track previous challenge completion states
    * Used to detect the exact moment a challenge is newly completed
@@ -279,10 +266,7 @@ export const StatsPanel = () => {
   const prevC2 = useRef(challenge2Completed);
   const prevC3 = useRef(challenge3Completed);
 
-  // █████████████████████████████████████
-  // SYNC LIVE STATS (BEFORE CHALLENGE COMPLETE)
-  // █████████████████████████████████████
-  
+
   /**
    * Effect: Keep bot activity percentage and detected count in sync while Challenge 1 is active
    * Once Challenge 1 completes, these values freeze at their final values
@@ -301,10 +285,7 @@ export const StatsPanel = () => {
     if (!challenge1Completed) setAnimBotSuspect(suspectUsersCount);
   }, [suspectUsersCount, challenge1Completed]);
 
-  // █████████████████████████████████████
-  // CHALLENGE 1 COMPLETION ANIMATIONS
-  // █████████████████████████████████████
-  
+
   /**
    * Effect: Animate values when Challenge 1 completes
    * 
@@ -314,6 +295,7 @@ export const StatsPanel = () => {
    * - Suspects: 0
    * - Overall Threat: 78% → 52%
    * - Celebration effect: 2400ms
+   * - Reorder modules: After animation completes
    */
   useEffect(() => {
     // Only animate on transition from false to true (first completion)
@@ -322,7 +304,11 @@ export const StatsPanel = () => {
     
     // Trigger celebration effect
     setCelebrating1(true);
-    setTimeout(() => setCelebrating1(false), 2400);
+    setTimeout(() => {
+      setCelebrating1(false);
+      // Reorder modules after animation
+      reorderModules();
+    }, 2400);
     
     // Animate all metrics decreasing as threat is resolved
     animateValue(stats.botActivity.percentage, 0, setAnimBotPct);
@@ -331,10 +317,7 @@ export const StatsPanel = () => {
     animateValue(78, 52, setAnimThreat);
   }, [challenge1Completed, stats.botActivity.detected, suspectUsersCount]);
 
-  // █████████████████████████████████████
-  // CHALLENGE 2 COMPLETION ANIMATIONS
-  // █████████████████████████████████████
-  
+
   /**
    * Effect: Animate values when Challenge 2 completes
    * 
@@ -342,6 +325,7 @@ export const StatsPanel = () => {
    * - AI Content Rate: 34% → 4%
    * - Overall Threat: Dynamic based on C1 state, converges to 26%
    * - Celebration effect: 2400ms
+   * - Reorder modules: After animation completes
    */
   useEffect(() => {
     // Only animate on transition from false to true (first completion)
@@ -350,18 +334,19 @@ export const StatsPanel = () => {
     
     // Trigger celebration effect
     setCelebrating2(true);
-    setTimeout(() => setCelebrating2(false), 2400);
+    setTimeout(() => {
+      setCelebrating2(false);
+      // Reorder modules after animation
+      reorderModules();
+    }, 2400);
     
     // Animate AI detection metrics down
     animateValue(34, 4, setAnimAiPct);
     // Threat level depends on whether C1 was completed
     animateValue(challenge1Completed ? 52 : 78, 26, setAnimThreat);
-  }, [challenge2Completed]);
+  }, [challenge2Completed, challenge1Completed]);
 
-  // █████████████████████████████████████
-  // CHALLENGE 3 COMPLETION ANIMATIONS
-  // █████████████████████████████████████
-  
+
   /**
    * Effect: Animate values when Challenge 3 completes
    * 
@@ -370,6 +355,7 @@ export const StatsPanel = () => {
    * - Content Misuse: 3 → 0
    * - Overall Threat: Dynamic based on C1/C2 state → 0% (fully resolved)
    * - Celebration effect: 2400ms
+   * - Reorder modules: After animation completes
    */
   useEffect(() => {
     // Only animate on transition from false to true (first completion)
@@ -378,19 +364,43 @@ export const StatsPanel = () => {
     
     // Trigger celebration effect
     setCelebrating3(true);
-    setTimeout(() => setCelebrating3(false), 2400);
+    setTimeout(() => {
+      setCelebrating3(false);
+      // Reorder modules after animation
+      reorderModules();
+    }, 2400);
     
     // Animate content moderation metrics improving
     animateValue(22, 92, setAnimIntegrity);
     animateValue(3, 0, setAnimMisuse);
     // Threat becomes 0 (all challenges complete, fully resolved)
     animateValue(challenge2Completed ? 26 : challenge1Completed ? 52 : 78, 0, setAnimThreat);
-  }, [challenge3Completed]);
+  }, [challenge3Completed, challenge2Completed, challenge1Completed]);
 
-  // █████████████████████████████████████
-  // DERIVED COLOR CLASSES
-  // █████████████████████████████████████
-  
+
+  /**
+   * Reorder modules: Incomplete (urgent) modules first, completed modules last
+   * This function is called after each challenge completion animation (2400ms)
+   */
+  const reorderModules = () => {
+    const modules = [
+      { index: 0, completed: challenge1Completed },  // Bot Detection
+      { index: 1, completed: challenge2Completed },  // AI Content Detection
+      { index: 2, completed: challenge3Completed },  // Content Moderation
+    ];
+    
+    // Sort: incomplete (false) before complete (true)
+    modules.sort((a, b) => {
+      // false comes before true (so incomplete comes first)
+      if (a.completed === b.completed) return 0;
+      return a.completed ? 1 : -1;
+    });
+    
+    // Extract sorted indices and update state
+    const newOrder = modules.map(m => m.index);
+    setModuleOrder(newOrder);
+  };
+
   /**
    * Determine color scheme based on metric values
    * Actual colors are defined in CSS using these class names
@@ -401,10 +411,170 @@ export const StatsPanel = () => {
   const aiClass        = animAiPct     > 10  ? "sp-color--offline" : "sp-color--ok";
   const integrityClass = animIntegrity < 50  ? "sp-color--warn"   : "sp-color--ok";
 
-  // █████████████████████████████████████
-  // COMPLETION TIME CALCULATION
-  // █████████████████████████████████████
-  
+  /**
+   * Render module based on index
+   * Modules: 0=Bot Detection, 1=AI Content Detection, 2=Content Moderation
+   * Renders with smooth transitions via CSS order property
+   */
+  const renderModule = (moduleIndex) => {
+    switch (moduleIndex) {
+      case 0: // MODULE 1 — BOT DETECTION
+        return (
+          <div key="module-0" className={`sp-module${challenge1Completed ? " sp-module--success" : ""}${celebrating1 ? " sp-module--celebrating" : ""}`}>
+            {/* Module header with icon, title, and status badge */}
+            <div className="sp-mod-head">
+              {/* Robot icon - color changes on completion */}
+              <FaRobot className={`sp-mod-icon ${challenge1Completed ? "sp-mod-icon--success" : "sp-mod-icon--danger"}`} />
+              {/* Module title */}
+              <span className="sp-mod-title">{t("statsPanel.botModule.title")}</span>
+              {/* Status badge - OK (green) if completed, ALERT (red) if not */}
+              {challenge1Completed
+                ? <span className="sp-badge sp-badge--ok">{t("statsPanel.statusSecure")}</span>
+                : <span className="sp-badge sp-badge--danger">{t("statsPanel.statusAlert")}</span>
+              }
+            </div>
+
+            {/* Module content: Donut chart and metrics */}
+            <div className="sp-chart-row">
+              {/* Donut chart showing bot activity percentage */}
+              <DonutChart pct={animBotPct} colorClass={botClass} label={`${animBotPct}%`} />
+              
+              {/* Metrics boxes */}
+              <div className="sp-chart-metrics">
+                {/* Number of bots detected */}
+                <div className={`sp-metric-box ${challenge1Completed ? "sp-metric-box--ok" : "sp-metric-box--danger"}`}>
+                  <span className="sp-metric-val">{animBotDetected}</span>
+                  <span className="sp-metric-lbl">{t("statsPanel.botModule.detected")}</span>
+                </div>
+                {/* Number of suspicious/suspect accounts */}
+                <div className={`sp-metric-box ${challenge1Completed ? "sp-metric-box--ok" : "sp-metric-box--danger"}`}>
+                  <span className="sp-metric-val">{animBotSuspect}</span>
+                  <span className="sp-metric-lbl">{t("statsPanel.botModule.suspicious")}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Module footer note - different messages based on completion status */}
+            <p className="sp-mod-note">
+              {challenge1Completed ? t("statsPanel.botModule.resolvedNote") : t("statsPanel.botModule.note")}
+            </p>
+          </div>
+        );
+      
+      case 1: // MODULE 2 — AI CONTENT DETECTION
+        return (
+          <div key="module-1" className={`sp-module${challenge2Completed ? " sp-module--success" : ""}${celebrating2 ? " sp-module--celebrating" : ""}`}>
+            {/* Module header with icon, title, and status badge */}
+            <div className="sp-mod-head">
+              {/* Brain icon - color changes on completion */}
+              <FaBrain className={`sp-mod-icon ${challenge2Completed ? "sp-mod-icon--success" : "sp-mod-icon--offline"}`} />
+              {/* Module title */}
+              <span className="sp-mod-title">{t("statsPanel.aiModule.title")}</span>
+              {/* Status badge - ONLINE (green) if completed, OFFLINE (gray) if not */}
+              {challenge2Completed
+                ? <span className="sp-badge sp-badge--ok">{t("statsPanel.aiModule.statusOnline")}</span>
+                : <span className="sp-badge sp-badge--offline">{t("statsPanel.aiModule.status")}</span>
+              }
+            </div>
+
+            {/* Module content: Donut chart and status indicators */}
+            <div className="sp-chart-row">
+              {/* Donut chart section with label */}
+              <div className="sp-donut-wrap">
+                {/* Donut chart showing AI content rate percentage */}
+                <DonutChart pct={animAiPct} colorClass={aiClass} label={challenge2Completed ? `${animAiPct}%` : "~34%"} />
+                {/* Sublabel explanation */}
+                <span className="sp-donut-sub">{t("statsPanel.aiModule.aiContentRate")}</span>
+              </div>
+              
+              {/* Status indicators showing detector state */}
+              <div className="sp-status-list">
+                {/* AI Detector status (on/off) */}
+                <div className="sp-status-row">
+                  <span className={`sp-dot ${challenge2Completed ? "sp-dot--on" : "sp-dot--off"}`} />
+                  <span className="sp-status-text">
+                    {challenge2Completed ? t("statsPanel.aiModule.detectorOnline") : t("statsPanel.aiModule.detector")}
+                  </span>
+                </div>
+                {/* Manual Review Mode status (on/off) */}
+                <div className="sp-status-row">
+                  <span className={`sp-dot ${challenge2Completed ? "sp-dot--off" : "sp-dot--on"}`} />
+                  <span className="sp-status-text">{t("statsPanel.aiModule.manualMode")}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Module footer note - different messages based on completion status */}
+            <p className={`sp-mod-note${challenge2Completed ? "" : " sp-mod-note--warn"}`}>
+              {challenge2Completed ? t("statsPanel.aiModule.resolvedNote") : t("statsPanel.aiModule.reason")}
+            </p>
+          </div>
+        );
+      
+      case 2: // MODULE 3 — CONTENT MODERATION
+        return (
+          <div key="module-2" className={`sp-module${challenge3Completed ? " sp-module--success" : ""}${celebrating3 ? " sp-module--celebrating" : ""}`}>
+            {/* Module header with icon, title, and status badge */}
+            <div className="sp-mod-head">
+              {/* Flag icon - color changes on completion */}
+              <FaFlag className={`sp-mod-icon ${challenge3Completed ? "sp-mod-icon--success" : "sp-mod-icon--warn"}`} />
+              {/* Module title */}
+              <span className="sp-mod-title">{t("statsPanel.modModule.title")}</span>
+              {/* Status badge - DONE (green) if completed, CAUTION (orange) if not */}
+              {challenge3Completed
+                ? <span className="sp-badge sp-badge--ok">{t("statsPanel.doneModule.status")}</span>
+                : <span className="sp-badge sp-badge--warn">{t("statsPanel.modModule.status")}</span>
+              }
+            </div>
+
+            {/* Module content: Donut chart, status list, and metrics */}
+            <div className="sp-chart-row">
+              {/* Donut chart section with label */}
+              <div className="sp-donut-wrap">
+                {/* Donut chart showing content integrity percentage */}
+                <DonutChart pct={animIntegrity} colorClass={integrityClass} label={`${animIntegrity}%`} />
+                {/* Sublabel explanation */}
+                <span className="sp-donut-sub">{t("statsPanel.modModule.integrity")}</span>
+              </div>
+              
+              {/* Right column: Status list and misuse metric */}
+              <div className="sp-stacked">
+                {/* Moderation mode indicators */}
+                <div className="sp-status-list">
+                  {/* Manual moderation (on/off) */}
+                  <div className="sp-status-row">
+                    <span className={`sp-dot ${challenge3Completed ? "sp-dot--off" : "sp-dot--on"}`} />
+                    <span className="sp-status-text">{t("statsPanel.modModule.manual")}</span>
+                  </div>
+                  {/* Automated moderation (only shown after challenge complete) */}
+                  {challenge3Completed && (
+                    <div className="sp-status-row">
+                      <span className="sp-dot sp-dot--on" />
+                      <span className="sp-status-text">{t("statsPanel.modModule.automated")}</span>
+                    </div>
+                  )}
+                </div>
+                {/* Number of flagged misuse cases */}
+                <div className={`sp-metric-box sp-metric-box--inline ${challenge3Completed ? "sp-metric-box--ok" : "sp-metric-box--warn"}`}>
+                  <span className="sp-metric-val">{animMisuse}</span>
+                  <span className="sp-metric-lbl">{t("statsPanel.modModule.misuse")}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Module footer note - different messages based on completion status */}
+            <p className={`sp-mod-note${challenge3Completed ? "" : " sp-mod-note--warn"}`}>
+              {challenge3Completed ? t("statsPanel.doneModule.note") : t("statsPanel.modModule.note")}
+            </p>
+          </div>
+        );
+      
+      default:
+        return null;
+    }
+  };
+
+
   /**
    * Calculate elapsed time when escape room is completed
    * Formats as localized message: "Completed in X minutes and Y seconds"
@@ -484,158 +654,12 @@ export const StatsPanel = () => {
       </div>
 
       {/* ════════════════════════════════════════════════════════════
-          MODULE 1 — BOT DETECTION
-          Challenges the player to identify bot accounts
+          MODULES — RENDERED IN DYNAMIC ORDER
+          Order changes after each challenge completion:
+          - Incomplete (urgent) modules appear first
+          - Completed modules appear last
           ════════════════════════════════════════════════════════════ */}
-      <div className={`sp-module${challenge1Completed ? " sp-module--success" : ""}${celebrating1 ? " sp-module--celebrating" : ""}`}>
-        {/* Module header with icon, title, and status badge */}
-        <div className="sp-mod-head">
-          {/* Robot icon - color changes on completion */}
-          <FaRobot className={`sp-mod-icon ${challenge1Completed ? "sp-mod-icon--success" : "sp-mod-icon--danger"}`} />
-          {/* Module title */}
-          <span className="sp-mod-title">{t("statsPanel.botModule.title")}</span>
-          {/* Status badge - OK (green) if completed, ALERT (red) if not */}
-          {challenge1Completed
-            ? <span className="sp-badge sp-badge--ok">{t("statsPanel.statusSecure")}</span>
-            : <span className="sp-badge sp-badge--danger">{t("statsPanel.statusAlert")}</span>
-          }
-        </div>
-
-        {/* Module content: Donut chart and metrics */}
-        <div className="sp-chart-row">
-          {/* Donut chart showing bot activity percentage */}
-          <DonutChart pct={animBotPct} colorClass={botClass} label={`${animBotPct}%`} />
-          
-          {/* Metrics boxes */}
-          <div className="sp-chart-metrics">
-            {/* Number of bots detected */}
-            <div className={`sp-metric-box ${challenge1Completed ? "sp-metric-box--ok" : "sp-metric-box--danger"}`}>
-              <span className="sp-metric-val">{animBotDetected}</span>
-              <span className="sp-metric-lbl">{t("statsPanel.botModule.detected")}</span>
-            </div>
-            {/* Number of suspicious/suspect accounts */}
-            <div className={`sp-metric-box ${challenge1Completed ? "sp-metric-box--ok" : "sp-metric-box--danger"}`}>
-              <span className="sp-metric-val">{animBotSuspect}</span>
-              <span className="sp-metric-lbl">{t("statsPanel.botModule.suspicious")}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Module footer note - different messages based on completion status */}
-        <p className="sp-mod-note">
-          {challenge1Completed ? t("statsPanel.botModule.resolvedNote") : t("statsPanel.botModule.note")}
-        </p>
-      </div>
-
-      {/* ════════════════════════════════════════════════════════════
-          MODULE 2 — AI CONTENT DETECTION
-          Challenges the player to identify AI-generated content
-          ════════════════════════════════════════════════════════════ */}
-      <div className={`sp-module${challenge2Completed ? " sp-module--success" : ""}${celebrating2 ? " sp-module--celebrating" : ""}`}>
-        {/* Module header with icon, title, and status badge */}
-        <div className="sp-mod-head">
-          {/* Brain icon - color changes on completion */}
-          <FaBrain className={`sp-mod-icon ${challenge2Completed ? "sp-mod-icon--success" : "sp-mod-icon--offline"}`} />
-          {/* Module title */}
-          <span className="sp-mod-title">{t("statsPanel.aiModule.title")}</span>
-          {/* Status badge - ONLINE (green) if completed, OFFLINE (gray) if not */}
-          {challenge2Completed
-            ? <span className="sp-badge sp-badge--ok">{t("statsPanel.aiModule.statusOnline")}</span>
-            : <span className="sp-badge sp-badge--offline">{t("statsPanel.aiModule.status")}</span>
-          }
-        </div>
-
-        {/* Module content: Donut chart and status indicators */}
-        <div className="sp-chart-row">
-          {/* Donut chart section with label */}
-          <div className="sp-donut-wrap">
-            {/* Donut chart showing AI content rate percentage */}
-            <DonutChart pct={animAiPct} colorClass={aiClass} label={challenge2Completed ? `${animAiPct}%` : "~34%"} />
-            {/* Sublabel explanation */}
-            <span className="sp-donut-sub">{t("statsPanel.aiModule.aiContentRate")}</span>
-          </div>
-          
-          {/* Status indicators showing detector state */}
-          <div className="sp-status-list">
-            {/* AI Detector status (on/off) */}
-            <div className="sp-status-row">
-              <span className={`sp-dot ${challenge2Completed ? "sp-dot--on" : "sp-dot--off"}`} />
-              <span className="sp-status-text">
-                {challenge2Completed ? t("statsPanel.aiModule.detectorOnline") : t("statsPanel.aiModule.detector")}
-              </span>
-            </div>
-            {/* Manual Review Mode status (on/off) */}
-            <div className="sp-status-row">
-              <span className={`sp-dot ${challenge2Completed ? "sp-dot--off" : "sp-dot--on"}`} />
-              <span className="sp-status-text">{t("statsPanel.aiModule.manualMode")}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Module footer note - different messages based on completion status */}
-        <p className={`sp-mod-note${challenge2Completed ? "" : " sp-mod-note--warn"}`}>
-          {challenge2Completed ? t("statsPanel.aiModule.resolvedNote") : t("statsPanel.aiModule.reason")}
-        </p>
-      </div>
-
-      {/* ════════════════════════════════════════════════════════════
-          MODULE 3 — CONTENT MODERATION
-          Challenges the player to flag harmful AI-generated content
-          ════════════════════════════════════════════════════════════ */}
-      <div className={`sp-module${challenge3Completed ? " sp-module--success" : ""}${celebrating3 ? " sp-module--celebrating" : ""}`}>
-        {/* Module header with icon, title, and status badge */}
-        <div className="sp-mod-head">
-          {/* Flag icon - color changes on completion */}
-          <FaFlag className={`sp-mod-icon ${challenge3Completed ? "sp-mod-icon--success" : "sp-mod-icon--warn"}`} />
-          {/* Module title */}
-          <span className="sp-mod-title">{t("statsPanel.modModule.title")}</span>
-          {/* Status badge - DONE (green) if completed, CAUTION (orange) if not */}
-          {challenge3Completed
-            ? <span className="sp-badge sp-badge--ok">{t("statsPanel.doneModule.status")}</span>
-            : <span className="sp-badge sp-badge--warn">{t("statsPanel.modModule.status")}</span>
-          }
-        </div>
-
-        {/* Module content: Donut chart, status list, and metrics */}
-        <div className="sp-chart-row">
-          {/* Donut chart section with label */}
-          <div className="sp-donut-wrap">
-            {/* Donut chart showing content integrity percentage */}
-            <DonutChart pct={animIntegrity} colorClass={integrityClass} label={`${animIntegrity}%`} />
-            {/* Sublabel explanation */}
-            <span className="sp-donut-sub">{t("statsPanel.modModule.integrity")}</span>
-          </div>
-          
-          {/* Right column: Status list and misuse metric */}
-          <div className="sp-stacked">
-            {/* Moderation mode indicators */}
-            <div className="sp-status-list">
-              {/* Manual moderation (on/off) */}
-              <div className="sp-status-row">
-                <span className={`sp-dot ${challenge3Completed ? "sp-dot--off" : "sp-dot--on"}`} />
-                <span className="sp-status-text">{t("statsPanel.modModule.manual")}</span>
-              </div>
-              {/* Automated moderation (only shown after challenge complete) */}
-              {challenge3Completed && (
-                <div className="sp-status-row">
-                  <span className="sp-dot sp-dot--on" />
-                  <span className="sp-status-text">{t("statsPanel.modModule.automated")}</span>
-                </div>
-              )}
-            </div>
-            {/* Number of flagged misuse cases */}
-            <div className={`sp-metric-box sp-metric-box--inline ${challenge3Completed ? "sp-metric-box--ok" : "sp-metric-box--warn"}`}>
-              <span className="sp-metric-val">{animMisuse}</span>
-              <span className="sp-metric-lbl">{t("statsPanel.modModule.misuse")}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Module footer note - different messages based on completion status */}
-        <p className={`sp-mod-note${challenge3Completed ? "" : " sp-mod-note--warn"}`}>
-          {challenge3Completed ? t("statsPanel.doneModule.note") : t("statsPanel.modModule.note")}
-        </p>
-      </div>
+      {moduleOrder.map((moduleIndex) => renderModule(moduleIndex))}
 
     </div>
   );
