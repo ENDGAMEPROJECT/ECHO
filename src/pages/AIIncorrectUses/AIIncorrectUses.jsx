@@ -12,6 +12,7 @@ import { useXAPI, XAPI_VERBS, ECHO_ACTIVITIES } from "../../contexts/XAPIProvide
 import challengeData from "./AIIncorrectUses.json";
 import { assetPath } from "../../utils/assetPath";
 
+// Fisher-Yates shuffle algorithm
 const shuffleArray = (items) => {
     const shuffled = [...items];
     for (let i = shuffled.length - 1; i > 0; i -= 1) {
@@ -21,6 +22,7 @@ const shuffleArray = (items) => {
     return shuffled;
 };
 
+// Format ISO date to (e.g., "Jan 15, 2026")
 const formatDate = (iso) => {
   if (!iso) return iso;
   const d = new Date(iso);
@@ -28,6 +30,7 @@ const formatDate = (iso) => {
   return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 };
 
+// Normalize and parse AI correctness: 'yes'/'true'/'ok'/'1'/'sí'→true, 'no'/'false'/'0'→false, else null
 const parseAiOk = (value) => {
     if (typeof value === "boolean") return value;
     if (value === null || value === undefined) return null;
@@ -37,13 +40,14 @@ const parseAiOk = (value) => {
     return null;
 };
 
+// Pick 3 cases: guarantee at least 1 with aiOk=true and 1 with aiOk=false, plus 1 random. Fallback to random 3
 const pickThreeCasesWithAiConstraint = (allCases) => {
     if (allCases.length <= 3) return allCases;
 
     const yesCases = allCases.filter((item) => parseAiOk(item.aiOk) === true);
     const noCases = allCases.filter((item) => parseAiOk(item.aiOk) === false);
 
-    // If we cannot satisfy the condition, fallback to random 3.
+    // Cannot meet constraint → pick 3 random cases
     if (yesCases.length === 0 || noCases.length === 0) {
         return shuffleArray(allCases).slice(0, 3);
     }
@@ -61,6 +65,7 @@ const pickThreeCasesWithAiConstraint = (allCases) => {
     return shuffleArray([...baseSelection, third]);
 };
 
+// Safe JSON.parse for sessionStorage array data, returns [] on parse error
 const parseStoredArray = (value) => {
     try {
         const parsed = JSON.parse(value || "[]");
@@ -70,6 +75,7 @@ const parseStoredArray = (value) => {
     }
 };
 
+// Filter object to keep only entries matching selectedIds (remove stale case data)
 const keepOnlySelectedCaseKeys = (record, selectedIds) => {
     if (!record || typeof record !== "object") return {};
     return Object.fromEntries(
@@ -77,6 +83,11 @@ const keepOnlySelectedCaseKeys = (record, selectedIds) => {
     );
 };
 
+/**
+ * Challenge 3 (AI Incorrect Uses) game page.
+ * Players review case studies of AI misuse and formulate correct community responses.
+ * Tracks correct answers, wrong attempts, and submitted replies per case.
+ */
 export const AIIncorrectUses = () => {
     const { t } = useTranslation();
     const currentLang = t("langKey");
@@ -85,20 +96,27 @@ export const AIIncorrectUses = () => {
     const { addMessage } = useMessages();
     const { sendStatement, trackChallengeStarted } = useXAPI();
     const completionSentRef = useRef(false);
+    // Currently open case in modal
     const [activeCaseId, setActiveCaseId] = useState(null);
+    // Wrong option selected by case: { caseId: optionId } during current attempt
     const [selectedWrongOption, setSelectedWrongOption] = useState(() => {
         try { return JSON.parse(sessionStorage.getItem("ai-incorrect:selectedWrongOption") || "null") || {}; } catch { return {}; }
     });
+    // All wrong attempts by case: { caseId: { optionId: true, ... } }
     const [wrongSelections, setWrongSelections] = useState(() => {
         try { return JSON.parse(sessionStorage.getItem("ai-incorrect:wrongSelections") || "null") || {}; } catch { return {}; }
     });
+    // Cases with correct answer selected: { caseId: true }
     const [correctSelected, setCorrectSelected] = useState(() => {
         try { return JSON.parse(sessionStorage.getItem("ai-incorrect:correctSelected") || "null") || {}; } catch { return {}; }
     });
+    // Submitted replies by case: { caseId: true }
     const [sentReplies, setSentReplies] = useState(() => {
         try { return JSON.parse(sessionStorage.getItem("ai-incorrect:sentReplies") || "null") || {}; } catch { return {}; }
     });
     const [showCompletionModal, setShowCompletionModal] = useState(false);
+    // Dedup flag: prevents xAPI statements from firing multiple times
+    // 3 random cases (selected once per language, persisted by ID)
     const challengeCases = useMemo(() => {
         const allCases = challengeData[currentLang] || challengeData.en || [];
         if (allCases.length <= 3) return allCases;
@@ -110,14 +128,17 @@ export const AIIncorrectUses = () => {
             .map((id) => casesById.get(id))
             .filter(Boolean);
 
+        // Restore previously selected cases
         if (restoredCases.length === 3) {
             return restoredCases;
         }
 
+        // First visit: pick 3 new cases
         const picked = pickThreeCasesWithAiConstraint(allCases);
         sessionStorage.setItem(selectionKey, JSON.stringify(picked.map((c) => c.id)));
         return picked;
     }, [currentLang]);
+    // Shuffled answer options per case: preserves uniqueness via optionId
     const shuffledOptionsByCase = useMemo(() => {
         return challengeCases.reduce((acc, item) => {
             const optionsWithId = (item.options || []).map((option, index) => ({
@@ -129,6 +150,7 @@ export const AIIncorrectUses = () => {
         }, {});
     }, [challengeCases]);
 
+    // Clean stale state for cases no longer in the game (after case re-selection)
     useEffect(() => {
         const selectedIds = challengeCases.map((item) => item.id);
 
@@ -157,7 +179,7 @@ export const AIIncorrectUses = () => {
         }
     }, [challengeCases]);
     
-    // Fallback: asegurar que el timer empieza aunque el usuario llegue por URL directa
+    // Initialize challenge timer (fallback for direct URL access)
     useEffect(() => {
         if (challenge3Completed) return;
         if (!sessionStorage.getItem('echo:challengeStart:3')) {
@@ -176,12 +198,13 @@ export const AIIncorrectUses = () => {
         };
     }, []);
 
-    // Sync progress to navbar badge
+    // Update navbar badge: progress = count of submitted replies
     useEffect(() => {
         setChallenge3Total(challengeCases.length);
         setChallenge3Progress(Object.keys(sentReplies).length);
     }, [challengeCases.length, sentReplies, setChallenge3Total, setChallenge3Progress]);
 
+    // Complete challenge, send final message to player
     const handleCompletionClose = () => {
         setShowCompletionModal(false);
         completeChallenge3();
@@ -195,7 +218,7 @@ export const AIIncorrectUses = () => {
         window.dispatchEvent(new Event("bossMessage"));
     };
 
-    // Detectar cuando se completan todos los casos
+    // Detect completion: all cases replied, send xAPI, show modal
     useEffect(() => {
         const totalCases = challengeCases.length;
         const completedCases = Object.keys(sentReplies).length;
@@ -204,14 +227,14 @@ export const AIIncorrectUses = () => {
             const instructionsSent = sessionStorage.getItem("challengeFinalInstructionsSent");
             if (instructionsSent) return;
 
-            // Send xAPI statement for completing the AI Incorrect Uses challenge
+            // Fire-once guard on first completion detection
             if (!completionSentRef.current) {
                 completionSentRef.current = true;
             } else {
                 return;
             }
 
-            // Guard dedup
+            // Dedup: prevent double xAPI send
             const completedKey = 'echo:challengeCompleted:3';
             if (!sessionStorage.getItem(completedKey)) {
                 sessionStorage.setItem(completedKey, '1');
@@ -223,7 +246,7 @@ export const AIIncorrectUses = () => {
                     },
                 };
 
-                // succeeded: resolución correcta con score detallado
+                // Send "succeeded" with perfect score (all cases answered)
                 sendStatement(
                     XAPI_VERBS.SUCCEEDED,
                     ECHO_ACTIVITIES.PUZZLE_3,
@@ -235,7 +258,7 @@ export const AIIncorrectUses = () => {
                     context
                 );
 
-                // completed: duración desde que se inició el reto
+                // Send "completed" with duration from challenge start
                 const startRaw = sessionStorage.getItem('echo:challengeStart:3');
                 const completedResult = { completion: true };
                 if (startRaw && Number.isFinite(Number(startRaw))) {
@@ -251,12 +274,14 @@ export const AIIncorrectUses = () => {
         }
     }, [sentReplies, challengeCases.length, challenge3Completed, sendStatement]);
 
+    // Modal context: active case and its display state
     const activeCase = challengeCases.find((item) => item.id === activeCaseId) || null;
     const activeCaseOptions = activeCase ? (shuffledOptionsByCase[activeCase.id] || []) : [];
     const activeWrongSelections = activeCaseId ? (wrongSelections[activeCaseId] || {}) : {};
-    const isResolved = activeCaseId ? Boolean(correctSelected[activeCaseId]) : false;
-    const canSendReply = activeCaseId ? Boolean(correctSelected[activeCaseId]) : false;
+    const isResolved = activeCaseId ? Boolean(correctSelected[activeCaseId]) : false; // Case solved with correct answer
+    const canSendReply = activeCaseId ? Boolean(correctSelected[activeCaseId]) : false; // Enable send button only if correct
 
+    // ECHO official account (fallback: try to find ECHO user, then default avatar)
     const echoOfficialUser = {
         _id: "echo-official",
         firstName: t("officialAccount.name") || "ECHO Official Account",
@@ -266,13 +291,15 @@ export const AIIncorrectUses = () => {
     }
         userState?.allUsers?.find((user) => user.username === "ECHO") || userState?.allUsers?.[0];
 
+    // Select answer option: send xAPI, track if correct or wrong
     const handleOptionClick = (selectedOptionId) => {
-        if (!activeCase || isResolved) return;
+        if (!activeCase || isResolved) return; // Already resolved OK
 
         const option = activeCaseOptions.find((opt) => opt.optionId === selectedOptionId) || null;
         if (!option) return;
 
         const isCorrect = option.isCorrect === true;
+        // Send xAPI answer statement
         sendStatement(
             XAPI_VERBS.ANSWERED,
             {
@@ -305,15 +332,18 @@ export const AIIncorrectUses = () => {
         );
 
         if (isCorrect) {
+            // Correct answer selected: mark case as answered correctly
             const next = { ...correctSelected, [activeCase.id]: true };
             setCorrectSelected(next);
             sessionStorage.setItem("ai-incorrect:correctSelected", JSON.stringify(next));
+            // Clear any wrong selection highlight for this case
             const next2 = { ...selectedWrongOption, [activeCase.id]: null };
             setSelectedWrongOption(next2);
             sessionStorage.setItem("ai-incorrect:selectedWrongOption", JSON.stringify(next2));
             return;
         }
 
+        // Wrong answer selected: track attempt and highlight button with red background
         const nextWrong = {
             ...wrongSelections,
             [activeCase.id]: {
@@ -323,17 +353,20 @@ export const AIIncorrectUses = () => {
         };
         setWrongSelections(nextWrong);
         sessionStorage.setItem("ai-incorrect:wrongSelections", JSON.stringify(nextWrong));
+        // Store current selection to highlight red CSS class on button
         const nextSelected = { ...selectedWrongOption, [activeCase.id]: selectedOptionId };
         setSelectedWrongOption(nextSelected);
         sessionStorage.setItem("ai-incorrect:selectedWrongOption", JSON.stringify(nextSelected));
     };
 
+    // Submit reply: mark case complete in sessionStorage and close modal to show ECHO's response
     const handleSendReply = () => {
         if (!activeCase || !canSendReply) return;
+        // Record that player submitted their community response for this case
         const next = { ...sentReplies, [activeCase.id]: true };
         setSentReplies(next);
         sessionStorage.setItem("ai-incorrect:sentReplies", JSON.stringify(next));
-        setActiveCaseId(null);
+        setActiveCaseId(null); // Close modal
     };
 
    
@@ -356,23 +389,28 @@ export const AIIncorrectUses = () => {
                             </div>
 
                             <div className="ai-incorrect-list">
+                                {/* Map through shuffled AI misuse cases and display each as a card */}
                                 {challengeCases.map((item) => (
                                     <article key={item.id} className="ai-incorrect-post-card list-item">
+                                        {/* Case avatar image */}
                                         <div className="x-avatar">
                                             <img src={assetPath(item.post?.image || echoOfficialUser?.avatarURL)} alt={item.post.name} />
                                         </div>
                                         <div className="x-post-main">
+                                            {/* Display case metadata: author name, handle, and post date */}
                                             <div className="ai-incorrect-post-meta">
                                                 <span className="ai-incorrect-post-name">{item.post.name}</span>
                                                 <span className="ai-incorrect-post-handle">{item.post.handle}</span>
                                                 <span className="ai-incorrect-post-handle">{formatDate(item.post.date)}</span>
                                             </div>
                                             <p className="ai-incorrect-post-text">{item.post.text}</p>
+                                            {/* Display case image if present */}
                                             {item.post?.postImage && (
                                                 <div className="ai-incorrect-post-image-wrap">
                                                     <img className="ai-incorrect-post-image" src={assetPath(item.post.postImage)} alt={item.post.name} />
                                                 </div>
                                             )}
+                                            {/* Show ECHO's official community response if player submitted their reply */}
                                             {sentReplies[item.id] && (
                                                 <div className="thread-reply-card">
                                                     <div className="x-avatar reply-avatar">
@@ -390,6 +428,7 @@ export const AIIncorrectUses = () => {
                                                                 {t("officialAccount.handle") || "@ECHO"}
                                                             </span>
                                                         </div>
+                                                        {/* Display correct response option as ECHO's community note */}
                                                         <p className="ai-incorrect-post-text">
                                                             {item.options.find((opt) => opt.isCorrect)?.text || ""}
                                                         </p>
@@ -398,11 +437,12 @@ export const AIIncorrectUses = () => {
                                                 </div>
                                             )}
                                             <div className="post-actions-bar">
+                                                {/* Reply button: opens modal with multiple choice options for this case */}
                                                 <button
                                                     type="button"
                                                     className="reply-open-btn"
                                                     onClick={() => {
-                                                        // Send xAPI statement for viewing the case
+                                                        // Send xAPI "experienced" event documenting that player viewed this case
                                                         sendStatement(
                                                             XAPI_VERBS.EXPERIENCED,
                                                             {
@@ -420,7 +460,9 @@ export const AIIncorrectUses = () => {
                                                                 },
                                                             }
                                                         );
+                                                        // Open modal for this case
                                                         setActiveCaseId(item.id);
+                                                        // Reset wrong selection highlight when opening new case
                                                         setSelectedWrongOption((prev) => ({ ...prev, [item.id]: null }));
                                                     }}
                                                 >
@@ -435,19 +477,22 @@ export const AIIncorrectUses = () => {
                     </div>
                 </main>
 
-                {/* Panel de estadísticas lateral */}
+                {/* Stats sidebar with challenge progress badge */}
                 <aside className="stats-sidebar">
                     <StatsPanel />
                 </aside>
             </div>
 
+            {/* Modal overlay: display when player clicks reply button on a case */}
             {activeCase && (
                 <div className="reply-modal-backdrop" onClick={() => setActiveCaseId(null)}>
                     <div className="reply-modal" onClick={(e) => e.stopPropagation()}>
+                        {/* Modal close button */}
                         <button className="reply-modal-close" type="button" onClick={() => setActiveCaseId(null)}>
                             ×
                         </button>
 
+                        {/* Show original post from the AI misuse case at top of modal */}
                         <article className="ai-incorrect-post-card x-post modal-top-post">
                             <div className="x-avatar">
                                 <img src={assetPath(activeCase.post?.image || echoOfficialUser?.avatarURL)} alt={activeCase.post.name} />
@@ -468,6 +513,7 @@ export const AIIncorrectUses = () => {
                         </article>
 
                         <div className="x-reply-section modal-reply">
+                            {/* ECHO moderator avatar */}
                             <div className="x-avatar moderator">
                                 <img
                                     src={assetPath(activeCase.officialPost?.image || echoOfficialUser?.avatarURL)}
@@ -475,6 +521,7 @@ export const AIIncorrectUses = () => {
                                 />
                             </div>
                             <div className="x-reply-main">
+                                {/* Moderator name and handle */}
                                 <div className="ai-incorrect-reply-meta">
                                     <strong>
                                         {activeCase.officialPost?.name ||
@@ -488,10 +535,16 @@ export const AIIncorrectUses = () => {
                                 </div>
                                 <p className="x-reply-helper">{t("aiIncorrectUsesPage.instruction")}</p>
 
+                                {/* Multiple choice options for this case */}
                                 <div className="ai-incorrect-options">
                                     {activeCaseOptions.map((option) => (
                                         <button
                                             key={option.optionId}
+                                            /* CSS classes: 
+                                               - wrong-selection: current wrong attempt (red background)
+                                               - correct-selection: user selected correct answer (green background)
+                                               - persist-wrong: previously tried wrong answer (light red background)
+                                            */
                                             className={`ai-incorrect-option ${
                                                 selectedWrongOption[activeCase.id] === option.optionId ? "wrong-selection" : ""
                                             } ${option.isCorrect && correctSelected[activeCase.id] ? "correct-selection" : ""} ${
@@ -505,6 +558,7 @@ export const AIIncorrectUses = () => {
                                     ))}
                                 </div>
 
+                                {/* Feedback line: shows "try again" if wrong, "correct" if correct answer selected */}
                                 <div className="reply-status-line">
                                     {!canSendReply && selectedWrongOption[activeCase.id] !== null && (
                                         <span className="reply-try-again">{t("aiIncorrectUsesPage.tryAgain")}</span>
@@ -517,6 +571,7 @@ export const AIIncorrectUses = () => {
                         </div>
 
                         <div className="reply-modal-actions">
+                            {/* Send reply button: disabled until correct answer is selected */}
                             <button type="button" className="reply-send-btn" disabled={!canSendReply} onClick={handleSendReply}>
                                 {t("aiIncorrectUsesPage.reply")}
                             </button>
@@ -525,6 +580,7 @@ export const AIIncorrectUses = () => {
                 </div>
             )}
 
+            {/* Completion modal: shown briefly when all 3 cases are completed */}
             {showCompletionModal && (
                 <div className="challenge-completion-overlay">
                     <div className="challenge-completion-modal">

@@ -1,10 +1,13 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
 
+/**
+ * XAPIContext - Learning analytics provider for xAPI statements
+ * Tracks game events and sends to Learning Record Store (LRS)
+ */
 const XAPIContext = createContext();
 
-// xAPI LRS configuration from environment variables
+// LRS configuration from environment variables
 const XAPI_ENDPOINT = import.meta.env.VITE_XAPI_ENDPOINT;
-// Pre-encoded Basic auth token (base64 of key:secret)
 const XAPI_AUTH = import.meta.env.VITE_XAPI_AUTH;
 
 // Base IRIs for ENDGAME project
@@ -190,10 +193,9 @@ export const XAPI_EXTENSIONS = {
 export const XAPIProvider = ({ children }) => {
   const [actor, setActor] = useState(null);
   const [isConfigured, setIsConfigured] = useState(false);
-
   const isDev = import.meta.env.DEV;
 
-  // Check if xAPI is properly configured
+  // Verify xAPI is properly configured on mount
   useEffect(() => {
     const configured = !!(XAPI_ENDPOINT && XAPI_AUTH);
     setIsConfigured(configured);
@@ -202,7 +204,7 @@ export const XAPIProvider = ({ children }) => {
     }
   }, [isDev]);
 
-  // Initialize actor from player data (called after onboarding)
+  // Initialize actor with player data (called after onboarding)
   const initializeActor = useCallback((playerData) => {
     if (!playerData) return;
 
@@ -228,7 +230,7 @@ export const XAPIProvider = ({ children }) => {
 
     setActor(newActor);
 
-    // Persist actor to sessionStorage
+    // Persist actor to sessionStorage for recovery on page reload
     sessionStorage.setItem("xapiActor", JSON.stringify(newActor));
 
     return newActor;
@@ -246,8 +248,9 @@ export const XAPIProvider = ({ children }) => {
     }
   }, [isDev]);
 
-  // Send xAPI statement to LRS (non-blocking, fails silently in production)
-  // actorOverride can be passed when calling immediately after initializeActor (before state updates)
+  // Send xAPI statement to LRS (async, non-blocking)
+  // actorOverride: pass when calling immediately after initializeActor (before state updates)
+  // options: keepalive=true for page exit events, bypassDedup=true to skip deduplication
   const sendStatement = useCallback(async (verb, object, result = null, context = null, actorOverride = null, options = null) => {
     const currentActor = actorOverride || actor;
     let dedupKey = null;
@@ -264,8 +267,7 @@ export const XAPIProvider = ({ children }) => {
       return null;
     }
 
-    // Transport-level dedup for rapid duplicate lifecycle signals.
-    // beforeunload/pagehide (and occasional double handlers) can fire almost simultaneously.
+    // Deduplication for rapid lifecycle events (beforeunload, pagehide)
     if (
       !options?.bypassDedup &&
       (
@@ -330,7 +332,7 @@ export const XAPIProvider = ({ children }) => {
 
     // Send asynchronously without blocking
     try {
-      if (isDev) console.log("[xAPI] Sending statement:", verb?.display?.en || verb, object?.id || object);
+      if (isDev) console.log("[xAPI] Sending:", verb?.display?.en || verb, object?.id || object);
 
       const response = await fetch(`${XAPI_ENDPOINT}/statements`, {
         method: "POST",
@@ -348,19 +350,19 @@ export const XAPIProvider = ({ children }) => {
       }
 
       const statementId = await response.json();
-      if (isDev) console.log("[xAPI] Statement sent successfully:", statementId);
+      if (isDev) console.log("[xAPI] Sent:", statementId);
       return statementId;
     } catch (error) {
       if (dedupKey && dedupStamp && sessionStorage.getItem(dedupKey) === dedupStamp) {
         sessionStorage.removeItem(dedupKey);
       }
       // Log error only in dev mode, never interrupt the game
-      if (isDev) console.error("[xAPI] Failed to send statement:", error.message);
+      if (isDev) console.error("[xAPI] Error:", error.message);
       return null;
     }
   }, [actor, isConfigured, isDev]);
 
-  // Helper functions for common statements
+  // Record challenge start with timestamp
   const trackChallengeStarted = useCallback((puzzleId, puzzleName) => {
     sessionStorage.setItem(`echo:challengeStart:${puzzleId}`, Date.now().toString());
     sessionStorage.removeItem(`echo:challengeCompleted:${puzzleId}`);
@@ -377,8 +379,9 @@ export const XAPIProvider = ({ children }) => {
     );
   }, [sendStatement]);
 
+  // Record challenge completion with success/score
   const trackChallengeCompleted = useCallback((puzzleId, puzzleName, success = true, score = null) => {
-  // Evita dobles envíos (doble click / rerender)
+  // Prevent double-sends from double-click or re-renders
   const completedKey = `echo:challengeCompleted:${puzzleId}`;
   if (sessionStorage.getItem(completedKey)) return null;
   sessionStorage.setItem(completedKey, "1");
@@ -391,7 +394,7 @@ export const XAPIProvider = ({ children }) => {
     },
   };
 
-  // Helper para convertir milisegundos a formato ISO 8601
+  // Convert milliseconds to ISO 8601 duration format
   const msToISODuration = (ms) => {
     const totalSeconds = Math.max(0, Math.floor(ms / 1000));
     const minutes = Math.floor(totalSeconds / 60);
@@ -403,14 +406,14 @@ export const XAPIProvider = ({ children }) => {
     }
   };
 
-  // Statement 1: succeeded — indica que el jugador lo resolvió correctamente
+  // Send succeeded verb (player solved correctly)
   const succeededResult = { success: true, completion: true };
   if (score !== null) {
     succeededResult.score = { scaled: score };
   }
   sendStatement(XAPI_VERBS.SUCCEEDED, activityObject, succeededResult);
 
-  // Statement 2: completed — indica la duración desde que se inició el reto
+  // Send completed verb with duration since start
   const completedResult = { completion: true };
   const startRaw = sessionStorage.getItem(`echo:challengeStart:${puzzleId}`);
   const startedAtMs = startRaw ? Number(startRaw) : null;
@@ -425,6 +428,7 @@ export const XAPIProvider = ({ children }) => {
   return sendStatement(XAPI_VERBS.COMPLETED, activityObject, completedResult);
 }, [sendStatement]);
 
+  // Track user interaction with activity
   const trackInteraction = useCallback((activityId, activityName, response = null) => {
     const result = response ? { response } : null;
 
@@ -458,6 +462,7 @@ export const XAPIProvider = ({ children }) => {
     );
   }, [sendStatement]);
 
+  // Track quiz answer with accuracy metrics
   const trackQuizAnswered = useCallback((username, selectedIndicators = [], correctIndicators = []) => {
     if (!username) return null;
 
@@ -535,7 +540,7 @@ export const XAPIProvider = ({ children }) => {
 export const useXAPI = () => {
   const context = useContext(XAPIContext);
   if (!context) {
-    throw new Error("useXAPI must be used within an XAPIProvider");
+    throw new Error("useXAPI must be used within XAPIProvider");
   }
   return context;
 };

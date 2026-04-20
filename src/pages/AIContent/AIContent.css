@@ -410,6 +410,45 @@
     justify-content: center;
     color: #666;
     font-size: 18px;
+    position: relative;
+}
+
+.ai-video-replay-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    z-index: 10;
+}
+
+.ai-video-replay-btn {
+    background-color: #7F55FF;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(127, 85, 255, 0.3);
+}
+
+.ai-video-replay-btn:hover {
+    background-color: #9370FF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(127, 85, 255, 0.5);
+}
+
+.ai-video-replay-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(127, 85, 255, 0.3);
 }
 
 .ai-video-actions {

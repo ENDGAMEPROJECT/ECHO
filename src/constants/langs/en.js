@@ -334,7 +334,7 @@ export const en = {
       "4": "Challenge 4: Community Note"
     },
     "back": "Back",
-    "rewatchIntro": "Volver a ver vídeo de intro"
+    "rewatchIntro": "Rewatch intro video"
   },
   "filesApp": {
     "title": "File Explorer",

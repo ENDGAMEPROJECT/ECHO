@@ -7,7 +7,7 @@ import i18n from "../../i18n.jsx";
 export const formatDate = () => new Date().toISOString();
 
 /**
- * Retorna siempre la cuenta oficial ECHO (sin autenticación real)
+ * Always returns the user object for ECHO Official Account, simulating an authenticated user.
  */
 export const requiresAuth = function (request) {
   return {

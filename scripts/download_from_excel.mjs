@@ -271,9 +271,14 @@ async function downloadXlsx(url, destFile) {
 function getGoogleDriveDownloadUrl(viewUrl) {
   // Extract file ID from URLs like:
   // https://drive.google.com/file/d/{FILE_ID}/view?usp=drive_link
-  const match = viewUrl.match(/\/file\/d\/([^/]+)/);
-  if (match) {
-    return `https://drive.google.com/uc?export=download&id=${match[1]}`;
+  const fileMatch = viewUrl.match(/\/file\/d\/([^/]+)/);
+  if (fileMatch) {
+    return `https://drive.google.com/uc?export=download&confirm=t&id=${fileMatch[1]}`;
+  }
+  // Handle https://drive.google.com/open?id={FILE_ID}&usp=drive_copy
+  const openMatch = viewUrl.match(/\/open\?id=([^&]+)/);
+  if (openMatch) {
+    return `https://drive.google.com/uc?export=download&confirm=t&id=${openMatch[1]}`;
   }
   return viewUrl;
 }
@@ -288,6 +293,11 @@ async function downloadImage(url, destPath) {
     const response = await fetch(downloadUrl);
     if (!response.ok) {
       console.warn(`  Failed to download image: ${response.status}`);
+      return false;
+    }
+    const contentType = response.headers.get("content-type") || "";
+    if (contentType.startsWith("text/html")) {
+      console.warn(`  WARNING: Received HTML instead of image for ${path.basename(destPath)} — Google Drive may be blocking the download. URL: ${downloadUrl}`);
       return false;
     }
     const buffer = await response.arrayBuffer();

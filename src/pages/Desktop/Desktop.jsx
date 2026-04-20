@@ -20,31 +20,39 @@ const FAIL_OUTRO_DELAY_MS = 7000;
 const OUTRO_COMPLETED_KEY = "echo:outroCompleted";
 
 /**
- * Componente Desktop - Pantalla principal del sistema operativo simulado
- * Muestra el fondo de escritorio y las aplicaciones abiertas
+ * Desktop: Main OS simulation desktop screen
+ * Manages simulated desktop environment with clock, apps, drawer, notifications, and outro video flow
+ * Handles escape room timer, challenge completion, survey, and session restart
  */
 export const Desktop = () => {
+  // OS management: track which app is open
   const { activeApp, openApp, minimizeApp } = useOS();
+  // Messages: track unread message count for badge
   const { unreadCount } = useMessages();
+  // Game state: challenges, timer, completion status
   const {
-    challengeFinalCompleted,
-    escapeTimerStarted,
-    escapeTimerRemainingMs,
-    escapeTimerFlashTick,
-    escapeTimerExpired,
-    finalCompletionStatus,
-    finalCompletionAt,
+    challengeFinalCompleted, // Challenge 4 (community note) complete
+    escapeTimerStarted, // Escape room timer active
+    escapeTimerRemainingMs, // Milliseconds remaining
+    escapeTimerFlashTick, // Flash signal for countdown
+    escapeTimerExpired, // Timer ran out
+    finalCompletionStatus, // "success" or "fail"
+    finalCompletionAt, // Timestamp when completed
   } = useStats();
+  // xAPI tracking: send learning statements to LRS
   const { sendStatement } = useXAPI();
+  // Multi-language support
   const { t, i18n } = useTranslation();
+  // Check if mission brief read (blocks social app access)
   const missionBriefRead = sessionStorage.getItem("missionBriefRead") === "true";
   
-  // Estado para el popup
+  // Popup state: info popup when trying to access locked app
   const [popup, setPopup] = useState({
     visible: false,
     message: "",
     position: { top: 0, left: 0 },
   });
+  // Map i18n language codes to Intl locale strings
   const locale = useMemo(() => {
     const localeMap = {
       es: "es-ES",
@@ -54,6 +62,7 @@ export const Desktop = () => {
     };
     return localeMap[i18n.language] || undefined;
   }, [i18n.language]);
+  // Drawer configuration (not currently used but kept for future)
   const drawerConfig = useMemo(
     () => ({
       height: 120,
@@ -61,51 +70,75 @@ export const Desktop = () => {
     }),
     []
   );
+  // Drawer closed position offset
   const closedTranslate = 90;
+  // Drawer state: track open/closed and translate value
   const [drawerOpen, setDrawerOpen] = useState(true);
   const [drawerTranslate, setDrawerTranslate] = useState(0);
+  // Current time for clock display (updates every second)
   const [now, setNow] = useState(() => new Date());
+  // Boss notification visibility
   const [bossNotifVisible, setBossNotifVisible] = useState(false);
+  // Countdown timer flash animation state
   const [countdownFlash, setCountdownFlash] = useState(false);
+  // Survey modal visibility
   const [showSurveyModal, setShowSurveyModal] = useState(false);
+  // End options modal (restart/continue/visit resources)
   const [showEndOptionsModal, setShowEndOptionsModal] = useState(false);
+  // Track if survey already submitted in this session
   const [surveyCompleted, setSurveyCompleted] = useState(() => {
     return sessionStorage.getItem('surveyCompleted') === 'true';
   });
+  // Track if outro video already played
   const [outroCompleted, setOutroCompleted] = useState(() => {
     return sessionStorage.getItem(OUTRO_COMPLETED_KEY) === "true";
   });
+  // Show outro video overlay
   const [showOutroVideo, setShowOutroVideo] = useState(false);
+  // Selected language for outro video (localized version)
   const [outroLanguage, setOutroLanguage] = useState(() => {
     const baseLanguage = i18n.resolvedLanguage || i18n.language || "es";
     return ["es", "en", "fi", "sr"].includes(baseLanguage) ? baseLanguage : "es";
   });
+  // Track last flash tick to trigger countdown animation once
   const lastHandledFlashTickRef = useRef(escapeTimerFlashTick);
+  // Timeout for delayed outro video display
   const outroTimeoutRef = useRef(null);
+  // Reference to video element for auto-play control
   const outroVideoRef = useRef(null);
+  // Countdown is critical (red flashing) when <= 5 minutes remain
   const isCountdownCritical = escapeTimerRemainingMs <= 5 * 60 * 1000;
+  // Handler: dismiss boss notification
   const handleBossNotifDismiss = useCallback(() => setBossNotifVisible(false), []);
+  // Normalize i18n language to supported outro video languages
   const normalizedLanguage = useMemo(() => {
     const baseLanguage = i18n.resolvedLanguage || i18n.language || "es";
     return ["es", "en", "fi", "sr"].includes(baseLanguage) ? baseLanguage : "es";
   }, [i18n.language, i18n.resolvedLanguage]);
+  // Determine outro video src based on completion status (success/fail) and language
   const outroVideoSrc = useMemo(() => {
     if (!finalCompletionStatus) return null;
     const suffix = finalCompletionStatus === "success" ? "success" : "fail";
     return assetPath(`/assets/Outro_${suffix}_${outroLanguage}.mp4`);
   }, [finalCompletionStatus, outroLanguage]);
+  // Check if outro video should be played (challenge done, not yet shown)
   const isOutroPending =
     challengeFinalCompleted && !outroCompleted && !showOutroVideo && Boolean(finalCompletionStatus);
+  // Check if survey should be available (game complete or timed out, survey not done)
   const isSurveyAvailable =
     !surveyCompleted &&
     !showOutroVideo &&
     !isOutroPending &&
     (escapeTimerExpired || (challengeFinalCompleted && outroCompleted && finalCompletionStatus !== "success"));
+  // Track if entire flow (challenge + outro) is complete
   const isEndingFlowComplete = challengeFinalCompleted && outroCompleted;
 
+  // Timeout for survey banner auto-reopen (30 seconds)
   const surveyReopenTimerRef = useRef(null);
+  // Track if survey banner dismissed by user
   const [bannerDismissed, setBannerDismissed] = useState(false);
 
+  // Handler: dismiss survey banner and reshow after 30 seconds
   const handleDismissBanner = () => {
     setBannerDismissed(true);
     surveyReopenTimerRef.current = setTimeout(() => {
@@ -113,6 +146,7 @@ export const Desktop = () => {
     }, 30000);
   };
 
+  // Handler: open survey modal and clear auto-reopen timer
   const handleOpenSurvey = () => {
     if (surveyReopenTimerRef.current) {
       clearTimeout(surveyReopenTimerRef.current);
@@ -121,6 +155,7 @@ export const Desktop = () => {
     setShowSurveyModal(true);
   };
 
+  // Handler: close survey modal and reshow after 30 seconds if not completed
   const handleCloseSurvey = () => {
     setShowSurveyModal(false);
     if (!surveyCompleted) {
@@ -130,29 +165,33 @@ export const Desktop = () => {
     }
   };
 
+  // Handler: close end options modal
   const handleCloseEndOptionsModal = () => setShowEndOptionsModal(false);
 
+  // Handler: restart game - clear all state and reload page
   const handleRestartSession = useCallback(async () => {
     setShowEndOptionsModal(false);
     await new Promise((resolve) => setTimeout(resolve, 150));
-    sessionStorage.clear();
-    window.location.reload();
+    sessionStorage.clear(); // Clear all game state
+    window.location.reload(); // Reload page
   }, []);
 
+  // Handler: open ENDGAME project page in new tab
   const handleVisitEndgame = useCallback(() => {
     setShowEndOptionsModal(false);
     window.open("https://endgameproject.github.io/", "_blank", "noopener,noreferrer");
   }, []);
 
-  
+  // Handler: submit survey answers and send xAPI EVALUATED event
   const handleSurveySubmit = async (answers) => {
     console.log('Survey answers:', answers);
+    // Mark survey as completed
     sessionStorage.setItem('surveyCompleted', 'true');
     sessionStorage.setItem('gameCompletedAt', String(Date.now()));
     setSurveyCompleted(true);
     setShowSurveyModal(false);
 
-    // Send survey results to LRS
+    // Send survey results xAPI statement to learning record store
     await sendStatement(
       XAPI_VERBS.EVALUATED,
       ECHO_ACTIVITIES.SURVEY,
@@ -163,17 +202,21 @@ export const Desktop = () => {
         },
       }
     );
+    // Show end options modal when survey complete
     setShowEndOptionsModal(true);
   };
 
+  // Handler: outro video finished - show survey or end options
   const handleOutroFinished = useCallback(async () => {
     if (outroTimeoutRef.current) {
       clearTimeout(outroTimeoutRef.current);
       outroTimeoutRef.current = null;
     }
+    // Mark outro as completed
     sessionStorage.setItem(OUTRO_COMPLETED_KEY, "true");
     setShowOutroVideo(false);
     setOutroCompleted(true);
+    // Show survey if not yet completed, otherwise show end options
     if (!surveyCompleted) {
       setShowSurveyModal(true);
       return;
@@ -181,30 +224,36 @@ export const Desktop = () => {
     setShowEndOptionsModal(true);
   }, [surveyCompleted]);
 
+  // Handler: outro video playback error - fallback to handleOutroFinished
   const handleOutroVideoError = useCallback(() => {
     handleOutroFinished();
   }, [handleOutroFinished]);
 
+  // Helper: clamp drawer translate value between 0 and closedTranslate
   const clampTranslate = (value) =>
     Math.min(Math.max(value, 0), closedTranslate);
 
+  // Helper: sync drawer open/closed state with translate value
   const syncDrawer = (open) => {
     setDrawerOpen(open);
     setDrawerTranslate(open ? 0 : closedTranslate);
   };
 
+  // Handler: toggle drawer open/closed
   const handleToggleDrawer = () => {
     syncDrawer(!drawerOpen);
   };
 
+  // Handler: open messages app
   const handleOpenMessages = () => {
     openApp("messages");
     syncDrawer(false);
   };
 
+  // Handler: open social media app (check mission brief lock first)
   const handleOpenSocial = (e) => {
     if (!missionBriefRead) {
-      // Mostrar popup: posición arriba del botón y centrado horizontalmente
+      // Mission brief not read - show locked popup above button
       const rect = e.currentTarget.getBoundingClientRect();
       const popupWidth = 280;
       setPopup({
@@ -217,32 +266,39 @@ export const Desktop = () => {
       });
       return;
     }
+    // Mission brief read - unlock social app
     openApp("social");
     syncDrawer(false);
   };
 
+  // Handler: open hints app
   const handleOpenTips = () => {
     openApp("hints");
     syncDrawer(false);
   };
 
+  // Handler: open files app
   const handleOpenFiles = () => {
     openApp("files");
     syncDrawer(false);
   };
 
+  // Handler: close info popup
   const handleClosePopup = () => {
     setPopup({ ...popup, visible: false });
   };
 
+  // Effect: set up global event listeners for drawer and boss notifications
   useEffect(() => {
     const handleCloseDrawer = () => syncDrawer(false);
     const handleOpenDrawer = () => syncDrawer(true);
     const handleBossMessage = () => setBossNotifVisible(true);
+    // Listen for custom events from other components
     window.addEventListener("closeDrawer", handleCloseDrawer);
     window.addEventListener("openDrawer", handleOpenDrawer);
     window.addEventListener("bossMessage", handleBossMessage);
     return () => {
+      // Clean up listeners and timers on unmount
       window.removeEventListener("closeDrawer", handleCloseDrawer);
       window.removeEventListener("openDrawer", handleOpenDrawer);
       window.removeEventListener("bossMessage", handleBossMessage);
@@ -250,31 +306,39 @@ export const Desktop = () => {
     };
   }, []);
 
+  // Effect: update clock every second
   useEffect(() => {
     const interval = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
 
+  // Effect: trigger countdown timer flash animation when tick changes
   useEffect(() => {
     if (!escapeTimerStarted || challengeFinalCompleted || !escapeTimerFlashTick) return;
     if (escapeTimerFlashTick <= lastHandledFlashTickRef.current) return;
+    // Track this tick to avoid duplicate animation
     lastHandledFlashTickRef.current = escapeTimerFlashTick;
     setCountdownFlash(true);
+    // Duration longer for critical (red) state
     const timeoutId = setTimeout(() => setCountdownFlash(false), isCountdownCritical ? 1700 : 1300);
     return () => clearTimeout(timeoutId);
   }, [escapeTimerFlashTick, escapeTimerStarted, challengeFinalCompleted, isCountdownCritical]);
 
+  // Effect: show outro video after delay when challenge completes
   useEffect(() => {
     if (!challengeFinalCompleted || !finalCompletionStatus || outroCompleted) return;
 
+    // Set outro language and hide survey
     setOutroLanguage(normalizedLanguage);
     setShowSurveyModal(false);
+    // Calculate delay: if already elapsed, show immediately
     const elapsedSinceCompletion = finalCompletionAt ? Date.now() - finalCompletionAt : 0;
     const targetDelay = finalCompletionStatus === "success"
       ? SUCCESS_OUTRO_DELAY_MS
       : FAIL_OUTRO_DELAY_MS;
     const remainingDelay = Math.max(0, targetDelay - elapsedSinceCompletion);
 
+    // Schedule outro video display
     outroTimeoutRef.current = setTimeout(() => {
       setShowOutroVideo(true);
     }, remainingDelay);
@@ -287,14 +351,16 @@ export const Desktop = () => {
     };
   }, [challengeFinalCompleted, finalCompletionAt, finalCompletionStatus, normalizedLanguage, outroCompleted]);
 
+  // Effect: auto-play outro video when displayed
   useEffect(() => {
     if (!showOutroVideo || !outroVideoRef.current) return;
     const playPromise = outroVideoRef.current.play();
     if (playPromise?.catch) {
-      playPromise.catch(() => {});
+      playPromise.catch(() => {}); // Suppress autoplay errors
     }
   }, [showOutroVideo, outroVideoSrc]);
 
+  // Memoized: format remaining time as MM:SS string
   const countdownText = useMemo(() => {
     const totalSeconds = Math.max(0, Math.ceil(escapeTimerRemainingMs / 1000));
     const minutes = Math.floor(totalSeconds / 60);
@@ -302,12 +368,14 @@ export const Desktop = () => {
     return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   }, [escapeTimerRemainingMs]);
 
+  // Memoized: format current date for clock display
   const formattedDate = now.toLocaleDateString(locale, {
     weekday: "long",
     day: "numeric",
     month: "long",
     year: "numeric",
   });
+  // Memoized: format current time for clock display
   const formattedTime = now.toLocaleTimeString(locale, {
     hour: "2-digit",
     minute: "2-digit",
@@ -315,12 +383,15 @@ export const Desktop = () => {
 
   return (
     <div className="desktop-container">
+      {/* Desktop shell: background with clock and countdown timer */}
       <div className="desktop-shell">
         <div className="desktop-glow" />
+        {/* Digital clock display: shows current date and time */}
         <div className="desktop-clock">
           <span className="desktop-clock-time">{formattedTime}</span>
           <span className="desktop-clock-date">{formattedDate}</span>
         </div>
+        {/* Escape room countdown timer: shows only when timer active and not challenge complete */}
         {escapeTimerStarted && !challengeFinalCompleted && activeApp !== "social" && (
           <div
             className={`desktop-countdown ${isCountdownCritical ? "desktop-countdown--critical" : ""} ${countdownFlash ? "desktop-countdown--flash" : ""}`}
@@ -331,6 +402,7 @@ export const Desktop = () => {
         )}
       </div>
 
+      {/* Messages app overlay: click background to minimize */}
       {activeApp === "messages" && (
         <div className="app-overlay" onClick={minimizeApp}>
           <div
@@ -342,6 +414,7 @@ export const Desktop = () => {
         </div>
       )}
 
+      {/* Social media app overlay: challenges and community notes */}
       {activeApp === "social" && (
         <div className="app-overlay" onClick={minimizeApp}>
           <div
@@ -353,6 +426,7 @@ export const Desktop = () => {
         </div>
       )}
 
+      {/* Hints app overlay: tips and hints for challenges */}
       {activeApp === "hints" && (
         <div className="app-overlay" onClick={minimizeApp}>
           <div
@@ -364,6 +438,7 @@ export const Desktop = () => {
         </div>
       )}
 
+      {/* Files app overlay: document viewer */}
       {activeApp === "files" && (
         <div className="app-overlay" onClick={minimizeApp}>
           <div
@@ -375,10 +450,12 @@ export const Desktop = () => {
         </div>
       )}
 
+      {/* App launcher drawer: shows 4 main app icons at bottom */}
       <div
         className={`app-drawer open ${unreadCount > 0 ? "has-unread" : ""}`}
      
       >
+        {/* Drawer toggle button - currently disabled */}
         {/* <button
           className="app-drawer-handle"
           onClick={handleToggleDrawer}
@@ -388,7 +465,9 @@ export const Desktop = () => {
           <FaChevronUp className={drawerOpen ? "arrow open" : "arrow"} />
         </button> */}
 
+        {/* Drawer content: app launcher buttons */}
         <div className="app-drawer-content">
+          {/* Messages app launcher: shows unread badge */}
           <button
             className="app-launcher-card"
             onClick={handleOpenMessages}
@@ -406,6 +485,7 @@ export const Desktop = () => {
               <span className="launcher-badge">{unreadCount}</span>
             )}
           </button>
+          {/* Social media app launcher: locked until mission brief read */}
           <button
             className={`app-launcher-card ${!missionBriefRead ? "is-locked" : ""}`}
             onClick={handleOpenSocial}
@@ -420,6 +500,7 @@ export const Desktop = () => {
               {t("desktop.apps.social")}
             </span>
           </button>
+          {/* Files app launcher: document explorer */}
           <button
             className="app-launcher-card"
             type="button"
@@ -433,6 +514,7 @@ export const Desktop = () => {
             />
             <span className="launcher-label">{t("desktop.apps.files")}</span>
           </button>
+          {/* Hints app launcher: tips panel */}
           <button
             className="app-launcher-card"
             onClick={handleOpenTips}
@@ -448,6 +530,7 @@ export const Desktop = () => {
         </div>
       </div>
 
+      {/* Info popup: shows when app is locked */}
       {popup.visible && (
         <PopupNotification
           message={popup.message}
@@ -456,13 +539,13 @@ export const Desktop = () => {
         />
       )}
 
+      {/* Boss notification: appears when new boss message arrives */}
       <BossNotification
         visible={bossNotifVisible}
         onDismiss={handleBossNotifDismiss}
       />
 
-      {/* Survey balloon - shows when game is complete and survey not done */}
-      {/* Survey balloon - shows when game is complete OR timed out, and survey not done */}
+      {/* Survey banner: shows when game complete and survey not done (with 30s dismiss timer) */}
       {isSurveyAvailable && !bannerDismissed && (
         <div className="survey-banner" onClick={handleOpenSurvey}>
           <span className="survey-banner-icon">🎉</span>
@@ -473,6 +556,7 @@ export const Desktop = () => {
           <button className="survey-banner-btn">
             {t('survey.bannerButton', 'Take Survey')}
           </button>
+          {/* Close button: dismiss banner for 30 seconds */}
           <button
             className="survey-banner-close"
             onClick={(e) => {
@@ -486,7 +570,7 @@ export const Desktop = () => {
         </div>
       )}
 
-      {/* Survey modal */}
+      {/* Survey modal overlay */}
       {showSurveyModal && (
         <SurveyModal
           onClose={handleCloseSurvey}
@@ -494,6 +578,7 @@ export const Desktop = () => {
         />
       )}
 
+      {/* End options modal: shows after survey (or outro if failed) */}
       {showEndOptionsModal && (
         <div className="end-options-overlay" onClick={handleCloseEndOptionsModal}>
           <div className="end-options-modal" onClick={(event) => event.stopPropagation()}>
@@ -507,6 +592,7 @@ export const Desktop = () => {
               )}
             </p>
             <div className="end-options-actions">
+              {/* Restart session button: clear all state and reload */}
               <button
                 type="button"
                 className="end-options-btn end-options-btn--primary"
@@ -514,6 +600,7 @@ export const Desktop = () => {
               >
                 {t("escapeRoomEnd.restart", "Return to the beginning")}
               </button>
+              {/* Continue exploring button: close modal and keep exploring */}
               <button
                 type="button"
                 className="end-options-btn"
@@ -521,6 +608,7 @@ export const Desktop = () => {
               >
                 {t("escapeRoomEnd.continueExploring", "Continue exploring ECHO")}
               </button>
+              {/* Visit ENDGAME resources button: open external link */}
               <button
                 type="button"
                 className="end-options-btn"
@@ -533,6 +621,7 @@ export const Desktop = () => {
         </div>
       )}
 
+      {/* Outro video overlay: plays success/fail video at game completion */}
       {showOutroVideo && outroVideoSrc && (
         <div className="outro-video-overlay">
           <video
