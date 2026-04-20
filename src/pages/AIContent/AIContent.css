@@ -476,6 +476,9 @@
       @media screen and (max-width: 767px) {
         flex-direction: column;
     }
+    @media screen and (min-width: 1025px) and (max-width: 1200px) {
+        flex-direction: column;
+    }
 }
 
 .ai-brief-left {
