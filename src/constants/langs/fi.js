@@ -133,17 +133,20 @@ export const fi = {
     "no": "Ei",
     "classificationIncorrect": "Väärä valinta. Tarkista profiili uudelleen.",
     "classificationCorrectHuman": "Luokittelit profiilin oikein",
+    "classificationCorrectBot": "Tunnistit ja validoit botin oikein",
     "classificationQuizSubtitle": "Oikeita vastauksia voi olla useampi kuin yksi.        ",
     "openQuiz": "Jatka testiä",
     "classificationQuizTitle": "Mitkä tämän profiilin ominaisuudet luokittelevat sen botiksi?",
-    "classificationQuiz": {},
+    "classificationQuiz": {
+      "SeeMore": "Näytä lisää",
+      "SeeLess": "Näytä vähemmän"
+    },
     "sendQuizAnswer": "Lähetä vastaus",
     "closeQuiz": "Sulje testi",
     "selectAtLeastOne": "Valitse vähintään yksi ominaisuus",
     "quizAnswerWrong": "Väärä valinta. Yritä uudelleen.",
     "quizAnswerPartial": "Osittain väärä valinta. Yritä uudelleen."
   },
-  "classificationCorrectBot": "Tunnistit ja validoit botin oikein",
   "explore": {
     "caughtUp": "Olet ajan tasalla!"
   },
@@ -205,7 +208,8 @@ export const fi = {
     "title": "Miten generatiivinen tekoäly toimii?",
     "subtitle": "Katso kuinka tunnistusprosessi toimii.",
     "back": "← Takaisin",
-    "nextStep": "Seuraava"
+    "nextStep": "Seuraava",
+    "replayVideo": "Toista uudelleen"
   },
   "aiPrompt": {
     "suspiciousBadge": "EPÄILYTTÄVÄ KEHOTE"
@@ -219,7 +223,7 @@ export const fi = {
   },
   "aiGamePage": {
     "user": {
-      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B158,\"\"en\"\",\"\"fi\"\")\"),\"Käyttäjä\")",
+      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B159,\"\"en\"\",\"\"fi\"\")\"),\"Käyttäjä\")",
       "result": "Käyttäjä"
     },
     "ai": "Tekoäly",
@@ -331,7 +335,9 @@ export const fi = {
       "2": "Haaste 2: Tekoälyn luoma sisältö",
       "3": "Haaste 3: Tekoälyn väärinkäytöt",
       "4": "Haaste 4: Yhteisömuistiinpano"
-    }
+    },
+    "back": "Takaisin",
+    "rewatchIntro": "Katso esittelyvideo uudelleen"
   },
   "filesApp": {
     "title": "Tiedostonhallinta",

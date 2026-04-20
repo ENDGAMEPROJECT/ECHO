@@ -133,6 +133,7 @@ export const sr = {
     "no": "Ne",
     "classificationIncorrect": "Netačan izbor. Ponovo pregledaj profil.",
     "classificationCorrectHuman": "Ispravno ste klasifikovali profil",
+    "classificationCorrectBot": "Pravilno ste identifikovali i validirali bota",
     "classificationQuizSubtitle": "Može biti više od jednog tačnog odgovora.",
     "openQuiz": "Nastavi test",
     "classificationQuizTitle": "Koje karakteristike ovog profila dovode do toga da se klasifikuje kao bot?",
@@ -204,7 +205,8 @@ export const sr = {
     "title": "Kako funkcioniše generativna veštačka inteligencija?",
     "subtitle": "Pogledajte kako funkcioniše proces detekcije.",
     "back": "← Nazad",
-    "nextStep": "Dalje"
+    "nextStep": "Dalje",
+    "replayVideo": "Reprodukuj ponovo"
   },
   "aiPrompt": {
     "suspiciousBadge": "SUMNJIV PROMPT"
@@ -218,7 +220,7 @@ export const sr = {
   },
   "aiGamePage": {
     "user": {
-      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B158,\"\"en\"\",\"\"hr\"\")\"),\"Korisnik\")",
+      "formula": "IFERROR(__xludf.DUMMYFUNCTION(\"GOOGLETRANSLATE($B159,\"\"en\"\",\"\"hr\"\")\"),\"Korisnik\")",
       "result": "Korisnik"
     },
     "ai": "Umjetna inteligencija",

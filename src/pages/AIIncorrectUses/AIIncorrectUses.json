@@ -509,19 +509,19 @@
         "date": "14.03.26",
         "image": "/assets/users/sr_teacher.png",
         "postImage": "",
-        "text": "U razredu smo Sproveli eksperiment o promenama temperature i vlažnosti tokom meseca. Koristio sam veštačku inteligenciju za organizovanje podataka u tabele i grafikone i na kraju sam dobio FANTASTIČNU prezentaciju!"
+        "text": "U razredu smo sproveli eksperiment o promenama temperature i vlažnosti tokom meseca. Koristio sam veštačku inteligenciju za organizovanje podataka u tabele i grafikone i na kraju sam dobio FANTASTIČNU prezentaciju!"
       },
       "options": [
         {
-          "text": "Korištenje umjetne inteligencije za organiziranje i vizualizaciju podataka korisno je jer vam omogućuje bolje tumačenje rezultata. Ali uvijek dodajte vrijednost vlastitim radom, kritičkim razmišljanjem i pregledom konačnog proizvoda.",
+          "text": "Korišćenje veštačke inteligencije za organizovanje i vizuelizaciju podataka je korisno jer vam omogućava da bolje interpretirate rezultate. Ali uvek dodajte vrednost kroz sopstveni rad, kritičko razmišljanje i pregled finalnog proizvoda.",
           "isCorrect": true
         },
         {
-          "text": "Ne zaboravite uključiti svoje osobne podatke u završni rad.",
+          "text": "Ne zaboravite da u završni rad uključite svoje lične podatke.",
           "isCorrect": false
         },
         {
-          "text": "Izvrsno, neka umjetna inteligencija obavi svu analizu za vas i isporučite rad koji je generirala umjetna inteligencija izravno bez pregledavanja; uvijek je vrlo temeljito.",
+          "text": "Odlično, dozvolite veštačkoj inteligenciji da obavi svu analizu umesto vas i isporuči rad generisan veštačkom inteligencijom direktno bez pregleda; uvek je veoma temeljno.",
           "isCorrect": false
         }
       ]
@@ -539,15 +539,15 @@
       },
       "options": [
         {
-          "text": "Korištenje umjetne inteligencije za organiziranje rasporeda i kalendara ispita pomaže vam u planiranju, ali učenje je i dalje vaša odgovornost.",
+          "text": "Korišćenje veštačke inteligencije za organizovanje rasporeda ispita i kalendara vam pomaže u planiranju, ali učenje je i dalje vaša odgovornost.",
           "isCorrect": true
         },
         {
-          "text": "Ne zaboravite koristiti i lijepe boje.",
+          "text": "Ne zaboravite da koristite i lepe boje.",
           "isCorrect": false
         },
         {
-          "text": "To je korištenje umjetne inteligencije koje nema nikakvu svrhu.",
+          "text": "To je upotreba veštačke inteligencije koja nema nikakvu svrhu.",
           "isCorrect": false
         }
       ]
@@ -565,15 +565,15 @@
       },
       "options": [
         {
-          "text": "Korištenje umjetne inteligencije za sažimanje i skiciranje pomaže vam u organiziranju tema, ali samostalno čitanje osigurava da sve razumijete i izbjegavate potencijalne pogreške ili halucinacije.",
+          "text": "Korišćenje veštačke inteligencije za sumiranje i skiciranje pomaže vam da organizujete teme, ali samostalno čitanje osigurava da sve razumete i izbegnete potencijalne greške ili halucinacije.",
           "isCorrect": true
         },
         {
-          "text": "To je super, javi nam koju ocjenu si dobio/la!",
+          "text": "Odlično, javi nam koju si ocenu dobio/la!",
           "isCorrect": false
         },
         {
-          "text": "Ne morate ništa provjeravati; odgovor koji vam daje umjetna inteligencija uvijek je vrlo sveobuhvatan. Nemojte se truditi čitati ga; nije potrebno.",
+          "text": "Ne morate ništa da proveravate; odgovor koji vam daje veštačka inteligencija je uvek veoma sveobuhvatan. Ne trudite se da ga čitate; nije neophodno.",
           "isCorrect": false
         }
       ]

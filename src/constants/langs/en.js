@@ -133,6 +133,7 @@ export const en = {
     "no": "No",
     "classificationIncorrect": "Incorrect selection. Review the profile again.",
     "classificationCorrectHuman": "You classified the profile correctly",
+    "classificationCorrectBot": "You correctly identified and validated the bot",
     "classificationQuizSubtitle": "There may be more than one correct answer.        ",
     "openQuiz": "Continue quiz",
     "classificationQuizTitle": "What characteristics of this profile make it classified as a bot?",
@@ -146,7 +147,6 @@ export const en = {
     "quizAnswerWrong": "Incorrect selection. Try again.",
     "quizAnswerPartial": "Partially incorrect selection. Try again."
   },
-  "classificationCorrectBot": "You correctly identified and validated the bot",
   "explore": {
     "caughtUp": "You are all caught up!"
   },
@@ -208,7 +208,8 @@ export const en = {
     "title": "How does generative AI work?",
     "subtitle": "Watch how the generation process works.",
     "back": "← Back",
-    "nextStep": "Next"
+    "nextStep": "Next",
+    "replayVideo": "Play again"
   },
   "aiPrompt": {
     "suspiciousBadge": "SUSPICIOUS PROMPT"
@@ -332,7 +333,8 @@ export const en = {
       "3": "Challenge 3: Incorrect AI Uses",
       "4": "Challenge 4: Community Note"
     },
-    "back": "Back"
+    "back": "Back",
+    "rewatchIntro": "Volver a ver vídeo de intro"
   },
   "filesApp": {
     "title": "File Explorer",
