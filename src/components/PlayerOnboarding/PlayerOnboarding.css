@@ -28,7 +28,7 @@
 /* Ensure video works properly on iPad/tablet */
 @media (max-width: 1024px) {
   .onboarding-video-fullscreen {
-    object-fit: cover;
+    object-fit: contain;
     display: block;
   }
 
