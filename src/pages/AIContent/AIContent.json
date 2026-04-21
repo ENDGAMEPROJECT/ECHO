@@ -253,7 +253,7 @@
           ]
         },
         {
-          "correct": "deforestation,",
+          "correct": "deforestation",
           "percentage": 0.66,
           "alts": [
             "burning",

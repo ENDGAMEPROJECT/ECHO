@@ -416,7 +416,7 @@ export const postsEN = [
           upvotedBy: [],
           downvotedBy: []
         },
-        createdAt: new Date("April 21 2026 15:59:27"),
+        createdAt: new Date("April 21 2026 18:46:37"),
         updatedAt: "formatDate()"
       },
       {
@@ -430,7 +430,7 @@ export const postsEN = [
           upvotedBy: [],
           downvotedBy: []
         },
-        createdAt: new Date("April 21 2026 15:59:27"),
+        createdAt: new Date("April 21 2026 18:46:37"),
         updatedAt: "formatDate()"
       }
     ]
@@ -461,7 +461,7 @@ export const postsEN = [
           upvotedBy: [],
           downvotedBy: []
         },
-        createdAt: new Date("April 21 2026 15:59:27"),
+        createdAt: new Date("April 21 2026 18:46:37"),
         updatedAt: "formatDate()"
       }
     ]
@@ -492,7 +492,7 @@ export const postsEN = [
           upvotedBy: [],
           downvotedBy: []
         },
-        createdAt: new Date("April 21 2026 15:59:27"),
+        createdAt: new Date("April 21 2026 18:46:37"),
         updatedAt: "formatDate()"
       }
     ]

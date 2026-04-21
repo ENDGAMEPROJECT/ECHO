@@ -274,7 +274,7 @@ export const SocialMediaApp = ({ mode = "window" }) => {
                   value={username}
                   onChange={(event) => setUsername(event.target.value)}
                   placeholder="echo"
-                  autoComplete="username"
+                  autoComplete="off"
                 />
                 
                 {/* Password input field with visibility toggle */}
