@@ -1191,7 +1191,7 @@ html.ai-content-no-scroll {
     overflow: visible;
     min-height: auto;
     gap: 10px;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
   }
 
@@ -1207,7 +1207,7 @@ html.ai-content-no-scroll {
 
   .ai-game-prompt-container {
     min-height: auto;
-    padding: 16px 20px;
+    padding: 22px 20px;
     flex: 1;
     min-width: 45%;
   }
