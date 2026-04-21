@@ -629,7 +629,9 @@ export const Desktop = () => {
             className="outro-video-player"
             src={outroVideoSrc}
             autoPlay
+            muted
             playsInline
+            webkit-playsinline="true"
             onEnded={handleOutroFinished}
             onError={handleOutroVideoError}
             onContextMenu={(event) => event.preventDefault()}
