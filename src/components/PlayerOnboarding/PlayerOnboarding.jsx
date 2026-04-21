@@ -458,6 +458,7 @@ export const PlayerOnboarding = ({ onComplete }) => {
                   onChange={(e) => setPlayerName(e.target.value)}
                   placeholder={tx("playerOnboarding.namePlaceholder")}
                   maxLength={30}
+                  autoComplete="off"
                 />
                 {/* Show validation error message if errors exist */}
                 {errors.name && <span className="onboarding-error">{errors.name}</span>}
@@ -478,6 +479,7 @@ export const PlayerOnboarding = ({ onComplete }) => {
                   placeholder={tx("playerOnboarding.agePlaceholder")}
                   min="1"
                   max="120"
+                  autoComplete="off"
                 />
                 {/* Show validation error message if errors exist */}
                 {errors.age && <span className="onboarding-error">{errors.age}</span>}
