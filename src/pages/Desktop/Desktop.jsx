@@ -119,7 +119,7 @@ export const Desktop = () => {
   const outroVideoSrc = useMemo(() => {
     if (!finalCompletionStatus) return null;
     const suffix = finalCompletionStatus === "success" ? "success" : "fail";
-    return assetPath(`/assets/Outro_${suffix}_${outroLanguage}.mp4`);
+    return assetPath(`/assets/outro_${suffix}_${outroLanguage}.mp4`);
   }, [finalCompletionStatus, outroLanguage]);
   // Check if outro video should be played (challenge done, not yet shown)
   const isOutroPending =

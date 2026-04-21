@@ -651,7 +651,7 @@
     padding: 6px 18px 10px 18px;
     border-radius: 8px;
     position: absolute;
-    top: 18px;
+    top: 12px;
     right: 24px;
 }
 
@@ -1102,6 +1102,9 @@ html.ai-content-no-scroll {
   .ai-content-frame {
     max-height: none;
     overflow: visible;
+    @media (min-width: 1025px) and (max-width: 1199px) {
+     width: auto;
+    }
   }
   .ai-game-panel {
     max-height: none;
@@ -1141,7 +1144,7 @@ html.ai-content-no-scroll {
   }
 
   .ai-game-badge {
-    top: 12px;
+  top: 6px;
     right: 16px;
     padding: 4px 12px 6px;
   }
