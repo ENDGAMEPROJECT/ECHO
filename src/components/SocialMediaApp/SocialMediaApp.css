@@ -260,6 +260,39 @@
   }
 }
 
+/* Tablet: 768px - 1199px */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .social-app-window {
+    position: relative;
+    inset: auto;
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
+  }
+
+  .window-titlebar {
+    position: sticky;
+    top: 0;
+    z-index: 110;
+  }
+
+  .social-app-content {
+    overflow: visible;
+    flex: none;
+  }
+
+  .social-login {
+    min-height: calc(100vh - 40px);
+    padding: 40px 20px 100px;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .social-login-card {
+    margin-top: 60px;
+  }
+}
+
 /* Landscape orientation */
 @media (min-width: 768px) and (orientation: landscape) {
   .social-app-window {
