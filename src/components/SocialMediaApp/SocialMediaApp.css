@@ -307,9 +307,9 @@
     z-index: 110;
   }
 
-  .social-login {
+  /* .social-login {
     min-height: auto;
-  }
+  } */
 }
 
 /* Ya ocupa toda la pantalla por defecto, no necesita responsive específico */
