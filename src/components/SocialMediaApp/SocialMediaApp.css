@@ -284,8 +284,8 @@
   .social-login {
     min-height: calc(100vh - 40px);
     padding: 40px 20px 100px;
-    align-items: flex-start;
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: center;
   }
 
   .social-login-card {

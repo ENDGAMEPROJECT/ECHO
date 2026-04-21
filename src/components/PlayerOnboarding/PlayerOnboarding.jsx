@@ -146,7 +146,7 @@ export const PlayerOnboarding = ({ onComplete }) => {
         resolve(result);
       };
 
-      // 2.5 second timeout - if metadata doesn't load, assume unavailable
+      // 5 second timeout - if metadata doesn't load, assume unavailable
       const timeoutId = window.setTimeout(() => finish(false), 5000);
 
       // Metadata loaded successfully = video exists and is accessible

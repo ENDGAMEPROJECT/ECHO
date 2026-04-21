@@ -18,10 +18,11 @@
 }
 
 .onboarding-video-fullscreen {
-  width: 90vw;
-  height: 90vh;
+  width: 100vw;
+  height: 100vh;
   object-fit: contain;
   background: #000;
+  display: block;
 }
 
 /* Ensure video works properly on iPad/tablet */
