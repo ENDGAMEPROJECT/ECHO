@@ -24,6 +24,19 @@
   background: #000;
 }
 
+/* Ensure video works properly on iPad/tablet */
+@media (max-width: 1024px) {
+  .onboarding-video-fullscreen {
+    object-fit: cover;
+    display: block;
+  }
+
+  .onboarding-overlay-video {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

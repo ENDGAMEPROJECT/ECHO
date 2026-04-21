@@ -147,7 +147,7 @@ export const PlayerOnboarding = ({ onComplete }) => {
       };
 
       // 2.5 second timeout - if metadata doesn't load, assume unavailable
-      const timeoutId = window.setTimeout(() => finish(false), 2500);
+      const timeoutId = window.setTimeout(() => finish(false), 5000);
 
       // Metadata loaded successfully = video exists and is accessible
       probeVideo.preload = "metadata";
@@ -373,10 +373,14 @@ export const PlayerOnboarding = ({ onComplete }) => {
           src={intro1Path}
           // Auto-start video playback
           autoPlay
-          // Allows inline playback on mobile devices
+          // iOS requires muted for autoplay to work
+          muted
+          // Allows inline playback on mobile devices (required for iOS)
           playsInline
           // Hide video controls - full-screen immersive experience
           controls={false}
+          // Allow user interaction override for iOS
+          webkit-playsinline="true"
           // When video ends naturally, advance to pretest
           onEnded={() => setStep("pretest")}
           // If video fails to load, skip to pretest anyway
@@ -396,10 +400,14 @@ export const PlayerOnboarding = ({ onComplete }) => {
           src={intro2Path}
           // Auto-start video playback
           autoPlay
-          // Allows inline playback on mobile devices
+          // iOS requires muted for autoplay to work
+          muted
+          // Allows inline playback on mobile devices (required for iOS)
           playsInline
           // Hide video controls - full-screen immersive experience
           controls={false}
+          // Allow user interaction override for iOS
+          webkit-playsinline="true"
           // When video ends, complete entire onboarding process
           onEnded={() => completeOnboarding(playerData)}
           // If video fails to load, still complete onboarding
