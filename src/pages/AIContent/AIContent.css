@@ -1083,8 +1083,8 @@ html.ai-content-no-scroll {
     color: #7f8c8d;
 }
 
-/* Tablet/iPad view - adjust game panel to prevent overlapping */
-@media (min-width: 768px) and (max-width: 1024px) {
+/* Tablet: 768px - 1199px */
+@media (min-width: 768px) and (max-width: 1199px) {
   .ai-game-panel {
     max-height: none;
     overflow: visible;
@@ -1095,7 +1095,8 @@ html.ai-content-no-scroll {
   .ai-game-content {
     overflow: visible;
     min-height: auto;
-    gap: 8px;
+    gap: 12px;
+    flex-direction: column;
   }
 
   .ai-game-words-container {
@@ -1178,8 +1179,8 @@ html.ai-content-no-scroll {
   }
 }
 
-/* Landscape orientation - Tablet and above */
-@media (min-width: 768px) and (orientation: landscape) {
+/* Desktop/iPad: 1200px+ - horizontal layout */
+@media (min-width: 1200px) and (orientation: landscape) {
   .ai-game-panel {
     max-height: none;
     overflow: visible;
