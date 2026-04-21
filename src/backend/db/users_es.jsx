@@ -76,12 +76,12 @@ export const usersES = [
       isBot: true,
       abnormalRatio: false,
       recentAccount: false,
-      temporalActivity: false,
-      targetAudience: false,
-      emotions: {
+      temporalActivity: {
         value: true,
         mandatory: true
-      }
+      },
+      targetAudience: false,
+      emotions: true
     }
   },
   {
@@ -104,12 +104,12 @@ export const usersES = [
       isBot: true,
       abnormalRatio: false,
       recentAccount: false,
-      temporalActivity: {
+      temporalActivity: true,
+      targetAudience: false,
+      emotions: {
         value: true,
         mandatory: true
-      },
-      targetAudience: false,
-      emotions: true
+      }
     }
   },
   {
@@ -175,7 +175,7 @@ export const usersES = [
     bio: "Autónoma, madre y española",
     username: "MariaCurrante",
     password: "ECHO",
-    createdAt: new Date("Diciembre 2025"),
+    createdAt: new Date("Diciembre 2024"),
     updatedAt: formatDate(),
     avatarURL: "/assets/users/MariaCurrante.png",
     verified: false,
@@ -187,13 +187,13 @@ export const usersES = [
     puzzle: {
       isBot: true,
       abnormalRatio: false,
-      recentAccount: {
-        value: true,
-        mandatory: true
-      },
+      recentAccount: true,
       temporalActivity: false,
       targetAudience: true,
-      emotions: true
+      emotions: {
+        value: true,
+        mandatory: true
+      }
     }
   },
   {
@@ -214,12 +214,12 @@ export const usersES = [
     },
     puzzle: {
       isBot: true,
-      abnormalRatio: false,
-      recentAccount: false,
-      temporalActivity: {
+      abnormalRatio: {
         value: true,
         mandatory: true
       },
+      recentAccount: false,
+      temporalActivity: true,
       targetAudience: true,
       emotions: true
     }

@@ -1,5 +1,5 @@
 import "./PlayerOnboarding.css";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 // xAPI tracker context for learning analytics - tracks player interactions
 // XAPI_VERBS: constants for xAPI verb types (STARTED, ANSWERED, etc.)
@@ -359,9 +359,26 @@ export const PlayerOnboarding = ({ onComplete }) => {
   const intro1Path = getVideoPath(1, selectedLanguage);
   const intro2Path = getVideoPath(2, selectedLanguage);
 
+  // Refs for programmatic video playback (avoids muted autoplay restriction)
+  const intro1VideoRef = useRef(null);
+  const intro2VideoRef = useRef(null);
+
   // Conditional rendering checks - only show video if step AND video is available
   const isIntro1VideoStep = step === "intro1Video" && videoAvailability.intro1;
   const isIntro2VideoStep = step === "intro2Video" && videoAvailability.intro2;
+
+  // Play intro videos programmatically with sound
+  useEffect(() => {
+    if (isIntro1VideoStep && intro1VideoRef.current) {
+      intro1VideoRef.current.play().catch(() => {});
+    }
+  }, [isIntro1VideoStep]);
+
+  useEffect(() => {
+    if (isIntro2VideoStep && intro2VideoRef.current) {
+      intro2VideoRef.current.play().catch(() => {});
+    }
+  }, [isIntro2VideoStep]);
 
   // Intro 1 video - plays first introduction video, advances to pretest when ends or errors
   if (isIntro1VideoStep) {
@@ -369,12 +386,9 @@ export const PlayerOnboarding = ({ onComplete }) => {
       <div className="onboarding-overlay onboarding-overlay-video">
         {/* Full-screen video player for intro sequence */}
         <video
+          ref={intro1VideoRef}
           className="onboarding-video-fullscreen"
           src={intro1Path}
-          // Auto-start video playback
-          autoPlay
-          // iOS requires muted for autoplay to work
-          muted
           // Allows inline playback on mobile devices (required for iOS)
           playsInline
           // Hide video controls - full-screen immersive experience
@@ -396,12 +410,9 @@ export const PlayerOnboarding = ({ onComplete }) => {
       <div className="onboarding-overlay onboarding-overlay-video">
         {/* Full-screen video player for second intro sequence */}
         <video
+          ref={intro2VideoRef}
           className="onboarding-video-fullscreen"
           src={intro2Path}
-          // Auto-start video playback
-          autoPlay
-          // iOS requires muted for autoplay to work
-          muted
           // Allows inline playback on mobile devices (required for iOS)
           playsInline
           // Hide video controls - full-screen immersive experience
