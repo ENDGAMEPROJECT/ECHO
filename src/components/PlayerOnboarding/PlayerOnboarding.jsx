@@ -51,6 +51,8 @@ export const PlayerOnboarding = ({ onComplete }) => {
   const [selectedStatements, setSelectedStatements] = useState([]);
   // Tracks availability of intro1 and intro2 videos for selected language (async probe results)
   const [videoAvailability, setVideoAvailability] = useState({ intro1: false, intro2: false });
+  // True when browser blocks autoplay — shows tap-to-play button
+  const [needsTapToPlay, setNeedsTapToPlay] = useState(false);
   
   // Translation helper - gets text in selectedLanguage with fallback to global t()
   const tx = (key, options = {}) => t(key, { lng: selectedLanguage, ...options });
@@ -146,8 +148,9 @@ export const PlayerOnboarding = ({ onComplete }) => {
         resolve(result);
       };
 
-      // 5 second timeout - if metadata doesn't load, assume unavailable
-      const timeoutId = window.setTimeout(() => finish(false), 5000);
+      // 5 second timeout — assume video exists if metadata is slow to load
+      // (onError on the actual <video> element will catch truly missing files)
+      const timeoutId = window.setTimeout(() => finish(true), 5000);
 
       // Metadata loaded successfully = video exists and is accessible
       probeVideo.preload = "metadata";
@@ -367,16 +370,18 @@ export const PlayerOnboarding = ({ onComplete }) => {
   const isIntro1VideoStep = step === "intro1Video" && videoAvailability.intro1;
   const isIntro2VideoStep = step === "intro2Video" && videoAvailability.intro2;
 
-  // Play intro videos programmatically with sound
+  // Play intro videos programmatically — show tap-to-play button if browser blocks autoplay
   useEffect(() => {
     if (isIntro1VideoStep && intro1VideoRef.current) {
-      intro1VideoRef.current.play().catch(() => {});
+      setNeedsTapToPlay(false);
+      intro1VideoRef.current.play().catch(() => setNeedsTapToPlay(true));
     }
   }, [isIntro1VideoStep]);
 
   useEffect(() => {
     if (isIntro2VideoStep && intro2VideoRef.current) {
-      intro2VideoRef.current.play().catch(() => {});
+      setNeedsTapToPlay(false);
+      intro2VideoRef.current.play().catch(() => setNeedsTapToPlay(true));
     }
   }, [isIntro2VideoStep]);
 
@@ -389,17 +394,23 @@ export const PlayerOnboarding = ({ onComplete }) => {
           ref={intro1VideoRef}
           className="onboarding-video-fullscreen"
           src={intro1Path}
-          // Allows inline playback on mobile devices (required for iOS)
           playsInline
-          // Hide video controls - full-screen immersive experience
           controls={false}
-          // Allow user interaction override for iOS
           webkit-playsinline="true"
-          // When video ends naturally, advance to pretest
           onEnded={() => setStep("pretest")}
-          // If video fails to load, skip to pretest anyway
           onError={() => setStep("pretest")}
         />
+        {needsTapToPlay && (
+          <button
+            className="onboarding-tap-to-play"
+            onClick={() => {
+              setNeedsTapToPlay(false);
+              intro1VideoRef.current?.play().catch(() => {});
+            }}
+          >
+            ▶
+          </button>
+        )}
       </div>
     );
   }
@@ -413,17 +424,23 @@ export const PlayerOnboarding = ({ onComplete }) => {
           ref={intro2VideoRef}
           className="onboarding-video-fullscreen"
           src={intro2Path}
-          // Allows inline playback on mobile devices (required for iOS)
           playsInline
-          // Hide video controls - full-screen immersive experience
           controls={false}
-          // Allow user interaction override for iOS
           webkit-playsinline="true"
-          // When video ends, complete entire onboarding process
           onEnded={() => completeOnboarding(playerData)}
-          // If video fails to load, still complete onboarding
           onError={() => completeOnboarding(playerData)}
         />
+        {needsTapToPlay && (
+          <button
+            className="onboarding-tap-to-play"
+            onClick={() => {
+              setNeedsTapToPlay(false);
+              intro2VideoRef.current?.play().catch(() => {});
+            }}
+          >
+            ▶
+          </button>
+        )}
       </div>
     );
   }
