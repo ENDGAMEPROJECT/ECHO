@@ -628,8 +628,6 @@ export const Desktop = () => {
             ref={outroVideoRef}
             className="outro-video-player"
             src={outroVideoSrc}
-            autoPlay
-            muted
             playsInline
             webkit-playsinline="true"
             onEnded={handleOutroFinished}

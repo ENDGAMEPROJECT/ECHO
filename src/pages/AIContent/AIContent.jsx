@@ -55,6 +55,7 @@ export const AIContent = () => {
   const { challenge2Completed, completeChallenge2, setChallenge2Total, setChallenge2Progress, pauseEscapeTimer, resumeEscapeTimer } = useStats();
   const { sendStatement, trackChallengeStarted } = useXAPI();
   const completionSentRef = useRef(false);
+  const videoRef = useRef(null);
   const [step, setStep] = useState("list");
   // Video watched flag (persisted in sessionStorage)
   const [videoEnded, setVideoEnded] = useState(() => {
@@ -152,6 +153,13 @@ export const AIContent = () => {
   useEffect(() => {
     setHasLocalizedVideo(true);
   }, [localizedVideoSrc]);
+
+  // Programmatically play video with sound when entering the video step
+  useEffect(() => {
+    if (step === "video" && !videoEnded && videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  }, [step, videoEnded]);
 
   // Complete challenge, send Challenge 3 instructions message
   const handleCompletionClose = () => {
@@ -440,9 +448,9 @@ export const AIContent = () => {
                   {hasLocalizedVideo && (
                     <div className="ai-video-container">
                       <video
+                        ref={videoRef}
                         width="100%"
                         controls={false}
-                        autoPlay={!videoEnded}
                         playsInline
                         onEnded={() => {
                           sessionStorage.setItem("echo:puzzle2:videoViewed", "true");
