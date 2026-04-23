@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import "./HintsApp.css";
 // Import OS context for app management (open, close, minimize)
 import { useOS } from "../../contexts/OSProvider";
@@ -44,6 +44,18 @@ export const HintsApp = () => {
   const [selectedContext, setSelectedContext] = useState(null);
   // State for showing intro videos (null = no video, 1 = intro video 1, 2 = intro video 2)
   const [showIntroVideo, setShowIntroVideo] = useState(null); // null | 1 | 2
+  const hintsVideoRef = useRef(null);
+  const [needsTapToPlay, setNeedsTapToPlay] = useState(false);
+
+  // Try to play intro video — show tap-to-play if browser blocks autoplay
+  useEffect(() => {
+    if (showIntroVideo && hintsVideoRef.current) {
+      setNeedsTapToPlay(false);
+      const v = hintsVideoRef.current;
+      v.load();
+      v.play().catch(() => setNeedsTapToPlay(true));
+    }
+  }, [showIntroVideo]);
 
   /**
    * Determines the active puzzle ID based on player's challenge completion progress
@@ -152,24 +164,30 @@ export const HintsApp = () => {
           Transitions between intro1 and intro2, then returns to app
         */}
         <video
+          ref={hintsVideoRef}
           className="hints-intro-video"
           src={introVideoSrc}
-          autoPlay
           playsInline
-          // Handle video completion - sequence videos or close
           onEnded={() => {
             if (showIntroVideo === 1) {
-              // After intro 1, play intro 2
               setShowIntroVideo(2);
             } else {
-              // After intro 2, return to hints app
               setShowIntroVideo(null);
             }
           }}
-          // Close video if there's a playback error
           onError={() => setShowIntroVideo(null)}
         />
-        {/* Skip button to manually close video and return to app */}
+        {needsTapToPlay && (
+          <button
+            className="hints-tap-to-play"
+            onClick={() => {
+              setNeedsTapToPlay(false);
+              hintsVideoRef.current?.play().catch(() => {});
+            }}
+          >
+            ▶
+          </button>
+        )}
         <button
           className="hints-intro-skip"
           onClick={() => setShowIntroVideo(null)}
