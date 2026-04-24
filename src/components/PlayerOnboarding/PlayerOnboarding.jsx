@@ -58,9 +58,28 @@ export const PlayerOnboarding = ({ onComplete }) => {
   const [videoAvailability, setVideoAvailability] = useState({ intro1: false, intro2: false });
   // True when browser blocks autoplay — shows tap-to-play button
   const [needsTapToPlay, setNeedsTapToPlay] = useState(false);
-  
+
   // Translation helper - gets text in selectedLanguage with fallback to global t()
   const tx = (key, options = {}) => t(key, { lng: selectedLanguage, ...options });
+
+  // Restore from checkpoint on mount (user refreshed during pretest)
+  useEffect(() => {
+    const raw = sessionStorage.getItem("onboarding:checkpoint");
+    if (raw) {
+      try {
+        const cp = JSON.parse(raw);
+        _cachedName = cp.name;
+        _cachedAge = String(cp.age);
+        setPlayerName(cp.name);
+        setPlayerAge(String(cp.age));
+        setSelectedLanguage(cp.language);
+        setPlayerData({ name: cp.name, age: cp.age, language: cp.language });
+        setVideoAvailability(cp.videoAvailability);
+        i18n.changeLanguage(cp.language);
+        setStep("pretest");
+      } catch { /* ignore corrupt checkpoint */ }
+    }
+  }, []);
 
   /**
    * Validates player form inputs
@@ -166,12 +185,24 @@ export const PlayerOnboarding = ({ onComplete }) => {
     });
   };
 
+  // Save checkpoint so the pretest survives a page refresh
+  const saveCheckpoint = (data, availability) => {
+    sessionStorage.setItem("onboarding:checkpoint", JSON.stringify({
+      name: data.name,
+      age: data.age,
+      language: data.language,
+      videoAvailability: availability,
+    }));
+  };
+
   /**
    * Marks onboarding as complete and initializes game session
    * Stores player data, starts escape room timer, notifies app
    * @param {Object} data - Player profile data {name, age, language}
    */
   const completeOnboarding = (data) => {
+    // Checkpoint no longer needed — onboarding is done
+    sessionStorage.removeItem("onboarding:checkpoint");
     // Clear social login session for fresh game session
     sessionStorage.removeItem("socialLoginDone");
 
@@ -358,6 +389,8 @@ export const PlayerOnboarding = ({ onComplete }) => {
       if (nextAvailability.intro1) {
         setStep("intro1Video");
       } else {
+        // No intro1 video — go directly to pretest, save checkpoint
+        saveCheckpoint(nextPlayerData, nextAvailability);
         setStep("pretest");
       }
     }
@@ -402,8 +435,8 @@ export const PlayerOnboarding = ({ onComplete }) => {
           playsInline
           controls={false}
           webkit-playsinline="true"
-          onEnded={() => setStep("pretest")}
-          onError={() => setStep("pretest")}
+          onEnded={() => { saveCheckpoint(playerData, videoAvailability); setStep("pretest"); }}
+          onError={() => { saveCheckpoint(playerData, videoAvailability); setStep("pretest"); }}
         />
         {needsTapToPlay && (
           <button
