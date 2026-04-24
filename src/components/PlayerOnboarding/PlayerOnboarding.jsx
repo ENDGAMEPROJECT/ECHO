@@ -27,6 +27,11 @@ import { assetPath } from "../../utils/assetPath";
  * @param {Function} onComplete - Callback fired when onboarding completes with finalizedPlayerData
  * @returns {JSX.Element} Full-screen onboarding overlay with conditional rendering of steps
  */
+// Module-level cache — survives component re-mounts but is cleared on page
+// refresh or "Start Over" (both trigger a full page reload).
+let _cachedName = "";
+let _cachedAge = "";
+
 export const PlayerOnboarding = ({ onComplete }) => {
   // i18n hook - t() for translations, i18n for language configuration and change
   const { i18n, t } = useTranslation();
@@ -39,8 +44,8 @@ export const PlayerOnboarding = ({ onComplete }) => {
   // Current step in onboarding flow: "playerForm" → "intro1Video" → "pretest" → "intro2Video" → complete
   const [step, setStep] = useState("playerForm");
   // Form field states for player profile
-  const [playerName, setPlayerName] = useState("");
-  const [playerAge, setPlayerAge] = useState("");
+  const [playerName, setPlayerName] = useState(_cachedName);
+  const [playerAge, setPlayerAge] = useState(_cachedAge);
   // Selected language for the game session (affects video selection and text translations)
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language || "en");
   // Form validation errors - keys are field names (name, age)
@@ -472,7 +477,7 @@ export const PlayerOnboarding = ({ onComplete }) => {
                   // Apply error styling if name validation failed
                   className={`onboarding-input ${errors.name ? "error" : ""}`}
                   value={playerName}
-                  onChange={(e) => setPlayerName(e.target.value)}
+                  onChange={(e) => { _cachedName = e.target.value; setPlayerName(e.target.value); }}
                   placeholder={tx("playerOnboarding.namePlaceholder")}
                   maxLength={30}
                   autoComplete="off"
@@ -492,7 +497,7 @@ export const PlayerOnboarding = ({ onComplete }) => {
                   // Apply error styling if age validation failed
                   className={`onboarding-input ${errors.age ? "error" : ""}`}
                   value={playerAge}
-                  onChange={(e) => setPlayerAge(e.target.value)}
+                  onChange={(e) => { _cachedAge = e.target.value; setPlayerAge(e.target.value); }}
                   placeholder={tx("playerOnboarding.agePlaceholder")}
                   min="1"
                   max="120"

@@ -10,6 +10,8 @@
   justify-content: center;
   z-index: 9999;
   animation: fadeIn 0.5s ease;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .onboarding-overlay-video {
@@ -398,6 +400,11 @@
 
 /* Tablet/iPad view - Portrait orientation (default) */
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .onboarding-overlay {
+    align-items: flex-start;
+    padding: 20px 0;
+  }
+
   .onboarding-container {
     max-width: 550px;
     padding: 28px 24px;
