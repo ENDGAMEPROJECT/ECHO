@@ -62,7 +62,7 @@ export const PlayerOnboarding = ({ onComplete }) => {
   // Translation helper - gets text in selectedLanguage with fallback to global t()
   const tx = (key, options = {}) => t(key, { lng: selectedLanguage, ...options });
 
-  // Restore from checkpoint on mount (user refreshed during pretest)
+  // Restore from checkpoint on mount (user refreshed during pretest or intro2 video)
   useEffect(() => {
     const raw = sessionStorage.getItem("onboarding:checkpoint");
     if (raw) {
@@ -76,7 +76,7 @@ export const PlayerOnboarding = ({ onComplete }) => {
         setPlayerData({ name: cp.name, age: cp.age, language: cp.language });
         setVideoAvailability(cp.videoAvailability);
         i18n.changeLanguage(cp.language);
-        setStep("pretest");
+        setStep(cp.step || "pretest");
       } catch { /* ignore corrupt checkpoint */ }
     }
   }, []);
@@ -185,13 +185,14 @@ export const PlayerOnboarding = ({ onComplete }) => {
     });
   };
 
-  // Save checkpoint so the pretest survives a page refresh
-  const saveCheckpoint = (data, availability) => {
+  // Save checkpoint so onboarding progress survives a page refresh
+  const saveCheckpoint = (data, availability, savedStep = "pretest") => {
     sessionStorage.setItem("onboarding:checkpoint", JSON.stringify({
       name: data.name,
       age: data.age,
       language: data.language,
       videoAvailability: availability,
+      step: savedStep,
     }));
   };
 
@@ -316,6 +317,7 @@ export const PlayerOnboarding = ({ onComplete }) => {
 
     // If intro2 video available, show it before completing
     if (videoAvailability.intro2) {
+      saveCheckpoint(playerData, videoAvailability, "intro2Video");
       setStep("intro2Video");
       return;
     }
