@@ -199,7 +199,10 @@ export const usersFI = [
     },
     puzzle: {
       isBot: true,
-      abnormalRatio: true,
+      abnormalRatio: {
+        value: true,
+        mandatory: true
+      },
       recentAccount: true,
       temporalActivity: true,
       targetAudience: false,
@@ -249,7 +252,10 @@ export const usersFI = [
     },
     puzzle: {
       isBot: true,
-      abnormalRatio: false,
+      abnormalRatio: {
+        value: true,
+        mandatory: true
+      },
       recentAccount: false,
       temporalActivity: true,
       targetAudience: true,
@@ -278,7 +284,10 @@ export const usersFI = [
       recentAccount: true,
       temporalActivity: true,
       targetAudience: true,
-      emotions: true
+      emotions: {
+        value: true,
+        mandatory: true
+      }
     }
   },
   {
@@ -293,7 +302,7 @@ export const usersFI = [
     avatarURL: "/assets/users/VapausEUsta.png",
     verified: false,
     stats: {
-      followersCount: 23,
+      followersCount: 1,
       followingCount: 460,
       postsCount: 53
     },
@@ -303,7 +312,10 @@ export const usersFI = [
       recentAccount: true,
       temporalActivity: true,
       targetAudience: false,
-      emotions: true
+      emotions: {
+        value: true,
+        mandatory: true
+      }
     }
   },
   {
