@@ -15,7 +15,7 @@ export const postsSR = [
     firstName: "Slovenski medvedi",
     lastName: "",
     avatarURL: "/assets/users/Slavic_Bears.png",
-    createdAt: new Date("April 20 2026 18:01:49"),
+    createdAt: new Date("April 27 2026 18:01:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 1
@@ -31,7 +31,7 @@ export const postsSR = [
     firstName: "Slovenski medvedi",
     lastName: "",
     avatarURL: "/assets/users/Slavic_Bears.png",
-    createdAt: new Date("April 20 2026 18:51:49"),
+    createdAt: new Date("April 27 2026 18:51:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 3
@@ -47,7 +47,7 @@ export const postsSR = [
     firstName: "Slovenski medvedi",
     lastName: "",
     avatarURL: "/assets/users/Slavic_Bears.png",
-    createdAt: new Date("April 19 2026 22:38:49"),
+    createdAt: new Date("April 26 2026 22:38:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 1
@@ -63,7 +63,7 @@ export const postsSR = [
     firstName: "RHMZ Republički hidrometeorološki zavod Srbije",
     lastName: "",
     avatarURL: "/assets/users/rhmz.jpg",
-    createdAt: new Date("April 20 2026 08:51:49"),
+    createdAt: new Date("April 27 2026 08:51:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 132
@@ -72,14 +72,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "СНЕГ И ЛЕДЕНА КИША ОКО БОЖИЋНИХ ПРАЗНИКА У СРБИЈИ",
+    content: "SNEG I LEDENA KIŠA OKO BOŽIĆNIH PRAZNIKA U SRBIJI",
     type: "image",
     mediaUrl: "",
     username: "RHMZ",
     firstName: "RHMZ Republički hidrometeorološki zavod Srbije",
     lastName: "",
     avatarURL: "/assets/users/rhmz.jpg",
-    createdAt: new Date("April 20 2026 11:12:49"),
+    createdAt: new Date("April 27 2026 11:12:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 79
@@ -88,14 +88,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Проф. др Југослав Николић, дипл. мет., директор РХМЗ, објавио је каква нас зима очекује на основу најновије сезонске прогнозе времена",
+    content: "Prof. dr Jugoslav Nikolić, dipl. met., direktor RHMZ, objavio je kakva nas zima očekuje na osnovu najnovije sezonske prognoze vremena",
     type: "image",
     mediaUrl: "",
     username: "RHMZ",
     firstName: "RHMZ Republički hidrometeorološki zavod Srbije",
     lastName: "",
     avatarURL: "/assets/users/rhmz.jpg",
-    createdAt: new Date("April 20 2026 11:50:49"),
+    createdAt: new Date("April 27 2026 11:50:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 55
@@ -104,14 +104,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "ОСЕТНО ТОПЛИЈЕ ВРЕМЕ, после хладнијег викенда, проф. др Југослав Николић, дипл. мет., директор РХМЗ",
+    content: "OSETNO TOPLIJE VREME, posle hladnijeg vikenda, prof. dr Jugoslav Nikolić, dipl. met., direktor RHMZ",
     type: "image",
     mediaUrl: "",
     username: "RHMZ",
     firstName: "RHMZ Republički hidrometeorološki zavod Srbije",
     lastName: "",
     avatarURL: "/assets/users/rhmz.jpg",
-    createdAt: new Date("April 20 2026 13:35:49"),
+    createdAt: new Date("April 27 2026 13:35:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 24
@@ -120,14 +120,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "ВЕОМА ТОПЛО ЗА НОВОГОДИШЊЕ ПРАЗНИКЕ, Проф. др Југослав Николић, дипл. мет., директор РХМЗ",
+    content: "VEOMA TOPLO ZA NOVOGODIŠNJE PRAZNIKE, Prof. dr Jugoslav Nikolić, dipl. met., direktor RHMZ",
     type: "image",
     mediaUrl: "",
     username: "RHMZ",
     firstName: "RHMZ Republički hidrometeorološki zavod Srbije",
     lastName: "",
     avatarURL: "/assets/users/rhmz.jpg",
-    createdAt: new Date("April 20 2026 15:11:49"),
+    createdAt: new Date("April 27 2026 15:11:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 65
@@ -136,14 +136,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Квалитет ваздуха на мобилној станици од синоћ у 20 часова показује сатне вредности PM10 честица у распону од 121 μg/m3 до 406 μg/m3 а PM2.5 од 105 до 297 μg/m3. Maксимална концентрација PM10  измерена је данас у 14 часова након чега је дошло до наглог пада вредности док је максимална концентрација суспендованих честица PM2.5 забележена јутрос у 8 часова.",
+    content: "Kvalitet vazduha na mobilnoj stanici od sinoć u 20 časova pokazuje satne vrednosti PM10 čestica u rasponu od 121 μg/m3 do 406 μg/m3 a PM2.5 od 105 do 297 μg/m3. Maksimalna koncentracija PM10  izmerena je danas u 14 časova nakon čega je došlo do naglog pada vrednosti dok je maksimalna koncentracija suspendovanih čestica PM2.5 zabeležena jutros u 8 časova.",
     type: "image",
     mediaUrl: "",
     username: "SEPA",
     firstName: "Agencija za zastitu zivotne sredine",
     lastName: "",
     avatarURL: "/assets/users/sepa.png",
-    createdAt: new Date("April 20 2026 07:24:49"),
+    createdAt: new Date("April 27 2026 07:24:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 4
@@ -152,14 +152,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Према последњим мерењима квалитета ваздуха на мобилној мерној станици, на дивљој депонији Голо Брдо код Новог Пазара, средња дневна вредност суспендованих честица PM10 током јучерашњег дана износила је 36 µg/m3, док је на станици Нови Пазар износила 28 µg/m3, што је у граничним вредностима.",
+    content: "Prema poslednjim merenjima kvaliteta vazduha na mobilnoj mernoj stanici, na divljoj deponiji Golo Brdo kod Novog Pazara, srednja dnevna vrednost suspendovanih čestica PM10 tokom jučerašnjeg dana iznosila je 36 µg/m3, dok je na stanici Novi Pazar iznosila 28 µg/m3, što je u graničnim vrednostima.",
     type: "image",
     mediaUrl: "",
     username: "SEPA",
     firstName: "Agencija za zastitu zivotne sredine",
     lastName: "",
     avatarURL: "/assets/users/sepa.png",
-    createdAt: new Date("April 20 2026 07:52:49"),
+    createdAt: new Date("April 27 2026 07:52:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 11
@@ -168,14 +168,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Према последњим мерењима у 7 часова на мобилној мерној станици код депоније у Лозници, концентрације суспендованих честица PM10 су 35,1 mg/m3. Суспендоване честице PM2.5 имају дефинисану само годишњу граничну вредност и оне прате промене вредности суспендованих честица PM10, док остале загађујуће материје нису показале раст концентрација у посматраном периоду.",
+    content: "Prema poslednjim merenjima u 7 časova na mobilnoj mernoj stanici kod deponije u Loznici, koncentracije suspendovanih čestica PM10 su 35,1 mg/m3. Suspendovane čestice PM2.5 imaju definisanu samo godišnju graničnu vrednost i one prate promene vrednosti suspendovanih čestica PM10, dok ostale zagađujuće materije nisu pokazale rast koncentracija u posmatranom periodu.",
     type: "image",
     mediaUrl: "",
     username: "SEPA",
     firstName: "Agencija za zastitu zivotne sredine",
     lastName: "",
     avatarURL: "/assets/users/sepa.png",
-    createdAt: new Date("April 20 2026 11:38:49"),
+    createdAt: new Date("April 27 2026 11:38:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 3
@@ -184,14 +184,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "У току касних вечерњих сати у Лозници је постављена мобилна аутоматска станица за мониторинг квалитета ваздуха, која већ врши мерења.",
+    content: "U toku kasnih večernjih sati u Loznici je postavljena mobilna automatska stanica za monitoring kvaliteta vazduha, koja već vrši merenja.",
     type: "image",
     mediaUrl: "",
     username: "SEPA",
     firstName: "Agencija za zastitu zivotne sredine",
     lastName: "",
     avatarURL: "/assets/users/sepa.png",
-    createdAt: new Date("April 20 2026 12:49:49"),
+    createdAt: new Date("April 27 2026 12:49:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 3
@@ -207,7 +207,7 @@ export const postsSR = [
     firstName: "Agencija za zastitu zivotne sredine",
     lastName: "",
     avatarURL: "/assets/users/sepa.png",
-    createdAt: new Date("April 20 2026 17:11:49"),
+    createdAt: new Date("April 27 2026 17:11:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 1
@@ -216,14 +216,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Зар не знате? Са хемијским траговима заустављају кишу, краду воду, уништавају резервоаре и сада предузимају мере, шта ће бити следеће?",
+    content: "Zar ne znate? Sa hemijskim tragovima zaustavljaju kišu, kradu vodu, uništavaju rezervoare i sada preduzimaju mere, šta će biti sledeće?",
     type: "image",
     mediaUrl: "",
     username: "Borba_za_istinu",
     firstName: "Borba za istinu",
     lastName: "",
     avatarURL: "/assets/users/Coat_of_arms_of_Serbia_small_B-W.png",
-    createdAt: new Date("April 20 2026 18:02:49"),
+    createdAt: new Date("April 27 2026 18:02:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: "3k"
@@ -240,21 +240,21 @@ export const postsSR = [
           upvotedBy: [],
           downvotedBy: []
         },
-        createdAt: new Date("April 21 2026 18:46:59"),
+        createdAt: new Date("April 28 2026 08:07:24"),
         updatedAt: "formatDate()"
       }
     ]
   },
   {
     _id: uuid(),
-    content: "ПОГЛЕДАЈТЕ како су паметни, олуја долази са Атлантика и прскају пре него што стигне да би разбили кишу. Јасније је него икад. Разбијају облаке пре него што уђу на полуострво. ШТА мислите?",
+    content: "POGLEDAJTE kako su pametni, oluja dolazi sa Atlantika i prskaju pre nego što stigne da bi razbili kišu. Jasnije je nego ikad. Razbijaju oblake pre nego što uđu na poluostrvo. ŠTA mislite?",
     type: "image",
     mediaUrl: "",
     username: "Borba_za_istinu",
     firstName: "Borba za istinu",
     lastName: "",
     avatarURL: "/assets/users/Coat_of_arms_of_Serbia_small_B-W.png",
-    createdAt: new Date("April 20 2026 03:10:49"),
+    createdAt: new Date("April 27 2026 03:10:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: "2k"
@@ -271,21 +271,21 @@ export const postsSR = [
           upvotedBy: [],
           downvotedBy: []
         },
-        createdAt: new Date("April 21 2026 18:46:59"),
+        createdAt: new Date("April 28 2026 08:07:28"),
         updatedAt: "formatDate()"
       }
     ]
   },
   {
     _id: uuid(),
-    content: "Хемијски трагови нас трују. Токсични облак лети изнад Андалузије и то спречава кише 💀💀💀💀. То је прави узрок климатских промена, које су заправо изум за повећање наших пореза.",
+    content: "Hemijski tragovi nas truju. Toksični oblak leti iznad Andaluzije i to sprečava kiše 💀💀💀💀. To je pravi uzrok klimatskih promena, koje su zapravo izum za povećanje naših poreza.",
     type: "image",
     mediaUrl: "/assets/posts/chemtrails_poison.png",
     username: "Borba_za_istinu",
     firstName: "Borba za istinu",
     lastName: "",
     avatarURL: "/assets/users/Coat_of_arms_of_Serbia_small_B-W.png",
-    createdAt: new Date("April 20 2026 07:39:49"),
+    createdAt: new Date("April 27 2026 07:39:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: "4k"
@@ -302,21 +302,21 @@ export const postsSR = [
           upvotedBy: [],
           downvotedBy: []
         },
-        createdAt: new Date("April 21 2026 18:46:59"),
+        createdAt: new Date("April 28 2026 08:07:29"),
         updatedAt: "formatDate()"
       }
     ]
   },
   {
     _id: uuid(),
-    content: "Авиони испуштају сребрни јодид да би елиминисали облаке када се прогнозира киша ✈️, зар још нисте схватили? Зову се хемијски трагови",
+    content: "Avioni ispuštaju srebrni jodid da bi eliminisali oblake kada se prognozira kiša ✈️, zar još niste shvatili? Zovu se hemijski tragovi",
     type: "image",
     mediaUrl: "/assets/posts/chemtrail_silver.png",
     username: "Borba_za_istinu",
     firstName: "Borba za istinu",
     lastName: "",
     avatarURL: "/assets/users/Coat_of_arms_of_Serbia_small_B-W.png",
-    createdAt: new Date("April 20 2026 19:22:49"),
+    createdAt: new Date("April 27 2026 19:22:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: "5k"
@@ -325,14 +325,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Хемијски трагови мењају климу!!!! 3 радника из АЕМЕТ-а су у извештају Европској унији признала да се Шпанија прска оловним диоксидом, сребрним јодидом и дијатомитом.",
+    content: "Hemijski tragovi menjaju klimu!!!! 3 radnika iz AEMET-a su u izveštaju Evropskoj uniji priznala da se Španija prska olovnim dioksidom, srebrnim jodidom i dijatomitom.",
     type: "image",
     mediaUrl: "",
     username: "Borba_za_istinu",
     firstName: "Borba za istinu",
     lastName: "",
     avatarURL: "/assets/users/Coat_of_arms_of_Serbia_small_B-W.png",
-    createdAt: new Date("April 20 2026 17:24:49"),
+    createdAt: new Date("April 27 2026 17:24:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: "6k"
@@ -341,14 +341,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Агенција за заштиту животне средине израдила је Извештај о стању животне средине у Републици Србији за 2024. ",
+    content: "Agencija za zaštitu životne sredine izradila je Izveštaj o stanju životne sredine u Republici Srbiji za 2024. ",
     type: "image",
     mediaUrl: "",
     username: "SVSMUP",
     firstName: "Sektor za vanredne situacije MUP-a Republike Srbije",
     lastName: "",
     avatarURL: "/assets/users/svsmup.jpeg",
-    createdAt: new Date("April 20 2026 07:24:49"),
+    createdAt: new Date("April 27 2026 07:24:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 1
@@ -357,14 +357,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Агенција за заштиту животне средине Републике Србије обавештава јавност да је у Републици Србији уведен европски индекс квалитета ваздуха и да се на националној мрежи мерних станица од сада примењује управо овај, строжи индекс који користи и Европска агенција за животну средину.",
+    content: "Agencija za zaštitu životne sredine Republike Srbije obaveštava javnost da je u Republici Srbiji uveden evropski indeks kvaliteta vazduha i da se na nacionalnoj mreži mernih stanica od sada primenjuje upravo ovaj, stroži indeks koji koristi i Evropska agencija za životnu sredinu.",
     type: "image",
     mediaUrl: "",
     username: "SVSMUP",
     firstName: "Sektor za vanredne situacije MUP-a Republike Srbije",
     lastName: "",
     avatarURL: "/assets/users/svsmup.jpeg",
-    createdAt: new Date("April 20 2026 09:13:49"),
+    createdAt: new Date("April 27 2026 09:13:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 1
@@ -373,14 +373,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Агенција за заштиту животне средине данас је у Јагодини пустила у оперативни рад аутоматску мерну станицу за праћење квалитета ваздуха, у оквиру државне мреже.",
+    content: "Agencija za zaštitu životne sredine danas je u Jagodini pustila u operativni rad automatsku mernu stanicu za praćenje kvaliteta vazduha, u okviru državne mreže.",
     type: "image",
     mediaUrl: "",
     username: "SVSMUP",
     firstName: "Sektor za vanredne situacije MUP-a Republike Srbije",
     lastName: "",
     avatarURL: "/assets/users/svsmup.jpeg",
-    createdAt: new Date("April 20 2026 11:53:49"),
+    createdAt: new Date("April 27 2026 11:53:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 1
@@ -389,14 +389,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Годишњи Извештај о стању квалитета ваздуха у Републици Србији 202",
+    content: "Godišnji Izveštaj o stanju kvaliteta vazduha u Republici Srbiji 2025",
     type: "image",
     mediaUrl: "",
     username: "SVSMUP",
     firstName: "Sektor za vanredne situacije MUP-a Republike Srbije",
     lastName: "",
     avatarURL: "/assets/users/svsmup.jpeg",
-    createdAt: new Date("April 20 2026 18:40:49"),
+    createdAt: new Date("April 27 2026 18:40:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 1
@@ -405,14 +405,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Novi osobni rekord na 10 km 💪",
+    content: "Novi lični rekord na 10 km 💪",
     type: "image",
     mediaUrl: "",
     username: "luka.ultras",
     firstName: "Luka Pavlović",
     lastName: "",
     avatarURL: "/assets/users/sr_boy2.png",
-    createdAt: new Date("April 20 2026 18:50:49"),
+    createdAt: new Date("April 27 2026 18:50:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 33
@@ -421,14 +421,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Trenira li još netko čak i kad je hladno ili samo ja? 😂",
+    content: "Da li još neko trenira čak i kad je hladno ili samo ja? 😂",
     type: "image",
     mediaUrl: "",
     username: "luka.ultras",
     firstName: "Luka Pavlović",
     lastName: "",
     avatarURL: "/assets/users/sr_boy2.png",
-    createdAt: new Date("April 19 2026 21:53:49"),
+    createdAt: new Date("April 26 2026 21:53:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 5
@@ -444,7 +444,7 @@ export const postsSR = [
     firstName: "Luka Pavlović",
     lastName: "",
     avatarURL: "/assets/users/sr_boy2.png",
-    createdAt: new Date("April 20 2026 03:50:49"),
+    createdAt: new Date("April 27 2026 03:50:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 88
@@ -453,14 +453,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "#nepopularnomišljenje Teže je trenirati nakon posla nego se probuditi u",
+    content: "#nepopularnomišljenje Teže je trenirati nakon posla nego se probuditi u 6:00",
     type: "image",
     mediaUrl: "",
     username: "luka.ultras",
     firstName: "Luka Pavlović",
     lastName: "",
     avatarURL: "/assets/users/sr_boy2.png",
-    createdAt: new Date("April 19 2026 21:51:49"),
+    createdAt: new Date("April 26 2026 21:51:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 44
@@ -476,7 +476,7 @@ export const postsSR = [
     firstName: "Luka Pavlović",
     lastName: "",
     avatarURL: "/assets/users/sr_boy2.png",
-    createdAt: new Date("April 19 2026 21:58:49"),
+    createdAt: new Date("April 26 2026 21:58:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 33
@@ -485,14 +485,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Ne znam trebam li zagrljaj ili novac (vjerojatno oboje)",
+    content: "Ne znam da li mi je potreban zagrljaj ili novac (verovatno oboje)",
     type: "image",
     mediaUrl: "",
     username: "nikola.otpor",
     firstName: "Nikola Ilić",
     lastName: "",
     avatarURL: "/assets/users/sr_boy.png",
-    createdAt: new Date("April 20 2026 06:51:49"),
+    createdAt: new Date("April 27 2026 06:51:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 44
@@ -501,14 +501,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Mrzim izlaziti van, ali mrzim i ostati kod kuće????",
+    content: "Mrzim da izlazim napolje, ali mrzim i da ostanem kod kuće????",
     type: "image",
     mediaUrl: "",
     username: "nikola.otpor",
     firstName: "Nikola Ilić",
     lastName: "",
     avatarURL: "/assets/users/sr_boy.png",
-    createdAt: new Date("April 19 2026 21:39:49"),
+    createdAt: new Date("April 26 2026 21:39:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 2
@@ -517,14 +517,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Ako nema glazbe, doslovno ne funkcioniram",
+    content: "Bez muzike bukvalno ne funkcionišem",
     type: "image",
     mediaUrl: "",
     username: "nikola.otpor",
     firstName: "Nikola Ilić",
     lastName: "",
     avatarURL: "/assets/users/sr_boy.png",
-    createdAt: new Date("April 20 2026 18:40:49"),
+    createdAt: new Date("April 27 2026 18:40:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 55
@@ -533,14 +533,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "11:11 zaželi želju",
+    content: "11:11 poželi želju",
     type: "image",
     mediaUrl: "",
     username: "nikola.otpor",
     firstName: "Nikola Ilić",
     lastName: "",
     avatarURL: "/assets/users/sr_boy.png",
-    createdAt: new Date("April 20 2026 09:50:49"),
+    createdAt: new Date("April 27 2026 09:50:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 74
@@ -549,14 +549,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "učenje s jednom otvorenom karticom i 15 drugih distrakcija ✨produktivnost✨",
+    content: "učenje s jednim otvorenim tabom i još 15 drugih distrakcija ✨čista produktivnost✨",
     type: "image",
     mediaUrl: "",
     username: "nikola.otpor",
     firstName: "Nikola Ilić",
     lastName: "",
     avatarURL: "/assets/users/sr_boy.png",
-    createdAt: new Date("April 19 2026 22:28:49"),
+    createdAt: new Date("April 26 2026 22:28:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 3
@@ -565,14 +565,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Moj raspored spavanja je prijedlog, a ne stvarnost",
+    content: "Moj raspored spavanja je predlog, a ne stvarnost",
     type: "image",
     mediaUrl: "",
     username: "ivana.noir",
     firstName: "Ivana Stojić",
     lastName: "",
     avatarURL: "/assets/users/sr_folk.png",
-    createdAt: new Date("April 20 2026 00:52:49"),
+    createdAt: new Date("April 27 2026 00:52:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 16
@@ -581,14 +581,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Sve je išlo dobro dok nisam morao nešto obaviti",
+    content: "Sve je išlo dobro dok nisam morala da nešto obavim",
     type: "image",
     mediaUrl: "",
     username: "ivana.noir",
     firstName: "Ivana Stojić",
     lastName: "",
     avatarURL: "/assets/users/sr_folk.png",
-    createdAt: new Date("April 20 2026 15:02:49"),
+    createdAt: new Date("April 27 2026 15:02:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 17
@@ -597,14 +597,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Ne razumijem kako ljudi imaju organizirane živote??? tutorial?",
+    content: "Ne razumem kako ljudi imaju organizovane živote??? tutorijal?",
     type: "image",
     mediaUrl: "",
     username: "ivana.noir",
     firstName: "Ivana Stojić",
     lastName: "",
     avatarURL: "/assets/users/sr_folk.png",
-    createdAt: new Date("April 20 2026 17:53:49"),
+    createdAt: new Date("April 27 2026 17:53:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 10
@@ -613,14 +613,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Lako se omestim, ali barem sam u tome dosljedan/dosljedna.",
+    content: "Lako mi nešto odvuče pažnju, ali barem sam dosledna u tome.",
     type: "image",
     mediaUrl: "",
     username: "ivana.noir",
     firstName: "Ivana Stojić",
     lastName: "",
     avatarURL: "/assets/users/sr_folk.png",
-    createdAt: new Date("April 20 2026 19:52:49"),
+    createdAt: new Date("April 27 2026 19:52:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 31
@@ -629,14 +629,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Rekla sam \"još jedna epizoda\" i sad je dan 👍",
+    content: "Rekla sam \"još jedna epizoda\" i sad je već svanulo 👍",
     type: "image",
     mediaUrl: "",
     username: "ivana.noir",
     firstName: "Ivana Stojić",
     lastName: "",
     avatarURL: "/assets/users/sr_folk.png",
-    createdAt: new Date("April 20 2026 05:52:49"),
+    createdAt: new Date("April 27 2026 05:52:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 12
@@ -645,14 +645,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "moj mozak: učini to\nja: ne\nmoj mozak: ok, ali tjeskoba",
+    content: "moj mozak: učini to\nja: ne\nmoj mozak: ok, ali anksioznost",
     type: "image",
     mediaUrl: "",
     username: "marko.teaches",
     firstName: "Marko Jovanović",
     lastName: "",
     avatarURL: "/assets/users/sr_teacher.png",
-    createdAt: new Date("April 20 2026 12:51:49"),
+    createdAt: new Date("April 27 2026 12:51:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 111
@@ -661,14 +661,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "slušanje iste pjesme 47 puta zaredom kao normalna osoba",
+    content: "slušam istu pesmu 47 puta zaredom kao svaka normalna osoba",
     type: "image",
     mediaUrl: "",
     username: "marko.teaches",
     firstName: "Marko Jovanović",
     lastName: "",
     avatarURL: "/assets/users/sr_teacher.png",
-    createdAt: new Date("April 20 2026 08:53:49"),
+    createdAt: new Date("April 27 2026 08:53:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 88
@@ -677,14 +677,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Volim otkazivati ​​planove, ali onda žalim što sam ih otkazao/la",
+    content: "Volim da otkazujem ​​planove, ali onda žalim što sam ih otkazao",
     type: "image",
     mediaUrl: "",
     username: "marko.teaches",
     firstName: "Marko Jovanović",
     lastName: "",
     avatarURL: "/assets/users/sr_teacher.png",
-    createdAt: new Date("April 20 2026 11:12:49"),
+    createdAt: new Date("April 27 2026 11:12:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 102
@@ -693,14 +693,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Produktivan sam točno 12 minuta dnevno",
+    content: "Produktivan sam tačno 12 minuta dnevno",
     type: "image",
     mediaUrl: "",
     username: "marko.teaches",
     firstName: "Marko Jovanović",
     lastName: "",
     avatarURL: "/assets/users/sr_teacher.png",
-    createdAt: new Date("April 20 2026 16:42:49"),
+    createdAt: new Date("April 27 2026 16:42:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 76
@@ -709,14 +709,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Moram spustiti telefon, ali mi i treba telefon",
+    content: "Moram da ostavim telefon, ali mi je telefon takođe potreban",
     type: "image",
     mediaUrl: "",
     username: "marko.teaches",
     firstName: "Marko Jovanović",
     lastName: "",
     avatarURL: "/assets/users/sr_teacher.png",
-    createdAt: new Date("April 20 2026 20:41:49"),
+    createdAt: new Date("April 27 2026 20:41:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 11
@@ -725,14 +725,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "proveo 6 sati pomičući piksele 2 mm lijevo i desno",
+    content: "proveo sam 6 sati pomerajući piksele 2 mm levo-desno",
     type: "image",
     mediaUrl: "",
     username: "milena.vibes",
     firstName: "Milena Petrović",
     lastName: "",
     avatarURL: "/assets/users/sr_disco.png",
-    createdAt: new Date("April 20 2026 00:53:49"),
+    createdAt: new Date("April 27 2026 00:53:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 631
@@ -741,14 +741,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "\"Make it pop\" je moja priča o podrijetlu negativca",
+    content: "\"Neka šljašti\" je moto mog zlog alter ega",
     type: "image",
     mediaUrl: "",
     username: "milena.vibes",
     firstName: "Milena Petrović",
     lastName: "",
     avatarURL: "/assets/users/sr_disco.png",
-    createdAt: new Date("April 19 2026 22:27:49"),
+    createdAt: new Date("April 26 2026 22:27:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 334
@@ -757,14 +757,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "kreativna blokada, ali učinite je estetskom",
+    content: "kada je već kreativna blokada, neka je estetska",
     type: "image",
     mediaUrl: "",
     username: "milena.vibes",
     firstName: "Milena Petrović",
     lastName: "",
     avatarURL: "/assets/users/sr_disco.png",
-    createdAt: new Date("April 20 2026 00:11:49"),
+    createdAt: new Date("April 27 2026 00:11:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 223
@@ -773,14 +773,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Izašao sam na jedno piće, vratio se kući u 9 ujutro",
+    content: "Izašao sam na jedno piće, vratio se kući u 9 ujutru",
     type: "image",
     mediaUrl: "",
     username: "milena.vibes",
     firstName: "Milena Petrović",
     lastName: "",
     avatarURL: "/assets/users/sr_disco.png",
-    createdAt: new Date("April 20 2026 12:44:49"),
+    createdAt: new Date("April 27 2026 12:44:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 445
@@ -789,14 +789,14 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Tehno me popravilo (privremeno)",
+    content: "Tehno me popravio (privremeno)",
     type: "image",
     mediaUrl: "",
     username: "milena.vibes",
     firstName: "Milena Petrović",
     lastName: "",
     avatarURL: "/assets/users/sr_disco.png",
-    createdAt: new Date("April 20 2026 15:06:49"),
+    createdAt: new Date("April 27 2026 15:06:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 214
@@ -805,17 +805,141 @@ export const postsSR = [
   },
   {
     _id: uuid(),
-    content: "Moj raspored spavanja sponzorira berghain",
+    content: "Moj raspored spavanja sponzoriše pivara",
     type: "image",
     mediaUrl: "",
     username: "milena.vibes",
     firstName: "Milena Petrović",
     lastName: "",
     avatarURL: "/assets/users/sr_disco.png",
-    createdAt: new Date("April 20 2026 10:31:49"),
+    createdAt: new Date("April 27 2026 10:31:49"),
     updatedAt: formatDate(),
     likes: {
       likeCount: 232
+    },
+    comments: []
+  },
+  {
+    _id: uuid(),
+    content: "brat mi je blizu Zlatibora i kaže da nikad nije video ovakvu vatru. i kao sve normalno?? 💔",
+    type: "image",
+    mediaUrl: "",
+    username: "sanjalica",
+    firstName: "SanjamLiJa",
+    lastName: "",
+    avatarURL: "/assets/users/sr_sanjalica.png",
+    createdAt: new Date("April 26 2026 22:51:49"),
+    updatedAt: formatDate(),
+    likes: {
+      likeCount: 1203
+    },
+    comments: [
+      {
+        _id: "uuid()",
+        text: "meni su rekli da je strašno kako izgleda",
+        username: "anabyana",
+        firstName: "anabyana",
+        lastName: "",
+        avatarURL: "/assets/users/default-avatar.jpg",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: []
+        },
+        createdAt: new Date("April 28 2026 08:07:23"),
+        updatedAt: "formatDate()"
+      }
+    ]
+  },
+  {
+    _id: uuid(),
+    content: "drugarica iz opštine mi kaže da se požari poklapaju sa mapama za litijum. sanjalica bi rekla slučajnost… ali ne verujem više 🙃",
+    type: "image",
+    mediaUrl: "",
+    username: "sanjalica",
+    firstName: "SanjamLiJa",
+    lastName: "",
+    avatarURL: "/assets/users/sr_sanjalica.png",
+    createdAt: new Date("April 26 2026 21:22:49"),
+    updatedAt: formatDate(),
+    likes: {
+      likeCount: 2362
+    },
+    comments: []
+  },
+  {
+    _id: uuid(),
+    content: "devojke podelite ovo. mediji prećutkuju a naše porodice dišu taj vazduh 🔥",
+    type: "image",
+    mediaUrl: "",
+    username: "sanjalica",
+    firstName: "SanjamLiJa",
+    lastName: "",
+    avatarURL: "/assets/users/sr_sanjalica.png",
+    createdAt: new Date("April 27 2026 14:41:49"),
+    updatedAt: formatDate(),
+    likes: {
+      likeCount: 920
+    },
+    comments: []
+  },
+  {
+    _id: uuid(),
+    content: "ne mogu da spavam. požar se širi a Beograd kao da spava. samo sami sebi možemo pomoći",
+    type: "image",
+    mediaUrl: "",
+    username: "sanjalica",
+    firstName: "SanjamLiJa",
+    lastName: "",
+    avatarURL: "/assets/users/sr_sanjalica.png",
+    createdAt: new Date("April 27 2026 01:14:49"),
+    updatedAt: formatDate(),
+    likes: {
+      likeCount: 542
+    },
+    comments: [
+      {
+        _id: "uuid()",
+        text: "tako je uvek i bilo",
+        username: "peka.ns",
+        firstName: "peka.ns",
+        lastName: "",
+        avatarURL: "/assets/users/default-avatar.jpg",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: []
+        },
+        createdAt: new Date("April 28 2026 08:07:23"),
+        updatedAt: "formatDate()"
+      },
+      {
+        _id: "uuid()",
+        text: "neki info? nisam ništa primetila",
+        username: "djurdja.ilić",
+        firstName: "djurdja.ilić",
+        lastName: "",
+        avatarURL: "/assets/users/default-avatar.jpg",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: []
+        },
+        createdAt: new Date("April 28 2026 08:07:23"),
+        updatedAt: "formatDate()"
+      }
+    ]
+  },
+  {
+    _id: uuid(),
+    content: "zvanični sajtovi kažu da je vazduh ok. Ćale kaže da je nepodnošljivo. kome da verujem… 🤔",
+    type: "image",
+    mediaUrl: "",
+    username: "sanjalica",
+    firstName: "SanjamLiJa",
+    lastName: "",
+    avatarURL: "/assets/users/sr_sanjalica.png",
+    createdAt: new Date("April 27 2026 15:38:49"),
+    updatedAt: formatDate(),
+    likes: {
+      likeCount: 843
     },
     comments: []
   }

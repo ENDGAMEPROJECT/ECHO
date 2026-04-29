@@ -12,23 +12,30 @@ import { useStats } from "./contexts/StatsProvider";  // Game statistics
 
 const RESUME_WINDOW_MS = 5 * 60 * 1000; // Allow resume for 5 min after completion
 
-// Check if player has an existing session - returns "resume" | "restart" | false
+// Check if player has an existing session - returns "resume" | "resume-onboarding" | "restart" | false
 const checkExistingSession = () => {
   try {
+    // Completed onboarding — check if the full game session can be resumed
     const playerData = sessionStorage.getItem('playerData');
-    if (!playerData) return false;
-    const parsed = JSON.parse(playerData);
-    if (!parsed.onboardingCompleted) return false;
+    if (playerData) {
+      const parsed = JSON.parse(playerData);
+      if (parsed.onboardingCompleted) {
+        const surveyCompleted = sessionStorage.getItem('surveyCompleted') === 'true';
+        if (!surveyCompleted) return "resume";
 
-    const surveyCompleted = sessionStorage.getItem('surveyCompleted') === 'true';
-    if (!surveyCompleted) return "resume";
+        const completedAt = Number(sessionStorage.getItem('gameCompletedAt') || 0);
+        if (completedAt && Date.now() - completedAt < RESUME_WINDOW_MS) {
+          return "resume";
+        }
 
-    const completedAt = Number(sessionStorage.getItem('gameCompletedAt') || 0);
-    if (completedAt && Date.now() - completedAt < RESUME_WINDOW_MS) {
-      return "resume";
+        return "restart";
+      }
     }
 
-    return "restart";
+    // Onboarding checkpoint — user was in the pretest when they refreshed
+    if (sessionStorage.getItem('onboarding:checkpoint')) return "resume-onboarding";
+
+    return false;
   } catch {
     return false;
   }
@@ -51,6 +58,8 @@ function App() {
   
   const [onboardingComplete, setOnboardingComplete] = useState(false);
   const [showSessionDialog, setShowSessionDialog] = useState(false);
+  // Tracks the kind of session detected: "resume" (full game) | "resume-onboarding" (pretest checkpoint)
+  const [sessionType, setSessionType] = useState(null);
   const sessionDialogInitRef = useRef(false);
 
   // Wrapper for XAPI tracking with fallback actor
@@ -66,9 +75,12 @@ function App() {
     sessionDialogInitRef.current = true;
 
     const sessionStatus = checkExistingSession();
-    if (sessionStatus === "resume") {
-      sendWithFallbackActor(XAPI_VERBS.EXITED_ADL, ECHO_ACTIVITIES.GAME);
-      pauseEscapeTimer();
+    if (sessionStatus === "resume" || sessionStatus === "resume-onboarding") {
+      setSessionType(sessionStatus);
+      if (sessionStatus === "resume") {
+        sendWithFallbackActor(XAPI_VERBS.EXITED_ADL, ECHO_ACTIVITIES.GAME);
+        pauseEscapeTimer();
+      }
       setShowSessionDialog(true);
     } else if (sessionStatus === "restart") {
       sessionStorage.clear();
@@ -76,18 +88,24 @@ function App() {
     }
   }, [pauseEscapeTimer, sendWithFallbackActor]);
 
-  // Handle resume: continue previous game
+  // Handle resume: continue previous game or resume onboarding from pretest
   const handleResume = () => {
+    setShowSessionDialog(false);
+    if (sessionType === "resume-onboarding") {
+      // Let PlayerOnboarding restore from checkpoint — don't skip onboarding
+      return;
+    }
     resumeEscapeTimer();
     sendWithFallbackActor(XAPI_VERBS.RESUMED, ECHO_ACTIVITIES.GAME);
-    setShowSessionDialog(false);
     setOnboardingComplete(true);
   };
 
   // Handle start over: clear storage and restart game
   const handleStartOver = async () => {
-    await sendWithFallbackActor(XAPI_VERBS.EXITED_ADL, ECHO_ACTIVITIES.GAME);
-    await new Promise((resolve) => setTimeout(resolve, 150));
+    if (sessionType === "resume") {
+      await sendWithFallbackActor(XAPI_VERBS.EXITED_ADL, ECHO_ACTIVITIES.GAME);
+      await new Promise((resolve) => setTimeout(resolve, 150));
+    }
     sessionStorage.clear();
     window.location.reload();
   };

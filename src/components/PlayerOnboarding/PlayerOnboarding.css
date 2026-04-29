@@ -10,11 +10,34 @@
   justify-content: center;
   z-index: 9999;
   animation: fadeIn 0.5s ease;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .onboarding-overlay-video {
   background: #000;
   padding: 0;
+  position: relative;
+}
+
+.onboarding-tap-to-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
 }
 
 .onboarding-video-fullscreen {
@@ -377,6 +400,11 @@
 
 /* Tablet/iPad view - Portrait orientation (default) */
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .onboarding-overlay {
+    align-items: flex-start;
+    padding: 20px 0;
+  }
+
   .onboarding-container {
     max-width: 550px;
     padding: 28px 24px;

@@ -23,7 +23,7 @@ html.ai-incorrect-no-scroll {
     overflow: hidden;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1199px) {
     body.ai-incorrect-no-scroll,
     html.ai-incorrect-no-scroll {
         overflow: auto;
@@ -434,6 +434,7 @@ html.ai-incorrect-no-scroll {
     .ai-incorrect-list {
         padding-bottom: 100px;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .list-item {
@@ -456,35 +457,5 @@ html.ai-incorrect-no-scroll {
         width: 100%;
         padding: 16px;
         max-height: none;
-    }
-}
-
-/* Tablet: 768px - 1199px */
-@media (min-width: 768px) and (max-width: 1199px) {
-    .ai-incorrect-app {
-        height: calc(100vh - 100px);
-        min-height: calc(100vh - 100px);
-        overflow: hidden;
-    }
-
-    .ai-incorrect-feed,
-    .ai-incorrect-uses-page,
-    .ai-incorrect-panel {
-        height: 100%;
-        overflow: hidden;
-    }
-
-    .ai-incorrect-list {
-        padding-bottom: 80px;
-        overflow-y: auto;
-    }
-
-    .reply-open-btn {
-        font-size: 14px;
-        padding: 6px 14px;
-    }
-
-    .list-item {
-        padding: 12px 14px;
     }
 }
