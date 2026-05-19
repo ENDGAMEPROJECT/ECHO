@@ -55,6 +55,7 @@ export const AIContent = () => {
   const { challenge2Completed, completeChallenge2, setChallenge2Total, setChallenge2Progress, pauseEscapeTimer, resumeEscapeTimer } = useStats();
   const { sendStatement, trackChallengeStarted } = useXAPI();
   const completionSentRef = useRef(false);
+  const videoRef = useRef(null);
   const [step, setStep] = useState("list");
   // Video watched flag (persisted in sessionStorage)
   const [videoEnded, setVideoEnded] = useState(() => {
@@ -65,6 +66,8 @@ export const AIContent = () => {
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   // Wrong word selection during current step (used for visual feedback, clears after animation)
   const [wrongChoice, setWrongChoice] = useState(null);
+  // True when browser blocks autoplay — shows tap-to-play button
+  const [needsTapToPlay, setNeedsTapToPlay] = useState(false);
   // Show reconstructed sentence vs. original post (delayed display after completion)
   const [showMatch, setShowMatch] = useState(false);
   // Shuffled answer options for each word position
@@ -152,6 +155,14 @@ export const AIContent = () => {
   useEffect(() => {
     setHasLocalizedVideo(true);
   }, [localizedVideoSrc]);
+
+  // Programmatically play video — show tap-to-play if browser blocks autoplay
+  useEffect(() => {
+    if (step === "video" && !videoEnded && videoRef.current) {
+      setNeedsTapToPlay(false);
+      videoRef.current.play().catch(() => setNeedsTapToPlay(true));
+    }
+  }, [step, videoEnded]);
 
   // Complete challenge, send Challenge 3 instructions message
   const handleCompletionClose = () => {
@@ -440,9 +451,9 @@ export const AIContent = () => {
                   {hasLocalizedVideo && (
                     <div className="ai-video-container">
                       <video
+                        ref={videoRef}
                         width="100%"
                         controls={false}
-                        autoPlay={!videoEnded}
                         playsInline
                         onEnded={() => {
                           sessionStorage.setItem("echo:puzzle2:videoViewed", "true");
@@ -453,6 +464,17 @@ export const AIContent = () => {
                         src={localizedVideoSrc}
                         style={{ borderRadius: 12, background: "#000" }}
                       />
+                      {needsTapToPlay && !videoEnded && (
+                        <button
+                          className="ai-tap-to-play"
+                          onClick={() => {
+                            setNeedsTapToPlay(false);
+                            videoRef.current?.play().catch(() => {});
+                          }}
+                        >
+                          ▶
+                        </button>
+                      )}
                       {videoEnded && (
                         <div className="ai-video-replay-overlay">
                           <button

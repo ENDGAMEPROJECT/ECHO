@@ -32,6 +32,7 @@
 
 /* Barra de título */
 .window-titlebar {
+  min-height: 40px;
   height: 40px;
   background: linear-gradient(120deg, #1b1135, #2a1454 45%, #3b1c6e);
   color: #fff;
@@ -104,7 +105,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 20% 20%, rgba(63, 60, 105, 0.9), rgba(9, 10, 20, 0.98) 60%);
+  background-color: #090a14;
+  background-image: radial-gradient(circle at 20% 20%, rgba(63, 60, 105, 0.9), rgba(9, 10, 20, 0.98) 60%);
   padding: 32px 20px;
 }
 
@@ -239,6 +241,7 @@
     position: relative;
     inset: auto;
     min-height: 100vh;
+    min-height: 100dvh;
     height: auto;
     overflow: visible;
   }
@@ -256,7 +259,139 @@
 
   .social-login {
     min-height: calc(100vh - 40px);
+    min-height: calc(100dvh - 40px);
   }
+}
+
+/* Tablet: 768px - 1199px */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .social-app-window {
+    position: relative;
+    inset: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: auto;
+    overflow: visible;
+  }
+
+  .window-titlebar {
+    position: sticky;
+    top: 0;
+    z-index: 110;
+  }
+
+  .social-app-content {
+    overflow: visible;
+    flex: none;
+  }
+
+  .social-login {
+    min-height: calc(100vh - 40px);
+    min-height: calc(100dvh - 40px);
+    padding: 60px 20px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .social-login-card {
+    width: min(420px, 85vw);
+  }
+}
+
+/* Landscape orientation */
+@media (min-width: 768px) and (orientation: landscape) {
+  .social-app-window {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .window-titlebar {
+    position: sticky;
+    top: 0;
+    z-index: 110;
+  }
+
+  /* .social-login {
+    min-height: auto;
+  } */
+}
+
+/* Titlebar countdown — hidden on desktop, visible on mobile/tablet */
+.titlebar-countdown {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .titlebar-countdown {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(9, 16, 34, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    padding: 4px 10px;
+    margin-left: auto;
+    margin-right: 8px;
+  }
+
+  .titlebar-countdown-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.65);
+    display: none;
+  }
+
+  .titlebar-countdown-value {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    font-family: "Share Tech Mono", "Courier New", monospace;
+    color: #ffd85e;
+    text-shadow: 0 0 10px rgba(255, 216, 94, 0.2);
+  }
+
+  .titlebar-countdown--critical {
+    border-color: rgba(255, 74, 74, 0.6);
+    background: rgba(34, 8, 8, 0.8);
+  }
+
+  .titlebar-countdown--critical .titlebar-countdown-value {
+    color: #ff4a4a;
+    text-shadow: 0 0 12px rgba(255, 74, 74, 0.6);
+  }
+
+  .titlebar-countdown--flash {
+    animation: titlebarCountdownFlash 1.25s ease-in-out;
+  }
+
+  .titlebar-countdown--critical.titlebar-countdown--flash {
+    animation: titlebarCountdownCriticalFlash 1.6s ease-in-out;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 500px) {
+  .titlebar-countdown-label {
+    display: inline;
+  }
+}
+
+@keyframes titlebarCountdownFlash {
+  0%   { transform: scale(1); filter: brightness(1); }
+  20%  { transform: scale(1.08); filter: brightness(1.25); }
+  50%  { transform: scale(0.98); filter: brightness(1.05); }
+  75%  { transform: scale(1.05); filter: brightness(1.15); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes titlebarCountdownCriticalFlash {
+  0%   { transform: scale(1); filter: brightness(1); }
+  18%  { transform: scale(1.1); filter: brightness(1.35); }
+  40%  { transform: scale(0.97); filter: brightness(1.08); }
+  60%  { transform: scale(1.07); filter: brightness(1.25); }
+  100% { transform: scale(1); filter: brightness(1); }
 }
 
 /* Ya ocupa toda la pantalla por defecto, no necesita responsive específico */

@@ -8,6 +8,81 @@ import { formatDate } from "../utils/authUtils.jsx";
 export const usersSR = [
   {
     _id: uuid(),
+    firstName: "Slovenski medvedi",
+    lastName: "",
+    bio: "Slovenski medvedi ",
+    username: "Slavic_Bears",
+    password: "ECHO",
+    createdAt: new Date("January 01 2026 00:00:00"),
+    updatedAt: formatDate(),
+    avatarURL: "/assets/users/Slavic_Bears.png",
+    verified: true,
+    stats: {
+      followersCount: "52K",
+      followingCount: 26,
+      postsCount: "500+"
+    },
+    puzzle: {
+      isBot: true,
+      abnormalRatio: true,
+      recentAccount: true,
+      temporalActivity: false,
+      targetAudience: true,
+      emotions: true
+    }
+  },
+  {
+    _id: uuid(),
+    firstName: "Borba za istinu",
+    lastName: "",
+    bio: "/",
+    username: "Borba_za_istinu",
+    password: "ECHO",
+    createdAt: new Date("May 01 2025 00:00:00"),
+    updatedAt: formatDate(),
+    avatarURL: "/assets/users/Coat_of_arms_of_Serbia_small_B-W.png",
+    verified: false,
+    stats: {
+      followersCount: "1.1K",
+      followingCount: 91,
+      postsCount: "500+"
+    },
+    puzzle: {
+      isBot: true,
+      abnormalRatio: true,
+      recentAccount: true,
+      temporalActivity: true,
+      targetAudience: false,
+      emotions: true
+    }
+  },
+  {
+    _id: uuid(),
+    firstName: "SanjamLiJa",
+    lastName: "",
+    bio: "Istina je tamo negde",
+    username: "sanjalica",
+    password: "ECHO",
+    createdAt: new Date("December 26 2023 00:00:00"),
+    updatedAt: formatDate(),
+    avatarURL: "/assets/users/sr_sanjalica.png",
+    verified: false,
+    stats: {
+      followersCount: "7,9K",
+      followingCount: "10,5k",
+      postsCount: 492
+    },
+    puzzle: {
+      isBot: true,
+      abnormalRatio: true,
+      recentAccount: false,
+      temporalActivity: false,
+      targetAudience: true,
+      emotions: true
+    }
+  },
+  {
+    _id: uuid(),
     firstName: "RHMZ Republički hidrometeorološki zavod Srbije",
     lastName: "",
     bio: "RHMZ Srbije je referentna ustanova sa punom odgovornošću za izradu i prezentovanje prognoza vremena i voda, davanje upozorenja i najava za vanredne i opasne meteorološke i hidrološke pojave.",
@@ -58,31 +133,6 @@ export const usersSR = [
   },
   {
     _id: uuid(),
-    firstName: "Borba za istinu",
-    lastName: "",
-    bio: "/",
-    username: "Borba_za_istinu",
-    password: "ECHO",
-    createdAt: new Date("May 01 2025 00:00:00"),
-    updatedAt: formatDate(),
-    avatarURL: "/assets/users/Coat_of_arms_of_Serbia_small_B-W.png",
-    verified: false,
-    stats: {
-      followersCount: "1.1K",
-      followingCount: 91,
-      postsCount: "500+"
-    },
-    puzzle: {
-      isBot: true,
-      abnormalRatio: true,
-      recentAccount: true,
-      temporalActivity: true,
-      targetAudience: false,
-      emotions: true
-    }
-  },
-  {
-    _id: uuid(),
     firstName: "Sektor za vanredne situacije MUP-a Republike Srbije",
     lastName: "",
     bio: "Sektor za vanredne situacije, \n\nMinistarstvo unutrasnjih poslova, \n\nRepublika Srbija.",
@@ -104,31 +154,6 @@ export const usersSR = [
       temporalActivity: false,
       targetAudience: false,
       emotions: false
-    }
-  },
-  {
-    _id: uuid(),
-    firstName: "Slovenski medvedi",
-    lastName: "",
-    bio: "Slovenski medvedi ",
-    username: "Slavic_Bears",
-    password: "ECHO",
-    createdAt: new Date("January 01 2026 00:00:00"),
-    updatedAt: formatDate(),
-    avatarURL: "/assets/users/Slavic_Bears.png",
-    verified: true,
-    stats: {
-      followersCount: "52K",
-      followingCount: 26,
-      postsCount: "500+"
-    },
-    puzzle: {
-      isBot: true,
-      abnormalRatio: true,
-      recentAccount: true,
-      temporalActivity: false,
-      targetAudience: true,
-      emotions: true
     }
   },
   {
@@ -235,7 +260,7 @@ export const usersSR = [
     _id: uuid(),
     firstName: "Milena Petrović",
     lastName: "",
-    bio: "belgrade | coffee lover | дневник у мислима",
+    bio: "belgrade | coffee lover | dnevnik u mislima",
     username: "milena.vibes",
     password: "ECHO",
     createdAt: new Date("March 01 2022 00:00:00"),

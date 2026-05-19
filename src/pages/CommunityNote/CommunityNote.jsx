@@ -139,9 +139,8 @@ export const CommunityNote = ({ setIsCreateNewPostClicked, className = "modal-co
           },
         }
       );
-      // Show error and reset selection for retry
+      // Show error but keep selections so user can modify them for retry
       toast.error(t("createPost.incorrectSelection"));
-      setSelectedStatements([]);
       return;
     }
     // Success path: all selections correct - proceed with conclusion

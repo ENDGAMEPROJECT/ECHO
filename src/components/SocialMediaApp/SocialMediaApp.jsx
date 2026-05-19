@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useRef } from "react";
+import React, { useMemo, useState, useEffect, useRef, useCallback } from "react";
 import "./SocialMediaApp.css";
 import { useOS } from "../../contexts/OSProvider";
 import { NavRoutes } from "../../Routes/NavRoutes";
@@ -34,8 +34,12 @@ export const SocialMediaApp = ({ mode = "window" }) => {
   // Translation hook for multilingual support
   const { t } = useTranslation();
   
-  // Challenge progress tracking and bot count management
-  const { challenge1Completed, setSuspectUsersCount } = useStats();
+  // Challenge progress tracking, bot count management, and escape timer
+  const {
+    challenge1Completed, setSuspectUsersCount,
+    escapeTimerStarted, escapeTimerRemainingMs, escapeTimerFlashTick,
+    challengeFinalCompleted,
+  } = useStats();
   
   // User data from global state
   const { userState } = useUser();
@@ -88,6 +92,28 @@ export const SocialMediaApp = ({ mode = "window" }) => {
   
   // Track previous login state to detect transitions from false to true
   const prevLoginDoneRef = useRef(loginDone);
+
+  // Countdown timer for mobile/tablet titlebar
+  const isCountdownCritical = escapeTimerRemainingMs <= 5 * 60 * 1000;
+  const [countdownFlash, setCountdownFlash] = useState(false);
+  const lastFlashTickRef = useRef(escapeTimerFlashTick);
+  const showTitlebarCountdown = escapeTimerStarted && !challengeFinalCompleted;
+
+  const countdownText = useMemo(() => {
+    const totalSeconds = Math.max(0, Math.ceil(escapeTimerRemainingMs / 1000));
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  }, [escapeTimerRemainingMs]);
+
+  useEffect(() => {
+    if (!escapeTimerStarted || challengeFinalCompleted || !escapeTimerFlashTick) return;
+    if (escapeTimerFlashTick <= lastFlashTickRef.current) return;
+    lastFlashTickRef.current = escapeTimerFlashTick;
+    setCountdownFlash(true);
+    const id = setTimeout(() => setCountdownFlash(false), isCountdownCritical ? 1700 : 1300);
+    return () => clearTimeout(id);
+  }, [escapeTimerFlashTick, escapeTimerStarted, challengeFinalCompleted, isCountdownCritical]);
 
   /**
    * Determine if login is required
@@ -210,6 +236,16 @@ export const SocialMediaApp = ({ mode = "window" }) => {
             />
           </div>
           
+          {/* Countdown timer: visible only on mobile/tablet via CSS */}
+          {showTitlebarCountdown && (
+            <div
+              className={`titlebar-countdown${isCountdownCritical ? " titlebar-countdown--critical" : ""}${countdownFlash ? " titlebar-countdown--flash" : ""}`}
+            >
+              <span className="titlebar-countdown-label">{t("shared.timeLeft")}</span>
+              <span className="titlebar-countdown-value">{countdownText}</span>
+            </div>
+          )}
+
           {/* Window control buttons (minimize and close) */}
           <div className="window-controls">
             {/* Minimize button */}
@@ -274,7 +310,7 @@ export const SocialMediaApp = ({ mode = "window" }) => {
                   value={username}
                   onChange={(event) => setUsername(event.target.value)}
                   placeholder="echo"
-                  autoComplete="username"
+                  autoComplete="off"
                 />
                 
                 {/* Password input field with visibility toggle */}

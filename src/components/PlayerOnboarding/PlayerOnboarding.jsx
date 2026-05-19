@@ -1,5 +1,5 @@
 import "./PlayerOnboarding.css";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 // xAPI tracker context for learning analytics - tracks player interactions
 // XAPI_VERBS: constants for xAPI verb types (STARTED, ANSWERED, etc.)
@@ -27,6 +27,11 @@ import { assetPath } from "../../utils/assetPath";
  * @param {Function} onComplete - Callback fired when onboarding completes with finalizedPlayerData
  * @returns {JSX.Element} Full-screen onboarding overlay with conditional rendering of steps
  */
+// Module-level cache — survives component re-mounts but is cleared on page
+// refresh or "Start Over" (both trigger a full page reload).
+let _cachedName = "";
+let _cachedAge = "";
+
 export const PlayerOnboarding = ({ onComplete }) => {
   // i18n hook - t() for translations, i18n for language configuration and change
   const { i18n, t } = useTranslation();
@@ -39,8 +44,8 @@ export const PlayerOnboarding = ({ onComplete }) => {
   // Current step in onboarding flow: "playerForm" → "intro1Video" → "pretest" → "intro2Video" → complete
   const [step, setStep] = useState("playerForm");
   // Form field states for player profile
-  const [playerName, setPlayerName] = useState("");
-  const [playerAge, setPlayerAge] = useState("");
+  const [playerName, setPlayerName] = useState(_cachedName);
+  const [playerAge, setPlayerAge] = useState(_cachedAge);
   // Selected language for the game session (affects video selection and text translations)
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language || "en");
   // Form validation errors - keys are field names (name, age)
@@ -51,9 +56,30 @@ export const PlayerOnboarding = ({ onComplete }) => {
   const [selectedStatements, setSelectedStatements] = useState([]);
   // Tracks availability of intro1 and intro2 videos for selected language (async probe results)
   const [videoAvailability, setVideoAvailability] = useState({ intro1: false, intro2: false });
-  
+  // True when browser blocks autoplay — shows tap-to-play button
+  const [needsTapToPlay, setNeedsTapToPlay] = useState(false);
+
   // Translation helper - gets text in selectedLanguage with fallback to global t()
   const tx = (key, options = {}) => t(key, { lng: selectedLanguage, ...options });
+
+  // Restore from checkpoint on mount (user refreshed during pretest or intro2 video)
+  useEffect(() => {
+    const raw = sessionStorage.getItem("onboarding:checkpoint");
+    if (raw) {
+      try {
+        const cp = JSON.parse(raw);
+        _cachedName = cp.name;
+        _cachedAge = String(cp.age);
+        setPlayerName(cp.name);
+        setPlayerAge(String(cp.age));
+        setSelectedLanguage(cp.language);
+        setPlayerData({ name: cp.name, age: cp.age, language: cp.language });
+        setVideoAvailability(cp.videoAvailability);
+        i18n.changeLanguage(cp.language);
+        setStep(cp.step || "pretest");
+      } catch { /* ignore corrupt checkpoint */ }
+    }
+  }, []);
 
   /**
    * Validates player form inputs
@@ -146,8 +172,9 @@ export const PlayerOnboarding = ({ onComplete }) => {
         resolve(result);
       };
 
-      // 2.5 second timeout - if metadata doesn't load, assume unavailable
-      const timeoutId = window.setTimeout(() => finish(false), 2500);
+      // 5 second timeout — assume video exists if metadata is slow to load
+      // (onError on the actual <video> element will catch truly missing files)
+      const timeoutId = window.setTimeout(() => finish(true), 5000);
 
       // Metadata loaded successfully = video exists and is accessible
       probeVideo.preload = "metadata";
@@ -158,12 +185,25 @@ export const PlayerOnboarding = ({ onComplete }) => {
     });
   };
 
+  // Save checkpoint so onboarding progress survives a page refresh
+  const saveCheckpoint = (data, availability, savedStep = "pretest") => {
+    sessionStorage.setItem("onboarding:checkpoint", JSON.stringify({
+      name: data.name,
+      age: data.age,
+      language: data.language,
+      videoAvailability: availability,
+      step: savedStep,
+    }));
+  };
+
   /**
    * Marks onboarding as complete and initializes game session
    * Stores player data, starts escape room timer, notifies app
    * @param {Object} data - Player profile data {name, age, language}
    */
   const completeOnboarding = (data) => {
+    // Checkpoint no longer needed — onboarding is done
+    sessionStorage.removeItem("onboarding:checkpoint");
     // Clear social login session for fresh game session
     sessionStorage.removeItem("socialLoginDone");
 
@@ -277,6 +317,7 @@ export const PlayerOnboarding = ({ onComplete }) => {
 
     // If intro2 video available, show it before completing
     if (videoAvailability.intro2) {
+      saveCheckpoint(playerData, videoAvailability, "intro2Video");
       setStep("intro2Video");
       return;
     }
@@ -350,6 +391,8 @@ export const PlayerOnboarding = ({ onComplete }) => {
       if (nextAvailability.intro1) {
         setStep("intro1Video");
       } else {
+        // No intro1 video — go directly to pretest, save checkpoint
+        saveCheckpoint(nextPlayerData, nextAvailability);
         setStep("pretest");
       }
     }
@@ -359,9 +402,28 @@ export const PlayerOnboarding = ({ onComplete }) => {
   const intro1Path = getVideoPath(1, selectedLanguage);
   const intro2Path = getVideoPath(2, selectedLanguage);
 
+  // Refs for programmatic video playback (avoids muted autoplay restriction)
+  const intro1VideoRef = useRef(null);
+  const intro2VideoRef = useRef(null);
+
   // Conditional rendering checks - only show video if step AND video is available
   const isIntro1VideoStep = step === "intro1Video" && videoAvailability.intro1;
   const isIntro2VideoStep = step === "intro2Video" && videoAvailability.intro2;
+
+  // Play intro videos programmatically — show tap-to-play button if browser blocks autoplay
+  useEffect(() => {
+    if (isIntro1VideoStep && intro1VideoRef.current) {
+      setNeedsTapToPlay(false);
+      intro1VideoRef.current.play().catch(() => setNeedsTapToPlay(true));
+    }
+  }, [isIntro1VideoStep]);
+
+  useEffect(() => {
+    if (isIntro2VideoStep && intro2VideoRef.current) {
+      setNeedsTapToPlay(false);
+      intro2VideoRef.current.play().catch(() => setNeedsTapToPlay(true));
+    }
+  }, [isIntro2VideoStep]);
 
   // Intro 1 video - plays first introduction video, advances to pretest when ends or errors
   if (isIntro1VideoStep) {
@@ -369,19 +431,26 @@ export const PlayerOnboarding = ({ onComplete }) => {
       <div className="onboarding-overlay onboarding-overlay-video">
         {/* Full-screen video player for intro sequence */}
         <video
+          ref={intro1VideoRef}
           className="onboarding-video-fullscreen"
           src={intro1Path}
-          // Auto-start video playback
-          autoPlay
-          // Allows inline playback on mobile devices
           playsInline
-          // Hide video controls - full-screen immersive experience
           controls={false}
-          // When video ends naturally, advance to pretest
-          onEnded={() => setStep("pretest")}
-          // If video fails to load, skip to pretest anyway
-          onError={() => setStep("pretest")}
+          webkit-playsinline="true"
+          onEnded={() => { saveCheckpoint(playerData, videoAvailability); setStep("pretest"); }}
+          onError={() => { saveCheckpoint(playerData, videoAvailability); setStep("pretest"); }}
         />
+        {needsTapToPlay && (
+          <button
+            className="onboarding-tap-to-play"
+            onClick={() => {
+              setNeedsTapToPlay(false);
+              intro1VideoRef.current?.play().catch(() => {});
+            }}
+          >
+            ▶
+          </button>
+        )}
       </div>
     );
   }
@@ -392,19 +461,26 @@ export const PlayerOnboarding = ({ onComplete }) => {
       <div className="onboarding-overlay onboarding-overlay-video">
         {/* Full-screen video player for second intro sequence */}
         <video
+          ref={intro2VideoRef}
           className="onboarding-video-fullscreen"
           src={intro2Path}
-          // Auto-start video playback
-          autoPlay
-          // Allows inline playback on mobile devices
           playsInline
-          // Hide video controls - full-screen immersive experience
           controls={false}
-          // When video ends, complete entire onboarding process
+          webkit-playsinline="true"
           onEnded={() => completeOnboarding(playerData)}
-          // If video fails to load, still complete onboarding
           onError={() => completeOnboarding(playerData)}
         />
+        {needsTapToPlay && (
+          <button
+            className="onboarding-tap-to-play"
+            onClick={() => {
+              setNeedsTapToPlay(false);
+              intro2VideoRef.current?.play().catch(() => {});
+            }}
+          >
+            ▶
+          </button>
+        )}
       </div>
     );
   }
@@ -436,9 +512,10 @@ export const PlayerOnboarding = ({ onComplete }) => {
                   // Apply error styling if name validation failed
                   className={`onboarding-input ${errors.name ? "error" : ""}`}
                   value={playerName}
-                  onChange={(e) => setPlayerName(e.target.value)}
+                  onChange={(e) => { _cachedName = e.target.value; setPlayerName(e.target.value); }}
                   placeholder={tx("playerOnboarding.namePlaceholder")}
                   maxLength={30}
+                  autoComplete="off"
                 />
                 {/* Show validation error message if errors exist */}
                 {errors.name && <span className="onboarding-error">{errors.name}</span>}
@@ -455,10 +532,11 @@ export const PlayerOnboarding = ({ onComplete }) => {
                   // Apply error styling if age validation failed
                   className={`onboarding-input ${errors.age ? "error" : ""}`}
                   value={playerAge}
-                  onChange={(e) => setPlayerAge(e.target.value)}
+                  onChange={(e) => { _cachedAge = e.target.value; setPlayerAge(e.target.value); }}
                   placeholder={tx("playerOnboarding.agePlaceholder")}
                   min="1"
                   max="120"
+                  autoComplete="off"
                 />
                 {/* Show validation error message if errors exist */}
                 {errors.age && <span className="onboarding-error">{errors.age}</span>}

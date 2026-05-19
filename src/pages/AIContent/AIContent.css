@@ -413,6 +413,26 @@
     position: relative;
 }
 
+.ai-tap-to-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    color: #fff;
+    font-size: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
 .ai-video-replay-overlay {
     position: absolute;
     top: 0;
@@ -474,6 +494,9 @@
     gap: 24px;
     flex-direction: row;
       @media screen and (max-width: 767px) {
+        flex-direction: column;
+    }
+    @media screen and (min-width: 1025px) and (max-width: 1200px) {
         flex-direction: column;
     }
 }
@@ -648,7 +671,7 @@
     padding: 6px 18px 10px 18px;
     border-radius: 8px;
     position: absolute;
-    top: 18px;
+    top: 12px;
     right: 24px;
 }
 
@@ -1080,8 +1103,29 @@ html.ai-content-no-scroll {
     color: #7f8c8d;
 }
 
-/* Tablet/iPad view - adjust game panel to prevent overlapping */
-@media (min-width: 768px) and (max-width: 1024px) {
+/* Tablet: 768px - 1199px */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .ai-content-feed {
+    height: auto;
+    min-height: calc(100vh - 100px);
+    overflow: visible;
+  }
+
+  .ai-content-page {
+    height: auto;
+    min-height: calc(100vh - 100px);
+    padding: 12px 12px 120px;
+    overflow: visible;
+    align-items: stretch;
+  }
+
+  .ai-content-frame {
+    max-height: none;
+    overflow: visible;
+    @media (min-width: 1025px) and (max-width: 1199px) {
+     width: auto;
+    }
+  }
   .ai-game-panel {
     max-height: none;
     overflow: visible;
@@ -1092,7 +1136,8 @@ html.ai-content-no-scroll {
   .ai-game-content {
     overflow: visible;
     min-height: auto;
-    gap: 8px;
+    gap: 12px;
+    flex-direction: column;
   }
 
   .ai-game-words-container {
@@ -1119,7 +1164,7 @@ html.ai-content-no-scroll {
   }
 
   .ai-game-badge {
-    top: 12px;
+  top: 6px;
     right: 16px;
     padding: 4px 12px 6px;
   }
@@ -1144,7 +1189,7 @@ html.ai-content-no-scroll {
   }
 
   .ai-game-actions {
-    flex-direction: column;
+    flex-direction: row;
     gap: 12px;
     padding-bottom: 20px;
   }
@@ -1156,14 +1201,14 @@ html.ai-content-no-scroll {
   }
 
   .ai-verify-actions {
-    flex-direction: column;
+    flex-direction: row;
     gap: 12px;
     padding-bottom: 20px;
   }
 
   .ai-verify-back,
   .ai-verify-start {
-    width: 100%;
+    flex: 1;
     padding: 10px 16px;
     font-size: 14px;
   }
@@ -1172,5 +1217,67 @@ html.ai-content-no-scroll {
     max-height: none;
     overflow: visible;
     padding: 12px 16px;
+  }
+}
+
+/* Desktop/iPad: 1200px+ - horizontal layout */
+@media (min-width: 1200px) and (orientation: landscape) {
+  .ai-game-panel {
+    max-height: none;
+    overflow: visible;
+    padding: 16px 20px;
+    gap: 10px;
+  }
+
+  .ai-game-content {
+    overflow: visible;
+    min-height: auto;
+    gap: 10px;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  .ai-game-words-container {
+    min-height: auto;
+    overflow: visible;
+    max-height: none;
+    padding: 14px;
+    gap: 14px;
+    flex: 1;
+    min-width: 45%;
+  }
+
+  .ai-game-prompt-container {
+    min-height: auto;
+    padding: 22px 20px;
+    flex: 1;
+    min-width: 45%;
+  }
+
+  .ai-game-prompt {
+    padding-right: 140px;
+  }
+
+  .ai-game-prompt-text {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .ai-verify-panel {
+    max-height: none;
+    overflow: visible;
+    padding: 16px 20px;
+  }
+
+  .ai-verify-actions {
+    flex-direction: row;
+    gap: 14px;
+  }
+
+  .ai-video-panel {
+    max-height: none;
+    overflow: visible;
+    padding: 16px 20px;
   }
 }

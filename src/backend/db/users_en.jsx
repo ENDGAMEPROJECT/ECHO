@@ -24,9 +24,12 @@ export const usersEN = [
     },
     puzzle: {
       isBot: true,
-      abnormalRatio: false,
+      abnormalRatio: true,
       recentAccount: false,
-      temporalActivity: true,
+      temporalActivity: {
+        value: true,
+        mandatory: true
+      },
       targetAudience: false,
       emotions: false
     }
@@ -38,7 +41,7 @@ export const usersEN = [
     bio: "What nobody dares to say",
     username: "WakeUpReports",
     password: "ECHO",
-    createdAt: new Date("November 01 2025 00:00:00"),
+    createdAt: new Date("March 11 2026 00:00:00"),
     updatedAt: formatDate(),
     avatarURL: "/assets/users/LaVerdadSobreLasNoticias.png",
     verified: false,
@@ -50,10 +53,13 @@ export const usersEN = [
     puzzle: {
       isBot: true,
       abnormalRatio: true,
-      recentAccount: true,
+      recentAccount: {
+        value: true,
+        mandatory: true
+      },
       temporalActivity: false,
       targetAudience: false,
-      emotions: false
+      emotions: true
     }
   },
   {
@@ -78,7 +84,10 @@ export const usersEN = [
       recentAccount: true,
       temporalActivity: false,
       targetAudience: false,
-      emotions: true
+      emotions: {
+        value: true,
+        mandatory: true
+      }
     }
   },
   {
@@ -99,11 +108,14 @@ export const usersEN = [
     },
     puzzle: {
       isBot: true,
-      abnormalRatio: false,
+      abnormalRatio: true,
       recentAccount: false,
       temporalActivity: false,
-      targetAudience: true,
-      emotions: false
+      targetAudience: {
+        value: true,
+        mandatory: true
+      },
+      emotions: true
     }
   },
   {
@@ -266,7 +278,7 @@ export const usersEN = [
     createdAt: new Date("October 01 2010 00:00:00"),
     updatedAt: formatDate(),
     avatarURL: "/assets/users/EUCouncil.png",
-    verified: false,
+    verified: true,
     stats: {
       followersCount: "774.9K",
       followingCount: 543,
@@ -291,7 +303,7 @@ export const usersEN = [
     createdAt: new Date("October 01 2012 00:00:00"),
     updatedAt: formatDate(),
     avatarURL: "/assets/users/EUClimateAction.jpg",
-    verified: false,
+    verified: true,
     stats: {
       followersCount: "138.1K",
       followingCount: "29.6K",

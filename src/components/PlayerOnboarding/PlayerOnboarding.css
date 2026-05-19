@@ -10,18 +10,55 @@
   justify-content: center;
   z-index: 9999;
   animation: fadeIn 0.5s ease;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .onboarding-overlay-video {
   background: #000;
   padding: 0;
+  position: relative;
+}
+
+.onboarding-tap-to-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
 }
 
 .onboarding-video-fullscreen {
-  width: 100vw;
-  height: 100vh;
+  width: 90vw;
+  height: 90vh;
   object-fit: contain;
   background: #000;
+  display: block;
+}
+
+/* Ensure video works properly on iPad/tablet */
+@media (max-width: 1024px) {
+  .onboarding-video-fullscreen {
+    object-fit: contain;
+    display: block;
+  }
+
+  .onboarding-overlay-video {
+    -webkit-user-select: none;
+    user-select: none;
+  }
 }
 
 @keyframes fadeIn {
@@ -127,6 +164,9 @@
   max-height: 360px;
   overflow-y: auto;
   padding-right: 4px;
+  span {
+    font-size: 16px;
+  }
 }
 
 .onboarding-statement {
@@ -374,8 +414,13 @@
   }
 }
 
-/* Tablet/iPad view - flag appears left of language name */
-@media (min-width: 768px) and (max-width: 1024px) {
+/* Tablet/iPad view - Portrait orientation (default) */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .onboarding-overlay {
+    align-items: flex-start;
+    padding: 20px 0;
+  }
+
   .onboarding-container {
     max-width: 550px;
     padding: 28px 24px;
@@ -406,22 +451,76 @@
   }
 
   .language-option {
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    padding: 12px 16px;
-    gap: 10px;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 16px;
   }
 
   .language-flag {
-    width: 36px;
-    height: 27px;
+    width: 48px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+
+  .language-name {
+    font-size: 15px;
+  }
+}
+
+/* Tablet/iPad view - Landscape orientation (horizontal) */
+@media (min-width: 1024px) and (orientation: landscape) {
+  .onboarding-container {
+    max-width: 700px;
+    padding: 24px 32px;
+  }
+
+  .onboarding-container--wide {
+    max-width: 750px;
+  }
+
+  .onboarding-title {
+    font-size: 48px;
+  }
+
+  .onboarding-subtitle {
+    font-size: 17px;
+  }
+
+  .onboarding-form {
+    gap: 18px;
+  }
+
+  .onboarding-step-content {
+    gap: 14px;
+  }
+
+  .onboarding-step-title {
+    font-size: 24px;
+  }
+
+  .language-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .language-option {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 14px 18px;
+    gap: 12px;
+  }
+
+  .language-flag {
+    width: 40px;
+    height: 30px;
     flex-shrink: 0;
     order: 1;
   }
 
   .language-name {
     order: 2;
-    font-size: 14px;
+    font-size: 15px;
   }
 }
