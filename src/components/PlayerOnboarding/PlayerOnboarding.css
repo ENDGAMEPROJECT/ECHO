@@ -63,7 +63,7 @@
 
 .onboarding-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .onboarding-title {
@@ -169,7 +169,7 @@
 .onboarding-field {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .onboarding-label {
@@ -181,6 +181,7 @@
 }
 
 .onboarding-input {
+  
   width: 100%;
   padding: 14px 18px;
   font-size: 16px;
@@ -191,6 +192,7 @@
   transition: all 0.3s ease;
   outline: none;
 }
+
 
 .onboarding-input::placeholder {
   color: rgba(255, 255, 255, 0.4);
@@ -320,12 +322,12 @@
   .onboarding-overlay {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    align-items: flex-start;
+    align-items: center;
     padding: 20px 0;
   }
 
   .onboarding-container {
-    padding: 32px 24px;
+    padding: 16px 24px;
     width: 95%;
   }
 
@@ -335,14 +337,25 @@
 
   .onboarding-title {
     font-size: 42px;
+    margin: 0 0 6px;
   }
 
   .onboarding-subtitle {
     font-size: 14px;
   }
+  .onboarding-input {
+    padding:10px 12px
+  }
+  .onboarding-form {
+    gap: 16px
+  }
 
   .language-grid {
     grid-template-columns: 1fr;
+    gap:8px;
+    button {
+      padding:8px
+    }
   }
 
   .language-option {
@@ -355,6 +368,9 @@
   .language-flag {
     width: 36px;
     height: 27px;
+  }
+  .onboarding-submit {
+    margin-top: 0px
   }
 }
 
