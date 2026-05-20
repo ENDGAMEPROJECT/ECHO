@@ -26,7 +26,9 @@ html.ai-incorrect-no-scroll {
 @media (max-width: 1199px) {
     body.ai-incorrect-no-scroll,
     html.ai-incorrect-no-scroll {
-        overflow: auto;
+        overflow: visible !important;
+        height: auto;
+        position: static;
     }
 }
 
@@ -364,14 +366,15 @@ html.ai-incorrect-no-scroll {
     .ai-incorrect-app {
         height: auto;
         min-height: 100vh;
-        overflow: auto;
+        overflow: visible;
     }
 
     .ai-incorrect-feed,
     .ai-incorrect-uses-page,
-    .ai-incorrect-panel {
+    .ai-incorrect-panel,
+    .ai-incorrect-list {
         height: auto;
-        overflow: auto;
+        overflow: visible;
         margin-bottom: 1rem;
     }
 
@@ -384,14 +387,15 @@ html.ai-incorrect-no-scroll {
     }
 
     .reply-modal-backdrop {
+        display: block;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        align-items: flex-start;
         padding: 24px 8px 120px;
     }
 
     .reply-modal {
         width: 100%;
+        margin: 0 auto;
         padding: 16px;
         max-height: none;
     }
@@ -447,14 +451,15 @@ html.ai-incorrect-no-scroll {
     }
 
     .reply-modal-backdrop {
+        display: block;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        align-items: flex-start;
         padding: 24px 8px 120px;
     }
 
     .reply-modal {
         width: 100%;
+        margin: 0 auto;
         padding: 16px;
         max-height: none;
     }
