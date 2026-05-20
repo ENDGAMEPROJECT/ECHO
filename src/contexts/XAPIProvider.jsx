@@ -10,6 +10,15 @@ const XAPIContext = createContext();
 const XAPI_ENDPOINT = import.meta.env.VITE_XAPI_ENDPOINT;
 const XAPI_AUTH = import.meta.env.VITE_XAPI_AUTH;
 
+const getBasicAuthHeader = (authValue) => {
+  if (!authValue) return "";
+
+  const trimmedAuth = authValue.trim();
+  return /^Basic\s+/i.test(trimmedAuth) ? trimmedAuth : `Basic ${trimmedAuth}`;
+};
+
+const XAPI_AUTH_HEADER = getBasicAuthHeader(XAPI_AUTH);
+
 // Base IRIs for ENDGAME project
 const ENDGAME_BASE = "https://endgameproject.github.io/xapi";
 const RWTH_VERBS = "https://xapi.elearn.rwth-aachen.de/definitions/ide/verbs";
@@ -197,7 +206,7 @@ export const XAPIProvider = ({ children }) => {
 
   // Verify xAPI is properly configured on mount
   useEffect(() => {
-    const configured = !!(XAPI_ENDPOINT && XAPI_AUTH);
+    const configured = !!(XAPI_ENDPOINT && XAPI_AUTH_HEADER);
     setIsConfigured(configured);
     if (!configured && isDev) {
       console.warn("xAPI is not fully configured. Check VITE_XAPI_ENDPOINT and VITE_XAPI_AUTH in .env");
@@ -339,7 +348,7 @@ export const XAPIProvider = ({ children }) => {
         keepalive: Boolean(options?.keepalive),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Basic ${XAPI_AUTH}`,
+          "Authorization": XAPI_AUTH_HEADER,
           "X-Experience-API-Version": "1.0.3",
         },
         body: JSON.stringify(statement),
