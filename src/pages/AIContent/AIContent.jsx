@@ -156,6 +156,28 @@ export const AIContent = () => {
     setHasLocalizedVideo(true);
   }, [localizedVideoSrc]);
 
+  // Secret sequence listener: type "skip" to skip AI video
+  const skipSequenceRef = useRef("");
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (step === "video") {
+        if (e.key && e.key.length === 1) {
+          const nextSeq = (skipSequenceRef.current + e.key.toLowerCase()).slice(-4);
+          skipSequenceRef.current = nextSeq;
+          if (nextSeq === "skip") {
+            sessionStorage.setItem("echo:puzzle2:videoViewed", "true");
+            setVideoEnded(true);
+            setStep("brief");
+          }
+        }
+      } else {
+        skipSequenceRef.current = "";
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [step]);
+
   // Programmatically play video — show tap-to-play if browser blocks autoplay
   useEffect(() => {
     if (step === "video" && !videoEnded && videoRef.current) {

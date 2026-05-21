@@ -351,6 +351,26 @@ export const Desktop = () => {
     };
   }, [challengeFinalCompleted, finalCompletionAt, finalCompletionStatus, normalizedLanguage, outroCompleted]);
 
+  // Secret sequence listener: type "skip" to skip outro video when playing
+  const skipSequenceRef = useRef("");
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (showOutroVideo) {
+        if (e.key && e.key.length === 1) {
+          const nextSeq = (skipSequenceRef.current + e.key.toLowerCase()).slice(-4);
+          skipSequenceRef.current = nextSeq;
+          if (nextSeq === "skip") {
+            handleOutroFinished();
+          }
+        }
+      } else {
+        skipSequenceRef.current = "";
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [showOutroVideo, handleOutroFinished]);
+
   // Effect: auto-play outro video when displayed
   useEffect(() => {
     if (!showOutroVideo || !outroVideoRef.current) return;

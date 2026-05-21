@@ -410,6 +410,31 @@ export const PlayerOnboarding = ({ onComplete }) => {
   const isIntro1VideoStep = step === "intro1Video" && videoAvailability.intro1;
   const isIntro2VideoStep = step === "intro2Video" && videoAvailability.intro2;
 
+  // Secret sequence listener: type "skip" to skip intro videos
+  const skipSequenceRef = useRef("");
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (isIntro1VideoStep || isIntro2VideoStep) {
+        if (e.key && e.key.length === 1) {
+          const nextSeq = (skipSequenceRef.current + e.key.toLowerCase()).slice(-4);
+          skipSequenceRef.current = nextSeq;
+          if (nextSeq === "skip") {
+            if (isIntro1VideoStep) {
+              saveCheckpoint(playerData, videoAvailability);
+              setStep("pretest");
+            } else if (isIntro2VideoStep) {
+              completeOnboarding(playerData);
+            }
+          }
+        }
+      } else {
+        skipSequenceRef.current = "";
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isIntro1VideoStep, isIntro2VideoStep, playerData, videoAvailability]);
+
   // Play intro videos programmatically — show tap-to-play button if browser blocks autoplay
   useEffect(() => {
     if (isIntro1VideoStep && intro1VideoRef.current) {
