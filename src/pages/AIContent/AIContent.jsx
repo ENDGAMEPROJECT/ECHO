@@ -156,38 +156,6 @@ export const AIContent = () => {
     setHasLocalizedVideo(true);
   }, [localizedVideoSrc]);
 
-  // Developer video skip check (query parameter, or storage flag)
-  const isSkipEnabled = () => {
-    const params = new URLSearchParams(window.location.search);
-    const hasSkipParam = params.get("skipVideos") === "true" || params.get("skip") === "true";
-    const hasStorageSkip = localStorage.getItem("skipVideos") === "true" || sessionStorage.getItem("echo:skipVideos") === "true";
-    return hasSkipParam || hasStorageSkip;
-  };
-
-  const skipAIVideo = () => {
-    sessionStorage.setItem("echo:puzzle2:videoViewed", "true");
-    setVideoEnded(true);
-    setStep("brief");
-  };
-
-  // Auto-skip video if skip is enabled
-  useEffect(() => {
-    if (step === "video" && isSkipEnabled()) {
-      skipAIVideo();
-    }
-  }, [step]);
-
-  // Listen to keyboard shortcuts (Escape or 'S' key) for skipping
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (step === "video" && (e.key === "Escape" || e.key?.toLowerCase() === "s")) {
-        skipAIVideo();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [step]);
-
   // Programmatically play video — show tap-to-play if browser blocks autoplay
   useEffect(() => {
     if (step === "video" && !videoEnded && videoRef.current) {
@@ -494,16 +462,14 @@ export const AIContent = () => {
                         onPlay={() => setVideoEnded(false)}
                         onError={() => setHasLocalizedVideo(false)}
                         src={localizedVideoSrc}
-                        style={{ borderRadius: 12, background: "#000", cursor: "pointer" }}
-                        onDoubleClick={skipAIVideo}
-                        title="Double click or press Esc/S to skip"
+                        style={{ borderRadius: 12, background: "#000" }}
                       />
                       {needsTapToPlay && !videoEnded && (
                         <button
                           className="ai-tap-to-play"
                           onClick={() => {
                             setNeedsTapToPlay(false);
-                            videoRef.current?.play().catch(() => {});
+                            videoRef.current?.play().catch(() => { });
                           }}
                         >
                           ▶
@@ -599,23 +565,23 @@ export const AIContent = () => {
                         </div>
                       </div>
                     </div>
-                  
+
                   </div>
-                    <div className="ai-game-btn-container">
-                      <button
-                        className="ai-verify-back"
-                        type="button"
-                        onClick={() => setStep("video")}
-                      >
-                        {t("aiVideoPage.back")}
-                      </button>
-                      <button
-                        className="ai-brief-button"
-                        onClick={() => setStep("game")}
-                      >
-                        {t("aiChallengeBriefPage.buttonText")}
-                      </button>
-                    </div>
+                  <div className="ai-game-btn-container">
+                    <button
+                      className="ai-verify-back"
+                      type="button"
+                      onClick={() => setStep("video")}
+                    >
+                      {t("aiVideoPage.back")}
+                    </button>
+                    <button
+                      className="ai-brief-button"
+                      onClick={() => setStep("game")}
+                    >
+                      {t("aiChallengeBriefPage.buttonText")}
+                    </button>
+                  </div>
                 </section>
               ) : step === "game" ? (
                 <section className="ai-game-panel">
@@ -693,10 +659,10 @@ export const AIContent = () => {
                                     <button
                                       key={`${selectedWords.length}-${word}`}
                                       className={`ai-game-word-button ${wrongChoice?.step ===
-                                          selectedWords.length &&
-                                          wrongChoice?.word === word
-                                          ? "wrong-word"
-                                          : ""
+                                        selectedWords.length &&
+                                        wrongChoice?.word === word
+                                        ? "wrong-word"
+                                        : ""
                                         }`}
                                       onClick={() => handleWordClick(word)}
                                     >

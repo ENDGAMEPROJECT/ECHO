@@ -35,12 +35,12 @@ let _cachedAge = "";
 export const PlayerOnboarding = ({ onComplete }) => {
   // i18n hook - t() for translations, i18n for language configuration and change
   const { i18n, t } = useTranslation();
-  
+
   // xAPI context - initializeActor creates player profile for tracking, sendStatement logs interactions
   const { initializeActor, sendStatement } = useXAPI();
   // Stats context - startEscapeTimer begins the game countdown timer after onboarding
   const { startEscapeTimer } = useStats();
-  
+
   // Current step in onboarding flow: "playerForm" → "intro1Video" → "pretest" → "intro2Video" → complete
   const [step, setStep] = useState("playerForm");
   // Form field states for player profile
@@ -61,15 +61,6 @@ export const PlayerOnboarding = ({ onComplete }) => {
 
   // Translation helper - gets text in selectedLanguage with fallback to global t()
   const tx = (key, options = {}) => t(key, { lng: selectedLanguage, ...options });
-
-  // Developer video skip check (query parameter, developer name, or storage flag)
-  const isSkipEnabled = () => {
-    const params = new URLSearchParams(window.location.search);
-    const hasSkipParam = params.get("skipVideos") === "true" || params.get("skip") === "true";
-    const hasNameSkip = playerName.toLowerCase().includes("skip") || playerName.toLowerCase() === "dev";
-    const hasStorageSkip = localStorage.getItem("skipVideos") === "true" || sessionStorage.getItem("echo:skipVideos") === "true";
-    return hasSkipParam || hasNameSkip || hasStorageSkip;
-  };
 
   // Restore from checkpoint on mount (user refreshed during pretest or intro2 video)
   useEffect(() => {
@@ -97,21 +88,21 @@ export const PlayerOnboarding = ({ onComplete }) => {
    */
   const validateForm = () => {
     const newErrors = {};
-    
+
     // Validate name - must not be empty and at least 2 characters
     if (!playerName.trim()) {
       newErrors.name = tx("playerOnboarding.nameErrorEmpty");
     } else if (playerName.trim().length < 2) {
       newErrors.name = tx("playerOnboarding.nameErrorShort");
     }
-    
+
     // Validate age - must be provided and within 1-120 range
     if (!playerAge) {
       newErrors.age = tx("playerOnboarding.ageErrorEmpty");
     } else if (playerAge < 1 || playerAge > 120) {
       newErrors.age = tx("playerOnboarding.ageErrorInvalid");
     }
-    
+
     // Update error state and return true if no errors
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -270,7 +261,7 @@ export const PlayerOnboarding = ({ onComplete }) => {
         text: statement.text,
         correct: Boolean(statement.correct),
       }));
-    
+
     // Count correct and incorrect selections for xAPI tracking
     const correctTrueCount = selectedDetails.filter((s) => s.correct).length;
     const correctFalseCount = selectedDetails.length - correctTrueCount;
@@ -325,7 +316,7 @@ export const PlayerOnboarding = ({ onComplete }) => {
     );
 
     // If intro2 video available, show it before completing
-    if (videoAvailability.intro2 && !isSkipEnabled()) {
+    if (videoAvailability.intro2) {
       saveCheckpoint(playerData, videoAvailability, "intro2Video");
       setStep("intro2Video");
       return;
@@ -357,11 +348,6 @@ export const PlayerOnboarding = ({ onComplete }) => {
 
       // Switch app language ASAP to show UI in selected language
       i18n.changeLanguage(selectedLanguage);
-
-      // Store in session storage if skip is enabled so it persists to future pages/refreshes
-      if (isSkipEnabled()) {
-        sessionStorage.setItem("echo:skipVideos", "true");
-      }
 
       // Initialize xAPI actor (creates player profile for analytics)
       const initializedActor = initializeActor(nextPlayerData);
@@ -402,10 +388,10 @@ export const PlayerOnboarding = ({ onComplete }) => {
       setSelectedStatements([]);
 
       // Route to first available step: intro1 video -> pretest -> pretest (or exit)
-      if (nextAvailability.intro1 && !isSkipEnabled()) {
+      if (nextAvailability.intro1) {
         setStep("intro1Video");
       } else {
-        // No intro1 video or skip is enabled — go directly to pretest, save checkpoint
+        // No intro1 video — go directly to pretest, save checkpoint
         saveCheckpoint(nextPlayerData, nextAvailability);
         setStep("pretest");
       }
@@ -423,31 +409,6 @@ export const PlayerOnboarding = ({ onComplete }) => {
   // Conditional rendering checks - only show video if step AND video is available
   const isIntro1VideoStep = step === "intro1Video" && videoAvailability.intro1;
   const isIntro2VideoStep = step === "intro2Video" && videoAvailability.intro2;
-
-  // Handlers for skipping videos interactively (via double-click or keyboard)
-  const handleIntro1Skip = () => {
-    saveCheckpoint(playerData, videoAvailability);
-    setStep("pretest");
-  };
-
-  const handleIntro2Skip = () => {
-    completeOnboarding(playerData);
-  };
-
-  // Listen to keyboard shortcuts (Escape or 'S' key) for skipping
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape" || e.key?.toLowerCase() === "s") {
-        if (step === "intro1Video") {
-          handleIntro1Skip();
-        } else if (step === "intro2Video") {
-          handleIntro2Skip();
-        }
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [step, playerData, videoAvailability]);
 
   // Play intro videos programmatically — show tap-to-play button if browser blocks autoplay
   useEffect(() => {
@@ -476,18 +437,15 @@ export const PlayerOnboarding = ({ onComplete }) => {
           playsInline
           controls={false}
           webkit-playsinline="true"
-          onEnded={handleIntro1Skip}
-          onError={handleIntro1Skip}
-          onDoubleClick={handleIntro1Skip}
-          title="Double click or press Esc/S to skip"
-          style={{ cursor: "pointer" }}
+          onEnded={() => { saveCheckpoint(playerData, videoAvailability); setStep("pretest"); }}
+          onError={() => { saveCheckpoint(playerData, videoAvailability); setStep("pretest"); }}
         />
         {needsTapToPlay && (
           <button
             className="onboarding-tap-to-play"
             onClick={() => {
               setNeedsTapToPlay(false);
-              intro1VideoRef.current?.play().catch(() => {});
+              intro1VideoRef.current?.play().catch(() => { });
             }}
           >
             ▶
@@ -509,18 +467,15 @@ export const PlayerOnboarding = ({ onComplete }) => {
           playsInline
           controls={false}
           webkit-playsinline="true"
-          onEnded={handleIntro2Skip}
-          onError={handleIntro2Skip}
-          onDoubleClick={handleIntro2Skip}
-          title="Double click or press Esc/S to skip"
-          style={{ cursor: "pointer" }}
+          onEnded={() => completeOnboarding(playerData)}
+          onError={() => completeOnboarding(playerData)}
         />
         {needsTapToPlay && (
           <button
             className="onboarding-tap-to-play"
             onClick={() => {
               setNeedsTapToPlay(false);
-              intro2VideoRef.current?.play().catch(() => {});
+              intro2VideoRef.current?.play().catch(() => { });
             }}
           >
             ▶
@@ -588,55 +543,55 @@ export const PlayerOnboarding = ({ onComplete }) => {
               </div>
               {/* Language selection grid - shown only if multiple languages configured */}
               {i18n.options.supportedLngs && i18n.options.supportedLngs.length > 0 && (
-              <div className="onboarding-field">
-                <label className="onboarding-label">{tx("playerOnboarding.languageLabel")}</label>
-                {/* Grid of language options with country flags */}
-                <div className="language-grid">
-                  {/* Spanish language button with ES flag */}
-                  {i18n.options.supportedLngs.includes("es") && <button
-                    type="button"
-                    // Highlight selected language
-                    className={`language-option ${selectedLanguage === "es" ? "selected" : ""}`}
-                    onClick={() => setSelectedLanguage("es")}
-                  >
-                    <img src="https://flagcdn.com/w80/es.png" alt="ES" className="language-flag" />
-                    <span className="language-name">Español</span>
-                  </button>}
-                  
-                  {/* English language button with GB flag */}
-                  {i18n.options.supportedLngs.includes("en") && <button
-                    type="button"
-                    // Highlight selected language
-                    className={`language-option ${selectedLanguage === "en" ? "selected" : ""}`}
-                    onClick={() => setSelectedLanguage("en")}
-                  >
-                    <img src="https://flagcdn.com/w80/gb.png" alt="GB" className="language-flag" />
-                    <span className="language-name">English</span>
-                  </button>}
-                  
-                  {/* Finnish language button with FI flag */}
-                  {i18n.options.supportedLngs.includes("fi") && <button
-                    type="button"
-                    // Highlight selected language
-                    className={`language-option ${selectedLanguage === "fi" ? "selected" : ""}`}
-                    onClick={() => setSelectedLanguage("fi")}
-                  >
-                    <img src="https://flagcdn.com/w80/fi.png" alt="FI" className="language-flag" />
-                    <span className="language-name">Suomi</span>
-                  </button>}
-                  
-                  {/* Serbian language button with RS flag */}
-                  {i18n.options.supportedLngs.includes("sr") && <button
-                    type="button"
-                    // Highlight selected language
-                    className={`language-option ${selectedLanguage === "sr" ? "selected" : ""}`}
-                    onClick={() => setSelectedLanguage("sr")}
-                  >
-                    <img src="https://flagcdn.com/w80/rs.png" alt="RS" className="language-flag" />
-                    <span className="language-name">Српски</span>
-                  </button>}
-                </div>
-              </div>)}
+                <div className="onboarding-field">
+                  <label className="onboarding-label">{tx("playerOnboarding.languageLabel")}</label>
+                  {/* Grid of language options with country flags */}
+                  <div className="language-grid">
+                    {/* Spanish language button with ES flag */}
+                    {i18n.options.supportedLngs.includes("es") && <button
+                      type="button"
+                      // Highlight selected language
+                      className={`language-option ${selectedLanguage === "es" ? "selected" : ""}`}
+                      onClick={() => setSelectedLanguage("es")}
+                    >
+                      <img src="https://flagcdn.com/w80/es.png" alt="ES" className="language-flag" />
+                      <span className="language-name">Español</span>
+                    </button>}
+
+                    {/* English language button with GB flag */}
+                    {i18n.options.supportedLngs.includes("en") && <button
+                      type="button"
+                      // Highlight selected language
+                      className={`language-option ${selectedLanguage === "en" ? "selected" : ""}`}
+                      onClick={() => setSelectedLanguage("en")}
+                    >
+                      <img src="https://flagcdn.com/w80/gb.png" alt="GB" className="language-flag" />
+                      <span className="language-name">English</span>
+                    </button>}
+
+                    {/* Finnish language button with FI flag */}
+                    {i18n.options.supportedLngs.includes("fi") && <button
+                      type="button"
+                      // Highlight selected language
+                      className={`language-option ${selectedLanguage === "fi" ? "selected" : ""}`}
+                      onClick={() => setSelectedLanguage("fi")}
+                    >
+                      <img src="https://flagcdn.com/w80/fi.png" alt="FI" className="language-flag" />
+                      <span className="language-name">Suomi</span>
+                    </button>}
+
+                    {/* Serbian language button with RS flag */}
+                    {i18n.options.supportedLngs.includes("sr") && <button
+                      type="button"
+                      // Highlight selected language
+                      className={`language-option ${selectedLanguage === "sr" ? "selected" : ""}`}
+                      onClick={() => setSelectedLanguage("sr")}
+                    >
+                      <img src="https://flagcdn.com/w80/rs.png" alt="RS" className="language-flag" />
+                      <span className="language-name">Српски</span>
+                    </button>}
+                  </div>
+                </div>)}
 
               {/* Submit button to proceed to next step */}
               <button type="submit" className="onboarding-submit">

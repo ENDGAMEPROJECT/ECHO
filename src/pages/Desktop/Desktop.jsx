@@ -45,7 +45,7 @@ export const Desktop = () => {
   const { t, i18n } = useTranslation();
   // Check if mission brief read (blocks social app access)
   const missionBriefRead = sessionStorage.getItem("missionBriefRead") === "true";
-  
+
   // Popup state: info popup when trying to access locked app
   const [popup, setPopup] = useState({
     visible: false,
@@ -100,13 +100,6 @@ export const Desktop = () => {
     const baseLanguage = i18n.resolvedLanguage || i18n.language || "es";
     return ["es", "en", "fi", "sr"].includes(baseLanguage) ? baseLanguage : "es";
   });
-  // Developer video skip check (query parameter, or storage flag)
-  const isSkipEnabled = () => {
-    const params = new URLSearchParams(window.location.search);
-    const hasSkipParam = params.get("skipVideos") === "true" || params.get("skip") === "true";
-    const hasStorageSkip = localStorage.getItem("skipVideos") === "true" || sessionStorage.getItem("echo:skipVideos") === "true";
-    return hasSkipParam || hasStorageSkip;
-  };
   // Track last flash tick to trigger countdown animation once
   const lastHandledFlashTickRef = useRef(escapeTimerFlashTick);
   // Timeout for delayed outro video display
@@ -335,12 +328,6 @@ export const Desktop = () => {
   useEffect(() => {
     if (!challengeFinalCompleted || !finalCompletionStatus || outroCompleted) return;
 
-    // Auto-skip outro video if skip is enabled
-    if (isSkipEnabled()) {
-      handleOutroFinished();
-      return;
-    }
-
     // Set outro language and hide survey
     setOutroLanguage(normalizedLanguage);
     setShowSurveyModal(false);
@@ -362,25 +349,14 @@ export const Desktop = () => {
         outroTimeoutRef.current = null;
       }
     };
-  }, [challengeFinalCompleted, finalCompletionAt, finalCompletionStatus, normalizedLanguage, outroCompleted, handleOutroFinished]);
-
-  // Effect: listen to keyboard shortcuts (Escape or 'S' key) to skip outro video when playing
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (showOutroVideo && (e.key === "Escape" || e.key?.toLowerCase() === "s")) {
-        handleOutroFinished();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [showOutroVideo, handleOutroFinished]);
+  }, [challengeFinalCompleted, finalCompletionAt, finalCompletionStatus, normalizedLanguage, outroCompleted]);
 
   // Effect: auto-play outro video when displayed
   useEffect(() => {
     if (!showOutroVideo || !outroVideoRef.current) return;
     const playPromise = outroVideoRef.current.play();
     if (playPromise?.catch) {
-      playPromise.catch(() => {}); // Suppress autoplay errors
+      playPromise.catch(() => { }); // Suppress autoplay errors
     }
   }, [showOutroVideo, outroVideoSrc]);
 
@@ -477,7 +453,7 @@ export const Desktop = () => {
       {/* App launcher drawer: shows 4 main app icons at bottom */}
       <div
         className={`app-drawer open ${unreadCount > 0 ? "has-unread" : ""}`}
-     
+
       >
         {/* Drawer toggle button - currently disabled */}
         {/* <button
@@ -516,7 +492,7 @@ export const Desktop = () => {
             title={t("desktop.apps.social")}
           >
             <img
-              className="launcher-image launcher-image--echo" 
+              className="launcher-image launcher-image--echo"
               src={assetPath("/assets/echo-logo-short.png")}
               alt={t("desktop.apps.social")}
             />
@@ -656,9 +632,7 @@ export const Desktop = () => {
             webkit-playsinline="true"
             onEnded={handleOutroFinished}
             onError={handleOutroVideoError}
-            onDoubleClick={handleOutroFinished}
             onContextMenu={(event) => event.preventDefault()}
-            title="Double-click to skip video"
           />
         </div>
       )}
