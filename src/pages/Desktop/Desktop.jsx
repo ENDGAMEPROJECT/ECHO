@@ -100,6 +100,13 @@ export const Desktop = () => {
     const baseLanguage = i18n.resolvedLanguage || i18n.language || "es";
     return ["es", "en", "fi", "sr"].includes(baseLanguage) ? baseLanguage : "es";
   });
+  // Developer video skip check (query parameter, or storage flag)
+  const isSkipEnabled = () => {
+    const params = new URLSearchParams(window.location.search);
+    const hasSkipParam = params.get("skipVideos") === "true" || params.get("skip") === "true";
+    const hasStorageSkip = localStorage.getItem("skipVideos") === "true" || sessionStorage.getItem("echo:skipVideos") === "true";
+    return hasSkipParam || hasStorageSkip;
+  };
   // Track last flash tick to trigger countdown animation once
   const lastHandledFlashTickRef = useRef(escapeTimerFlashTick);
   // Timeout for delayed outro video display
@@ -328,6 +335,12 @@ export const Desktop = () => {
   useEffect(() => {
     if (!challengeFinalCompleted || !finalCompletionStatus || outroCompleted) return;
 
+    // Auto-skip outro video if skip is enabled
+    if (isSkipEnabled()) {
+      handleOutroFinished();
+      return;
+    }
+
     // Set outro language and hide survey
     setOutroLanguage(normalizedLanguage);
     setShowSurveyModal(false);
@@ -349,7 +362,18 @@ export const Desktop = () => {
         outroTimeoutRef.current = null;
       }
     };
-  }, [challengeFinalCompleted, finalCompletionAt, finalCompletionStatus, normalizedLanguage, outroCompleted]);
+  }, [challengeFinalCompleted, finalCompletionAt, finalCompletionStatus, normalizedLanguage, outroCompleted, handleOutroFinished]);
+
+  // Effect: listen to keyboard shortcuts (Escape or 'S' key) to skip outro video when playing
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (showOutroVideo && (e.key === "Escape" || e.key?.toLowerCase() === "s")) {
+        handleOutroFinished();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [showOutroVideo, handleOutroFinished]);
 
   // Effect: auto-play outro video when displayed
   useEffect(() => {
@@ -632,7 +656,9 @@ export const Desktop = () => {
             webkit-playsinline="true"
             onEnded={handleOutroFinished}
             onError={handleOutroVideoError}
+            onDoubleClick={handleOutroFinished}
             onContextMenu={(event) => event.preventDefault()}
+            title="Double-click to skip video"
           />
         </div>
       )}

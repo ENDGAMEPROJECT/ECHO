@@ -4,7 +4,7 @@
   align-items: flex-start;
   opacity: 1;
   padding: 1.5rem 1rem;
-  background-color: var(--surface);
+  height: 85vh;
   color: var(--text-color);
   border-radius: 1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -230,6 +230,7 @@
     font-size: 1.3rem;
   }
 }
+
 .echo-logo-create-post {
   border: rgba(255, 255, 255, 0.205) solid 2px;
 }

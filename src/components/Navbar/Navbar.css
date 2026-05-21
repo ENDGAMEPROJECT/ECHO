@@ -283,13 +283,13 @@
 .create-post-modal {
   position: fixed;
   inset: 0;
-  height: var(--is-ios) 85vh;
+  height: var(--is-ios, 85vh);
+
   z-index: 1300;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding: clamp(56px, 10vh, 40px) 16px 24px;
-  overflow-y: auto;
   background-color: rgba(0, 0, 0, 0.55) !important;
 }
 

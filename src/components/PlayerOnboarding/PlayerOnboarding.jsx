@@ -62,6 +62,15 @@ export const PlayerOnboarding = ({ onComplete }) => {
   // Translation helper - gets text in selectedLanguage with fallback to global t()
   const tx = (key, options = {}) => t(key, { lng: selectedLanguage, ...options });
 
+  // Developer video skip check (query parameter, developer name, or storage flag)
+  const isSkipEnabled = () => {
+    const params = new URLSearchParams(window.location.search);
+    const hasSkipParam = params.get("skipVideos") === "true" || params.get("skip") === "true";
+    const hasNameSkip = playerName.toLowerCase().includes("skip") || playerName.toLowerCase() === "dev";
+    const hasStorageSkip = localStorage.getItem("skipVideos") === "true" || sessionStorage.getItem("echo:skipVideos") === "true";
+    return hasSkipParam || hasNameSkip || hasStorageSkip;
+  };
+
   // Restore from checkpoint on mount (user refreshed during pretest or intro2 video)
   useEffect(() => {
     const raw = sessionStorage.getItem("onboarding:checkpoint");
@@ -316,7 +325,7 @@ export const PlayerOnboarding = ({ onComplete }) => {
     );
 
     // If intro2 video available, show it before completing
-    if (videoAvailability.intro2) {
+    if (videoAvailability.intro2 && !isSkipEnabled()) {
       saveCheckpoint(playerData, videoAvailability, "intro2Video");
       setStep("intro2Video");
       return;
@@ -348,6 +357,11 @@ export const PlayerOnboarding = ({ onComplete }) => {
 
       // Switch app language ASAP to show UI in selected language
       i18n.changeLanguage(selectedLanguage);
+
+      // Store in session storage if skip is enabled so it persists to future pages/refreshes
+      if (isSkipEnabled()) {
+        sessionStorage.setItem("echo:skipVideos", "true");
+      }
 
       // Initialize xAPI actor (creates player profile for analytics)
       const initializedActor = initializeActor(nextPlayerData);
@@ -388,10 +402,10 @@ export const PlayerOnboarding = ({ onComplete }) => {
       setSelectedStatements([]);
 
       // Route to first available step: intro1 video -> pretest -> pretest (or exit)
-      if (nextAvailability.intro1) {
+      if (nextAvailability.intro1 && !isSkipEnabled()) {
         setStep("intro1Video");
       } else {
-        // No intro1 video — go directly to pretest, save checkpoint
+        // No intro1 video or skip is enabled — go directly to pretest, save checkpoint
         saveCheckpoint(nextPlayerData, nextAvailability);
         setStep("pretest");
       }
@@ -409,6 +423,31 @@ export const PlayerOnboarding = ({ onComplete }) => {
   // Conditional rendering checks - only show video if step AND video is available
   const isIntro1VideoStep = step === "intro1Video" && videoAvailability.intro1;
   const isIntro2VideoStep = step === "intro2Video" && videoAvailability.intro2;
+
+  // Handlers for skipping videos interactively (via double-click or keyboard)
+  const handleIntro1Skip = () => {
+    saveCheckpoint(playerData, videoAvailability);
+    setStep("pretest");
+  };
+
+  const handleIntro2Skip = () => {
+    completeOnboarding(playerData);
+  };
+
+  // Listen to keyboard shortcuts (Escape or 'S' key) for skipping
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" || e.key?.toLowerCase() === "s") {
+        if (step === "intro1Video") {
+          handleIntro1Skip();
+        } else if (step === "intro2Video") {
+          handleIntro2Skip();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [step, playerData, videoAvailability]);
 
   // Play intro videos programmatically — show tap-to-play button if browser blocks autoplay
   useEffect(() => {
@@ -437,8 +476,11 @@ export const PlayerOnboarding = ({ onComplete }) => {
           playsInline
           controls={false}
           webkit-playsinline="true"
-          onEnded={() => { saveCheckpoint(playerData, videoAvailability); setStep("pretest"); }}
-          onError={() => { saveCheckpoint(playerData, videoAvailability); setStep("pretest"); }}
+          onEnded={handleIntro1Skip}
+          onError={handleIntro1Skip}
+          onDoubleClick={handleIntro1Skip}
+          title="Double click or press Esc/S to skip"
+          style={{ cursor: "pointer" }}
         />
         {needsTapToPlay && (
           <button
@@ -467,8 +509,11 @@ export const PlayerOnboarding = ({ onComplete }) => {
           playsInline
           controls={false}
           webkit-playsinline="true"
-          onEnded={() => completeOnboarding(playerData)}
-          onError={() => completeOnboarding(playerData)}
+          onEnded={handleIntro2Skip}
+          onError={handleIntro2Skip}
+          onDoubleClick={handleIntro2Skip}
+          title="Double click or press Esc/S to skip"
+          style={{ cursor: "pointer" }}
         />
         {needsTapToPlay && (
           <button

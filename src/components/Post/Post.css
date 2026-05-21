@@ -254,7 +254,11 @@
   width: 100%;
   background-color: rgb(25, 25, 25, 0.9);
   margin: auto;
-  margin: var(--is-ios) 0px;
+
+  @supports (-webkit-touch-callout: none) {
+    margin: 0px;
+  }
+
 }
 
 .modal-content {

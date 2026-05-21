@@ -1,6 +1,6 @@
 /* ── Container ── */
 .conclusion-challenge-form {
-  max-height: 85vh;
+  max-height: 75vh;
   overflow-y: auto;
 }
 
@@ -13,7 +13,7 @@
 
 .conclusion-challenge-form .input-container {
   position: relative;
-  height: var(--is-ios) 70vh;
+  height: 65vh
 }
 
 .challenge-close-btn {
@@ -247,7 +247,5 @@
     gap: 0.4rem;
   }
 
-  .conclusion-challenge-form {
-    padding-bottom: 120px;
-  }
+
 }

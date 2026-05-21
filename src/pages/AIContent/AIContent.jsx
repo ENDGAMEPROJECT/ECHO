@@ -156,6 +156,38 @@ export const AIContent = () => {
     setHasLocalizedVideo(true);
   }, [localizedVideoSrc]);
 
+  // Developer video skip check (query parameter, or storage flag)
+  const isSkipEnabled = () => {
+    const params = new URLSearchParams(window.location.search);
+    const hasSkipParam = params.get("skipVideos") === "true" || params.get("skip") === "true";
+    const hasStorageSkip = localStorage.getItem("skipVideos") === "true" || sessionStorage.getItem("echo:skipVideos") === "true";
+    return hasSkipParam || hasStorageSkip;
+  };
+
+  const skipAIVideo = () => {
+    sessionStorage.setItem("echo:puzzle2:videoViewed", "true");
+    setVideoEnded(true);
+    setStep("brief");
+  };
+
+  // Auto-skip video if skip is enabled
+  useEffect(() => {
+    if (step === "video" && isSkipEnabled()) {
+      skipAIVideo();
+    }
+  }, [step]);
+
+  // Listen to keyboard shortcuts (Escape or 'S' key) for skipping
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (step === "video" && (e.key === "Escape" || e.key?.toLowerCase() === "s")) {
+        skipAIVideo();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [step]);
+
   // Programmatically play video — show tap-to-play if browser blocks autoplay
   useEffect(() => {
     if (step === "video" && !videoEnded && videoRef.current) {
@@ -462,7 +494,9 @@ export const AIContent = () => {
                         onPlay={() => setVideoEnded(false)}
                         onError={() => setHasLocalizedVideo(false)}
                         src={localizedVideoSrc}
-                        style={{ borderRadius: 12, background: "#000" }}
+                        style={{ borderRadius: 12, background: "#000", cursor: "pointer" }}
+                        onDoubleClick={skipAIVideo}
+                        title="Double click or press Esc/S to skip"
                       />
                       {needsTapToPlay && !videoEnded && (
                         <button
