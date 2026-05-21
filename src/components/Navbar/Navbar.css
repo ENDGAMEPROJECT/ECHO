@@ -17,7 +17,7 @@
   .navbar {
     padding: 0.5rem 1.5rem;
     min-width: 300px;
-    
+
   }
 }
 
@@ -63,7 +63,7 @@
   font-size: 25px;
   padding: 0rem;
   color: var(--text-color);
-  
+
   @media screen and (min-width: 1200px) {
     font-size: 30px;
     min-width: 25px;
@@ -216,6 +216,7 @@
     align-items: center;
     margin-top: 10px;
   }
+
   .create-new-post-btn span {
     display: inline !important
   }
@@ -264,13 +265,14 @@
     margin-top: 8px;
     gap: 4px;
   }
+
   .navbar li {
     width: 100%
   }
 
   .navlink {
     padding: 8px 14px;
-        align-items: start;
+    align-items: start;
   }
 
   .navlink-icon {
@@ -281,11 +283,12 @@
 .create-post-modal {
   position: fixed;
   inset: 0;
+  height: var(--is-ios) 85vh;
   z-index: 1300;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: clamp(56px, 10vh, 96px) 16px 24px;
+  padding: clamp(56px, 10vh, 40px) 16px 24px;
   overflow-y: auto;
   background-color: rgba(0, 0, 0, 0.55) !important;
 }
@@ -344,7 +347,7 @@
     cursor: pointer;
   }
 
-  .create-new-post-btn > span {
+  .create-new-post-btn>span {
     display: none;
   }
 

@@ -22,6 +22,15 @@
   --surface: #130f26;
   --page-bg: #1b1135;
   --bg-dark: #0f0c20;
+
+  /* Detect iOS devices using space/initial trick */
+  --is-ios: ;
+}
+
+@supports (-webkit-touch-callout: none) {
+  :root {
+    --is-ios: initial;
+  }
 }
 
 a {
@@ -86,6 +95,7 @@ a {
     padding-bottom: 110px;
   }
 }
+
 .post-listing-container {
   margin: 1rem;
 }
@@ -276,7 +286,7 @@ a {
 @media (min-width: 1025px) and (orientation: landscape) {
   .navbar {
     width: 280px;
-    
+
   }
 
   .discover {

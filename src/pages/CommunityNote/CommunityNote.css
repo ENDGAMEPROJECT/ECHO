@@ -13,6 +13,7 @@
 
 .conclusion-challenge-form .input-container {
   position: relative;
+  height: var(--is-ios) 70vh;
 }
 
 .challenge-close-btn {
@@ -24,13 +25,16 @@
 .challenge-content::-webkit-scrollbar {
   width: 5px;
 }
+
 .challenge-content::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .challenge-content::-webkit-scrollbar-thumb {
   background: rgba(127, 85, 255, 0.35);
   border-radius: 3px;
 }
+
 .challenge-content::-webkit-scrollbar-thumb:hover {
   background: rgba(127, 85, 255, 0.6);
 }
@@ -85,8 +89,13 @@
 }
 
 @keyframes cn-counter-pop {
-  from { transform: scale(0.85); }
-  to   { transform: scale(1); }
+  from {
+    transform: scale(0.85);
+  }
+
+  to {
+    transform: scale(1);
+  }
 }
 
 .challenge-description {
@@ -161,8 +170,13 @@
 }
 
 @keyframes check-pop {
-  from { transform: scale(0.6); }
-  to   { transform: scale(1); }
+  from {
+    transform: scale(0.6);
+  }
+
+  to {
+    transform: scale(1);
+  }
 }
 
 .check {
