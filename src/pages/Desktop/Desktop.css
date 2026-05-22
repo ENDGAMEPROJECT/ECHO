@@ -479,6 +479,37 @@ p {
   pointer-events: none;
 }
 
+.outro-tap-to-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1610;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.outro-tap-to-play:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.outro-tap-to-play:active {
+  transform: translate(-50%, -50%) scale(0.95);
+}
+
 .end-options-overlay {
   position: fixed;
   inset: 0;

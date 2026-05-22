@@ -89,7 +89,7 @@ export const HintsApp = () => {
    * Close the hints app
    */
   const handleClose = () => closeApp("hints");
-  
+
   /**
    * Minimize the hints app
    */
@@ -182,7 +182,7 @@ export const HintsApp = () => {
             className="hints-tap-to-play"
             onClick={() => {
               setNeedsTapToPlay(false);
-              hintsVideoRef.current?.play().catch(() => {});
+              hintsVideoRef.current?.play().catch(() => { });
             }}
           >
             ▶
@@ -201,114 +201,114 @@ export const HintsApp = () => {
   return (
     // Backdrop container - click to close the app
     <div className="hints-app-backdrop" onClick={handleClose}>
-    {/* Main app window - stop propagation to prevent closing when clicking inside */}
-    <div className="hints-app-window" onClick={(e) => e.stopPropagation()}>
-      {/* Title bar with app name and window controls */}
-      <div className="hints-titlebar">
-        {/* Window title with icon and app name */}
-        <div className="hints-window-title">
-          <FaLightbulb className="hints-title-icon" />
-          <span>{t("hintsApp.title")}</span>
+      {/* Main app window - stop propagation to prevent closing when clicking inside */}
+      <div className="hints-app-window" onClick={(e) => e.stopPropagation()}>
+        {/* Title bar with app name and window controls */}
+        <div className="hints-titlebar">
+          {/* Window title with icon and app name */}
+          <div className="hints-window-title">
+            <FaLightbulb className="hints-title-icon" />
+            <span>{t("hintsApp.title")}</span>
+          </div>
+          {/* Window control buttons (minimize, close) */}
+          <div className="hints-window-controls">
+            {/* Minimize button */}
+            <button
+              className="window-control minimize"
+              onClick={handleMinimize}
+              title={t("desktop.window.minimize")}
+              aria-label={t("desktop.window.minimize")}
+            >
+              <FaMinus />
+            </button>
+            {/* Close button */}
+            <button
+              className="window-control close"
+              onClick={handleClose}
+              title={t("desktop.window.close")}
+              aria-label={t("desktop.window.close")}
+            >
+              <FaTimes />
+            </button>
+          </div>
         </div>
-        {/* Window control buttons (minimize, close) */}
-        <div className="hints-window-controls">
-          {/* Minimize button */}
-          <button
-            className="window-control minimize"
-            onClick={handleMinimize}
-            title={t("desktop.window.minimize")}
-            aria-label={t("desktop.window.minimize")}
-          >
-            <FaMinus />
-          </button>
-          {/* Close button */}
-          <button
-            className="window-control close"
-            onClick={handleClose}
-            title={t("desktop.window.close")}
-            aria-label={t("desktop.window.close")}
-          >
-            <FaTimes />
-          </button>
+
+        {/* Badge displaying current puzzle number and stage */}
+        <div className="hints-puzzle-badge">
+          {t(`hintsApp.puzzle.${currentPuzzleId}`)}
         </div>
-      </div>
 
-      {/* Badge displaying current puzzle number and stage */}
-      <div className="hints-puzzle-badge">
-        {t(`hintsApp.puzzle.${currentPuzzleId}`)}
-      </div>
-
-      {/* Main content area with hints display */}
-      <div className="hints-body">
-        {/* 
+        {/* Main content area with hints display */}
+        <div className="hints-body">
+          {/* 
           Conditional rendering based on app state:
           1. No hints available: Show empty state
           2. No context selected: Show list of contexts to choose from
           3. Context selected: Show detailed clue for selected context
         */}
-        {currentHints.length === 0 ? (
-          // Empty state - no hints available for current puzzle
-          <div className="hints-empty">
-            <FaLightbulb className="hints-empty-icon" />
-            <p>{t("hintsApp.noHints")}</p>
-          </div>
-        ) : selectedContext === null ? (
-          // Context list view - show all available hint contexts
-          <>
-            <p className="hints-prompt">{t("hintsApp.selectContext")}</p>
-            {/* List of hint context buttons */}
-            <ul className="hints-context-list">
-              {currentHints.map((hint, idx) => (
-                <li key={idx}>
-                  <button
-                    className="hints-context-btn"
-                    onClick={() => {
-                      // Track the hint request for learning analytics
-                      trackHintAsked(currentPuzzleId, idx, hint.context);
-                      // Show the selected hint
-                      setSelectedContext(idx);
-                    }}
-                  >
-                    <FaLightbulb className="hints-context-icon" />
-                    <span>{hint.context}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </>
-        ) : (
-          // Clue detail view - show the full clue for selected context
-          <div className="hints-clue-view">
-            {/* Back button to return to context list */}
-            <button
-              className="hints-back-btn"
-              onClick={() => setSelectedContext(null)}
-            >
-              <FaChevronLeft />
-              {t("hintsApp.back")}
-            </button>
-            {/* Display the context/category of the hint */}
-            <div className="hints-clue-context">
-              {currentHints[selectedContext].context}
+          {currentHints.length === 0 ? (
+            // Empty state - no hints available for current puzzle
+            <div className="hints-empty">
+              <FaLightbulb className="hints-empty-icon" />
+              <p>{t("hintsApp.noHints")}</p>
             </div>
-            {/* Display the actual clue text */}
-            <div className="hints-clue-box">
-              <FaLightbulb className="hints-clue-icon" />
-              <p>{currentHints[selectedContext].clue}</p>
+          ) : selectedContext === null ? (
+            // Context list view - show all available hint contexts
+            <>
+              <p className="hints-prompt">{t("hintsApp.selectContext")}</p>
+              {/* List of hint context buttons */}
+              <ul className="hints-context-list">
+                {currentHints.map((hint, idx) => (
+                  <li key={idx}>
+                    <button
+                      className="hints-context-btn"
+                      onClick={() => {
+                        // Track the hint request for learning analytics
+                        trackHintAsked(currentPuzzleId, idx, hint.context);
+                        // Show the selected hint
+                        setSelectedContext(idx);
+                      }}
+                    >
+                      <FaLightbulb className="hints-context-icon" />
+                      <span>{hint.context}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            // Clue detail view - show the full clue for selected context
+            <div className="hints-clue-view">
+              {/* Back button to return to context list */}
+              <button
+                className="hints-back-btn"
+                onClick={() => setSelectedContext(null)}
+              >
+                <FaChevronLeft />
+                {t("hintsApp.back")}
+              </button>
+              {/* Display the context/category of the hint */}
+              <div className="hints-clue-context">
+                {currentHints[selectedContext].context}
+              </div>
+              {/* Display the actual clue text */}
+              <div className="hints-clue-box">
+                <FaLightbulb className="hints-clue-icon" />
+                <p>{currentHints[selectedContext].clue}</p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Rewatch intro video button */}
-        <button
-          className="hints-rewatch-btn"
-          onClick={() => setShowIntroVideo(1)}
-        >
-          <FaPlay className="hints-rewatch-icon" />
-          {t("hintsApp.rewatchIntro", "Rewatch intro video")}
-        </button>
+          {/* Rewatch intro video button */}
+          <button
+            className="hints-rewatch-btn"
+            onClick={() => setShowIntroVideo(1)}
+          >
+            <FaPlay className="hints-rewatch-icon" />
+            {t("hintsApp.rewatchIntro", "Rewatch intro video")}
+          </button>
+        </div>
       </div>
-    </div>
     </div>
   );
 };

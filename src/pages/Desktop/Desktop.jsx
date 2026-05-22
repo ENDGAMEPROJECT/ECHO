@@ -15,8 +15,8 @@ import { FaChevronUp } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { assetPath } from "../../utils/assetPath";
 
-const SUCCESS_OUTRO_DELAY_MS = 10000;
-const FAIL_OUTRO_DELAY_MS = 7000;
+const SUCCESS_OUTRO_DELAY_MS = 6000;
+const FAIL_OUTRO_DELAY_MS = 6000;
 const OUTRO_COMPLETED_KEY = "echo:outroCompleted";
 
 /**
@@ -95,6 +95,8 @@ export const Desktop = () => {
   });
   // Show outro video overlay
   const [showOutroVideo, setShowOutroVideo] = useState(false);
+  // True when browser blocks autoplay — shows tap-to-play button
+  const [needsTapToPlay, setNeedsTapToPlay] = useState(false);
   // Selected language for outro video (localized version)
   const [outroLanguage, setOutroLanguage] = useState(() => {
     const baseLanguage = i18n.resolvedLanguage || i18n.language || "es";
@@ -374,9 +376,12 @@ export const Desktop = () => {
   // Effect: auto-play outro video when displayed
   useEffect(() => {
     if (!showOutroVideo || !outroVideoRef.current) return;
+    setNeedsTapToPlay(false);
     const playPromise = outroVideoRef.current.play();
     if (playPromise?.catch) {
-      playPromise.catch(() => { }); // Suppress autoplay errors
+      playPromise.catch(() => {
+        setNeedsTapToPlay(true);
+      });
     }
   }, [showOutroVideo, outroVideoSrc]);
 
@@ -654,6 +659,17 @@ export const Desktop = () => {
             onError={handleOutroVideoError}
             onContextMenu={(event) => event.preventDefault()}
           />
+          {needsTapToPlay && (
+            <button
+              className="outro-tap-to-play"
+              onClick={() => {
+                setNeedsTapToPlay(false);
+                outroVideoRef.current?.play().catch(() => { });
+              }}
+            >
+              ▶
+            </button>
+          )}
         </div>
       )}
     </div>

@@ -297,9 +297,15 @@
 @media (max-width: 767px) {
   .messages-app-window {
     width: 94vw;
-    height: 68vh;
+    height: 78vh;
     border-radius: 10px;
+
+    @supports (-webkit-touch-callout: none) {
+      height: 68vh;
+    }
+
   }
+
 
   .window-titlebar {
     padding: 8px 10px;
