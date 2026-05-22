@@ -95,8 +95,8 @@ export const Desktop = () => {
   });
   // Show outro video overlay
   const [showOutroVideo, setShowOutroVideo] = useState(false);
-  // True when browser blocks autoplay — shows tap-to-play button
-  const [needsTapToPlay, setNeedsTapToPlay] = useState(false);
+  // Show play button overlay by default so user triggers video playback
+  const [needsTapToPlay, setNeedsTapToPlay] = useState(true);
   // Selected language for outro video (localized version)
   const [outroLanguage, setOutroLanguage] = useState(() => {
     const baseLanguage = i18n.resolvedLanguage || i18n.language || "es";
@@ -373,16 +373,10 @@ export const Desktop = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [showOutroVideo, handleOutroFinished]);
 
-  // Effect: auto-play outro video when displayed
+  // Ensure play button overlay is shown when outro video is displayed (no autoplay)
   useEffect(() => {
     if (!showOutroVideo || !outroVideoRef.current) return;
-    setNeedsTapToPlay(false);
-    const playPromise = outroVideoRef.current.play();
-    if (playPromise?.catch) {
-      playPromise.catch(() => {
-        setNeedsTapToPlay(true);
-      });
-    }
+    setNeedsTapToPlay(true);
   }, [showOutroVideo, outroVideoSrc]);
 
   // Memoized: format remaining time as MM:SS string
@@ -653,8 +647,10 @@ export const Desktop = () => {
             ref={outroVideoRef}
             className="outro-video-player"
             src={outroVideoSrc}
+            preload="auto"
             playsInline
             webkit-playsinline="true"
+            onLoadedData={(e) => { e.target.currentTime = 2.0; }}
             onEnded={handleOutroFinished}
             onError={handleOutroVideoError}
             onContextMenu={(event) => event.preventDefault()}
@@ -664,7 +660,10 @@ export const Desktop = () => {
               className="outro-tap-to-play"
               onClick={() => {
                 setNeedsTapToPlay(false);
-                outroVideoRef.current?.play().catch(() => { });
+                if (outroVideoRef.current) {
+                  outroVideoRef.current.currentTime = 0;
+                  outroVideoRef.current.play().catch(() => { });
+                }
               }}
             >
               ▶

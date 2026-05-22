@@ -66,8 +66,8 @@ export const AIContent = () => {
   const [showCompletionModal, setShowCompletionModal] = useState(false);
   // Wrong word selection during current step (used for visual feedback, clears after animation)
   const [wrongChoice, setWrongChoice] = useState(null);
-  // True when browser blocks autoplay — shows tap-to-play button
-  const [needsTapToPlay, setNeedsTapToPlay] = useState(false);
+  // Show play button overlay by default so user triggers video playback
+  const [needsTapToPlay, setNeedsTapToPlay] = useState(true);
   // Show reconstructed sentence vs. original post (delayed display after completion)
   const [showMatch, setShowMatch] = useState(false);
   // Shuffled answer options for each word position
@@ -178,11 +178,10 @@ export const AIContent = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [step]);
 
-  // Programmatically play video — show tap-to-play if browser blocks autoplay
+  // Ensure play button overlay is shown when video step is active (no autoplay)
   useEffect(() => {
     if (step === "video" && !videoEnded && videoRef.current) {
-      setNeedsTapToPlay(false);
-      videoRef.current.play().catch(() => setNeedsTapToPlay(true));
+      setNeedsTapToPlay(true);
     }
   }, [step, videoEnded]);
 
@@ -477,11 +476,13 @@ export const AIContent = () => {
                         width="100%"
                         controls={false}
                         playsInline
+                        preload="auto"
                         onEnded={() => {
                           sessionStorage.setItem("echo:puzzle2:videoViewed", "true");
                           setVideoEnded(true);
                         }}
                         onPlay={() => setVideoEnded(false)}
+                        onLoadedData={(e) => { e.target.currentTime = 1.0; }}
                         onError={() => setHasLocalizedVideo(false)}
                         src={localizedVideoSrc}
                         style={{ borderRadius: 12, background: "#000" }}
@@ -491,7 +492,10 @@ export const AIContent = () => {
                           className="ai-tap-to-play"
                           onClick={() => {
                             setNeedsTapToPlay(false);
-                            videoRef.current?.play().catch(() => { });
+                            if (videoRef.current) {
+                              videoRef.current.currentTime = 0;
+                              videoRef.current.play().catch(() => { });
+                            }
                           }}
                         >
                           ▶

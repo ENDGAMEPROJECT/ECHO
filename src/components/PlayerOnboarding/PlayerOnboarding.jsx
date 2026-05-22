@@ -56,8 +56,8 @@ export const PlayerOnboarding = ({ onComplete }) => {
   const [selectedStatements, setSelectedStatements] = useState([]);
   // Tracks availability of intro1 and intro2 videos for selected language (async probe results)
   const [videoAvailability, setVideoAvailability] = useState({ intro1: false, intro2: false });
-  // True when browser blocks autoplay — shows tap-to-play button
-  const [needsTapToPlay, setNeedsTapToPlay] = useState(false);
+  // Show play button overlay by default so user triggers video playback
+  const [needsTapToPlay, setNeedsTapToPlay] = useState(true);
 
   // Translation helper - gets text in selectedLanguage with fallback to global t()
   const tx = (key, options = {}) => t(key, { lng: selectedLanguage, ...options });
@@ -435,18 +435,16 @@ export const PlayerOnboarding = ({ onComplete }) => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isIntro1VideoStep, isIntro2VideoStep, playerData, videoAvailability]);
 
-  // Play intro videos programmatically — show tap-to-play button if browser blocks autoplay
+  // Ensure play button overlay is shown when intro video steps are active (no autoplay)
   useEffect(() => {
     if (isIntro1VideoStep && intro1VideoRef.current) {
-      setNeedsTapToPlay(false);
-      intro1VideoRef.current.play().catch(() => setNeedsTapToPlay(true));
+      setNeedsTapToPlay(true);
     }
   }, [isIntro1VideoStep]);
 
   useEffect(() => {
     if (isIntro2VideoStep && intro2VideoRef.current) {
-      setNeedsTapToPlay(false);
-      intro2VideoRef.current.play().catch(() => setNeedsTapToPlay(true));
+      setNeedsTapToPlay(true);
     }
   }, [isIntro2VideoStep]);
 
@@ -459,9 +457,11 @@ export const PlayerOnboarding = ({ onComplete }) => {
           ref={intro1VideoRef}
           className="onboarding-video-fullscreen"
           src={intro1Path}
+          preload="auto"
           playsInline
           controls={false}
           webkit-playsinline="true"
+          onLoadedData={(e) => { e.target.currentTime = 1.0; }}
           onEnded={() => { saveCheckpoint(playerData, videoAvailability); setStep("pretest"); }}
           onError={() => { saveCheckpoint(playerData, videoAvailability); setStep("pretest"); }}
         />
@@ -470,7 +470,10 @@ export const PlayerOnboarding = ({ onComplete }) => {
             className="onboarding-tap-to-play"
             onClick={() => {
               setNeedsTapToPlay(false);
-              intro1VideoRef.current?.play().catch(() => { });
+              if (intro1VideoRef.current) {
+                intro1VideoRef.current.currentTime = 0;
+                intro1VideoRef.current.play().catch(() => { });
+              }
             }}
           >
             ▶
@@ -489,9 +492,11 @@ export const PlayerOnboarding = ({ onComplete }) => {
           ref={intro2VideoRef}
           className="onboarding-video-fullscreen"
           src={intro2Path}
+          preload="auto"
           playsInline
           controls={false}
           webkit-playsinline="true"
+          onLoadedData={(e) => { e.target.currentTime = 1.0; }}
           onEnded={() => completeOnboarding(playerData)}
           onError={() => completeOnboarding(playerData)}
         />
@@ -500,7 +505,10 @@ export const PlayerOnboarding = ({ onComplete }) => {
             className="onboarding-tap-to-play"
             onClick={() => {
               setNeedsTapToPlay(false);
-              intro2VideoRef.current?.play().catch(() => { });
+              if (intro2VideoRef.current) {
+                intro2VideoRef.current.currentTime = 0;
+                intro2VideoRef.current.play().catch(() => { });
+              }
             }}
           >
             ▶

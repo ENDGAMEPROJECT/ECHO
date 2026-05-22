@@ -45,15 +45,15 @@ export const HintsApp = () => {
   // State for showing intro videos (null = no video, 1 = intro video 1, 2 = intro video 2)
   const [showIntroVideo, setShowIntroVideo] = useState(null); // null | 1 | 2
   const hintsVideoRef = useRef(null);
-  const [needsTapToPlay, setNeedsTapToPlay] = useState(false);
+  // Show play button overlay by default so user triggers video playback
+  const [needsTapToPlay, setNeedsTapToPlay] = useState(true);
 
-  // Try to play intro video — show tap-to-play if browser blocks autoplay
+  // Ensure play button overlay is shown when hints video is active (no autoplay)
   useEffect(() => {
     if (showIntroVideo && hintsVideoRef.current) {
-      setNeedsTapToPlay(false);
+      setNeedsTapToPlay(true);
       const v = hintsVideoRef.current;
       v.load();
-      v.play().catch(() => setNeedsTapToPlay(true));
     }
   }, [showIntroVideo]);
 
@@ -167,7 +167,9 @@ export const HintsApp = () => {
           ref={hintsVideoRef}
           className="hints-intro-video"
           src={introVideoSrc}
+          preload="auto"
           playsInline
+          onLoadedData={(e) => { e.target.currentTime = 1.0; }}
           onEnded={() => {
             if (showIntroVideo === 1) {
               setShowIntroVideo(2);
@@ -182,7 +184,10 @@ export const HintsApp = () => {
             className="hints-tap-to-play"
             onClick={() => {
               setNeedsTapToPlay(false);
-              hintsVideoRef.current?.play().catch(() => { });
+              if (hintsVideoRef.current) {
+                hintsVideoRef.current.currentTime = 0;
+                hintsVideoRef.current.play().catch(() => { });
+              }
             }}
           >
             ▶
