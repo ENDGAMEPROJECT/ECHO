@@ -46,7 +46,7 @@ export const useStats = () => {
 export const StatsProvider = ({ children }) => {
   // Get xAPI integration functions
   const { sendStatement, trackChallengeCompleted } = useXAPI();
-  
+
   // Initial threat metrics for the game
   const getInitialStats = () => ({
     botActivity: {
@@ -55,7 +55,7 @@ export const StatsProvider = ({ children }) => {
     },
   });
 
-  
+
   // Threat level metrics
   const [stats, setStats] = useState(getInitialStats());
 
@@ -67,11 +67,11 @@ export const StatsProvider = ({ children }) => {
 
   const [suspectUsersCount, setSuspectUsersCount] = useState(0);
   const [challenge1Progress, setChallenge1Progress] = useState(0);
-  
+
   // Challenge 2 (AI Detection)
   const [challenge2Total, setChallenge2Total] = useState(1);
   const [challenge2Progress, setChallenge2Progress] = useState(0);
-  
+
   // Challenge 3 (Content Moderation) - 3 harmful posts to moderate
   const [challenge3Total, setChallenge3Total] = useState(3);
   const [challenge3Progress, setChallenge3Progress] = useState(() => {
@@ -128,20 +128,20 @@ export const StatsProvider = ({ children }) => {
     return stored;
   });
   const [escapeTimerPausedAt, setEscapeTimerPausedAt] = useState(() => getStoredTimerPausedAt());
-  
+
   // Escape timer remaining milliseconds
   const [escapeTimerRemainingMs, setEscapeTimerRemainingMs] = useState(() => {
     const startedAt = getStoredTimerStart();
     const pausedAt = getStoredTimerPausedAt();
     const challengeFinalCompleted = sessionStorage.getItem("challengeFinalCompleted") === "true";
-    
-    console.log("🔍 StatsProvider Init - Timer state:", { 
-      startedAt, 
-      pausedAt, 
+
+    console.log("🔍 StatsProvider Init - Timer state:", {
+      startedAt,
+      pausedAt,
       challengeFinalCompleted,
       escapeTimerRemainingMs: sessionStorage.getItem("escapeTimerRemainingMs")
     });
-    
+
     // If escape room completed, restore the frozen time saved at completion
     if (challengeFinalCompleted) {
       const savedRemainingMs = sessionStorage.getItem("escapeTimerRemainingMs");
@@ -149,29 +149,29 @@ export const StatsProvider = ({ children }) => {
         return Number(savedRemainingMs);
       }
     }
-    
+
     // Timer not started: return full duration (20 minutes)
     if (!startedAt) return ESCAPE_TIMER_DURATION_MS;
-    
+
     // Timer started: calculate remaining time
     // Use paused time as reference if paused, otherwise use current time
     const referenceNow = pausedAt || Date.now();
     return Math.max(0, ESCAPE_TIMER_DURATION_MS - (referenceNow - startedAt));
   });
-  
+
   const [escapeTimerFlashTick, setEscapeTimerFlashTick] = useState(0);
-  
+
   // Final challenge result: "success" | "fail" | null
   const [finalCompletionStatus, setFinalCompletionStatus] = useState(
     () => sessionStorage.getItem(FINAL_COMPLETION_STATUS_KEY) || null
   );
-  
+
   // Timestamp when final challenge was completed
   const [finalCompletionAt, setFinalCompletionAt] = useState(() => {
     const raw = Number(sessionStorage.getItem(FINAL_COMPLETION_AT_KEY));
     return Number.isFinite(raw) && raw > 0 ? raw : null;
   });
-  
+
   // Refs for timer tracking
   const previousRemainingMsRef = useRef(escapeTimerRemainingMs);  // Detect flash interval crossing
   const timerFrozenRef = useRef(sessionStorage.getItem("challengeFinalCompleted") === "true");
@@ -226,7 +226,7 @@ export const StatsProvider = ({ children }) => {
     if (savedChallengeFinal) {
       setChallengeFinalCompleted(JSON.parse(savedChallengeFinal));
     }
-    
+
     // Restore instructions read states
     if (savedChallenge2Instructions) {
       setChallenge2InstructionsRead(JSON.parse(savedChallenge2Instructions));
@@ -237,7 +237,7 @@ export const StatsProvider = ({ children }) => {
     if (savedChallengeFinalInstructions) {
       setChallengeFinalInstructionsRead(JSON.parse(savedChallengeFinalInstructions));
     }
-    
+
     // Restore frozen timer state if escape room completed
     if (savedChallengeFinal && savedEscapeTimerRemainingMs) {
       setEscapeTimerRemainingMs(Number(savedEscapeTimerRemainingMs));
@@ -284,12 +284,12 @@ export const StatsProvider = ({ children }) => {
     const completedWithinTime = elapsedMs <= ESCAPE_TIMER_DURATION_MS;
     const escapeDurationMs = ESCAPE_TIMER_DURATION_MS - remaining;
 
-    console.log("📌 completeChallengeFinal called", { 
-      escapeTimerStartedAt, 
-      completedAt, 
-      elapsedMs, 
-      remaining, 
-      escapeDurationMs 
+    console.log("📌 completeChallengeFinal called", {
+      escapeTimerStartedAt,
+      completedAt,
+      elapsedMs,
+      remaining,
+      escapeDurationMs
     });
     if (escapeTimerStartedAt) {
       setEscapeTimerRemainingMs(remaining);
@@ -335,7 +335,7 @@ export const StatsProvider = ({ children }) => {
     if (escapeTimerStartedAt) {
       sessionStorage.setItem("escapeTimerStartedAt", String(escapeTimerStartedAt));
     }
-    
+
     sessionStorage.setItem("challengeFinalCompleted", JSON.stringify(true));
     sessionStorage.setItem(
       FINAL_COMPLETION_STATUS_KEY,
@@ -352,7 +352,7 @@ export const StatsProvider = ({ children }) => {
     if (challengeFinalCompleted) return;
     const alreadyStartedAt = getStoredTimerStart();
     if (alreadyStartedAt || escapeTimerStartedAt) return;
-    
+
     const startedAt = Date.now();
     sessionStorage.removeItem(ESCAPE_OUTCOME_KEY);
     sessionStorage.removeItem(ESCAPE_TIMER_PAUSED_AT_KEY);
@@ -395,7 +395,7 @@ export const StatsProvider = ({ children }) => {
     const tick = () => {
       // Guard: if timer is frozen, don't update
       if (timerFrozenRef.current) return;
-      
+
       // Calculate remaining time
       // Use paused time as reference if paused, otherwise use current time
       const referenceNow = escapeTimerPausedAt || Date.now();
@@ -440,13 +440,13 @@ export const StatsProvider = ({ children }) => {
 
     // Call tick immediately
     tick();
-    
+
     // If timer is paused, don't set interval (frozen time)
     if (escapeTimerPausedAt) return;
 
     // Set up interval for 1-second ticks
     const intervalId = setInterval(tick, 1000);
-    
+
     // Cleanup: clear interval on unmount or when timer paused
     return () => clearInterval(intervalId);
   }, [escapeTimerStartedAt, challengeFinalCompleted, escapeTimerPausedAt]);
@@ -525,7 +525,7 @@ export const StatsProvider = ({ children }) => {
     // ===== THREAT STATISTICS =====
     stats,                    // Current threat level metrics
     reduceMisinformation,    // Function to reduce misinformation (called by challenges)
-    
+
     // ===== CHALLENGE 1: BOT DETECTION =====
     suspectUsersCount,              // # of suspect users identified (0 to N)
     setSuspectUsersCount,           // Function to update count
@@ -533,7 +533,7 @@ export const StatsProvider = ({ children }) => {
     setChallenge1Progress,          // Function to update progress
     challenge1Completed,            // Boolean: challenge completed?
     completeChallenge1,             // Function to mark challenge complete
-    
+
     // ===== CHALLENGE 2: AI DETECTION =====
     challenge2Total,                // Total items in challenge (1 AI post)
     setChallenge2Total,             // Function to update total
@@ -541,7 +541,7 @@ export const StatsProvider = ({ children }) => {
     setChallenge2Progress,          // Function to update progress
     challenge2Completed,            // Boolean: challenge completed?
     completeChallenge2,             // Function to mark challenge complete
-    
+
     // ===== CHALLENGE 3: CONTENT MODERATION =====
     challenge3Total,                // Total items in challenge (3 harmful posts)
     setChallenge3Total,             // Function to update total
@@ -549,11 +549,11 @@ export const StatsProvider = ({ children }) => {
     setChallenge3Progress,          // Function to update progress
     challenge3Completed,            // Boolean: challenge completed?
     completeChallenge3,             // Function to mark challenge complete
-    
+
     // ===== FINAL CHALLENGE: ESCAPE ROOM =====
     challengeFinalCompleted,        // Boolean: final challenge completed?
     completeChallengeFinal,         // Function to mark final challenge complete
-    
+
     // ===== INSTRUCTIONS READ TRACKING =====
     challenge1InstructionsRead,                    // Were Challenge 1 instructions read?
     markChallenge1InstructionsRead,               // Function to mark as read
@@ -563,22 +563,22 @@ export const StatsProvider = ({ children }) => {
     markChallenge3InstructionsRead,               // Function to mark as read
     challengeFinalInstructionsRead,               // Were Final instructions read?
     markChallengeFinalInstructionsRead,           // Function to mark as read
-    
+
     // ===== ESCAPE TIMER STATE & CONTROL =====
-    escapeTimerDurationMs:        ESCAPE_TIMER_DURATION_MS,    // Full duration (20 minutes in ms)
-    escapeTimerStarted:           Boolean(escapeTimerStartedAt),  // Has timer been started?
-    escapeTimerStartedAt:         escapeTimerStartedAt,           // Timestamp when started
-    escapeTimerPaused:            Boolean(escapeTimerPausedAt),    // Is timer paused?
-    escapeTimerRemainingMs:       escapeTimerRemainingMs,         // Milliseconds remaining
-    escapeTimerActive:            Boolean(escapeTimerStartedAt) && !challengeFinalCompleted,  // Timer running & not completed
-    escapeTimerExpired:           Boolean(escapeTimerStartedAt) && !challengeFinalCompleted && escapeTimerRemainingMs <= 0,  // Time up & not completed
-    escapeTimerFlashTick:         escapeTimerFlashTick,   // Counter for flash animations
-    
+    escapeTimerDurationMs: ESCAPE_TIMER_DURATION_MS,    // Full duration (20 minutes in ms)
+    escapeTimerStarted: Boolean(escapeTimerStartedAt),  // Has timer been started?
+    escapeTimerStartedAt: escapeTimerStartedAt,           // Timestamp when started
+    escapeTimerPaused: Boolean(escapeTimerPausedAt),    // Is timer paused?
+    escapeTimerRemainingMs: escapeTimerRemainingMs,         // Milliseconds remaining
+    escapeTimerActive: Boolean(escapeTimerStartedAt) && !challengeFinalCompleted,  // Timer running & not completed
+    escapeTimerExpired: Boolean(escapeTimerStartedAt) && !challengeFinalCompleted && escapeTimerRemainingMs <= 0,  // Time up & not completed
+    escapeTimerFlashTick: escapeTimerFlashTick,   // Counter for flash animations
+
     // Timer control functions
     startEscapeTimer,             // Start the 20-minute countdown
     pauseEscapeTimer,             // Pause the timer (freeze at current time)
     resumeEscapeTimer,            // Resume from paused state
-    
+
     // ===== FINAL CHALLENGE RESULTS =====
     finalCompletionStatus,        // "success" if completed on-time, "fail" if expired
     finalCompletionAt,            // Timestamp when final challenge completed

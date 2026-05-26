@@ -16,6 +16,7 @@ export const sr = {
     "appName": "ECHO"
   },
   "desktop": {
+    "rotatePhoneMessage": "Rotirajte telefon",
     "apps": {
       "messages": "Poruke",
       "social": "ECHO",
@@ -351,6 +352,7 @@ export const sr = {
     "back": "Nazad"
   },
   "playerOnboarding": {
+    "rotatePhoneMessage": "Rotirajte telefon",
     "subtitle": "Dobrodosli u ECHO-ov Escape Room.",
     "nameLabel": "Ime igraca",
     "namePlaceholder": "Unesite svoje ime",

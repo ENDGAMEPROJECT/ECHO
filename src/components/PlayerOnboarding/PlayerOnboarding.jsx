@@ -58,6 +58,8 @@ export const PlayerOnboarding = ({ onComplete }) => {
   const [videoAvailability, setVideoAvailability] = useState({ intro1: false, intro2: false });
   // Show play button overlay by default so user triggers video playback
   const [needsTapToPlay, setNeedsTapToPlay] = useState(true);
+  // Track if intro videos are paused during playback
+  const [isPaused, setIsPaused] = useState(false);
 
   // Translation helper - gets text in selectedLanguage with fallback to global t()
   const tx = (key, options = {}) => t(key, { lng: selectedLanguage, ...options });
@@ -439,19 +441,74 @@ export const PlayerOnboarding = ({ onComplete }) => {
   useEffect(() => {
     if (isIntro1VideoStep && intro1VideoRef.current) {
       setNeedsTapToPlay(true);
+      setIsPaused(false);
+      intro1VideoRef.current.load(); // Force load to trigger onLoadedData and show preview
     }
   }, [isIntro1VideoStep]);
 
   useEffect(() => {
     if (isIntro2VideoStep && intro2VideoRef.current) {
       setNeedsTapToPlay(true);
+      setIsPaused(false);
+      intro2VideoRef.current.load(); // Force load to trigger onLoadedData and show preview
     }
   }, [isIntro2VideoStep]);
+
+  // Manage body class for video fullscreen to handle stacking context / z-index on mobile
+  useEffect(() => {
+    const isVideoActive = isIntro1VideoStep || isIntro2VideoStep;
+    if (isVideoActive) {
+      document.body.classList.add("video-fullscreen-active");
+    } else {
+      document.body.classList.remove("video-fullscreen-active");
+    }
+    return () => {
+      document.body.classList.remove("video-fullscreen-active");
+    };
+  }, [isIntro1VideoStep, isIntro2VideoStep]);
+
+  // Click/tap handler to toggle play/pause on the Intro 1 video
+  const handleIntro1Click = () => {
+    if (needsTapToPlay) return;
+    if (intro1VideoRef.current) {
+      if (intro1VideoRef.current.paused) {
+        intro1VideoRef.current.play().catch(() => { });
+        setIsPaused(false);
+      } else {
+        intro1VideoRef.current.pause();
+        setIsPaused(true);
+      }
+    }
+  };
+
+  // Click/tap handler to toggle play/pause on the Intro 2 video
+  const handleIntro2Click = () => {
+    if (needsTapToPlay) return;
+    if (intro2VideoRef.current) {
+      if (intro2VideoRef.current.paused) {
+        intro2VideoRef.current.play().catch(() => { });
+        setIsPaused(false);
+      } else {
+        intro2VideoRef.current.pause();
+        setIsPaused(true);
+      }
+    }
+  };
 
   // Intro 1 video - plays first introduction video, advances to pretest when ends or errors
   if (isIntro1VideoStep) {
     return (
-      <div className="onboarding-overlay onboarding-overlay-video">
+      <div
+        className="onboarding-overlay onboarding-overlay-video"
+        onClick={handleIntro1Click}
+        style={{ cursor: "pointer" }}
+      >
+        <div className="phone-rotate-prompt">
+          <div className="phone-icon-wrapper">
+            <div className="phone-body-icon"></div>
+          </div>
+          <span className="phone-rotate-text">{tx("playerOnboarding.rotatePhoneMessage", "Rotate your phone")}</span>
+        </div>
         {/* Full-screen video player for intro sequence */}
         <video
           ref={intro1VideoRef}
@@ -462,17 +519,33 @@ export const PlayerOnboarding = ({ onComplete }) => {
           controls={false}
           webkit-playsinline="true"
           onLoadedData={(e) => { e.target.currentTime = 1.0; }}
-          onEnded={() => { saveCheckpoint(playerData, videoAvailability); setStep("pretest"); }}
-          onError={() => { saveCheckpoint(playerData, videoAvailability); setStep("pretest"); }}
+          onEnded={() => {
+            setIsPaused(false);
+            saveCheckpoint(playerData, videoAvailability);
+            setStep("pretest");
+          }}
+          onError={() => {
+            setIsPaused(false);
+            saveCheckpoint(playerData, videoAvailability);
+            setStep("pretest");
+          }}
         />
-        {needsTapToPlay && (
+        {(needsTapToPlay || isPaused) && (
           <button
             className="onboarding-tap-to-play"
-            onClick={() => {
-              setNeedsTapToPlay(false);
-              if (intro1VideoRef.current) {
-                intro1VideoRef.current.currentTime = 0;
-                intro1VideoRef.current.play().catch(() => { });
+            onClick={(e) => {
+              e.stopPropagation();
+              if (needsTapToPlay) {
+                setNeedsTapToPlay(false);
+                if (intro1VideoRef.current) {
+                  intro1VideoRef.current.currentTime = 0;
+                  intro1VideoRef.current.play().catch(() => { });
+                }
+              } else if (isPaused) {
+                setIsPaused(false);
+                if (intro1VideoRef.current) {
+                  intro1VideoRef.current.play().catch(() => { });
+                }
               }
             }}
           >
@@ -486,7 +559,17 @@ export const PlayerOnboarding = ({ onComplete }) => {
   // Intro 2 video - plays second introduction video, completes onboarding when ends or errors
   if (isIntro2VideoStep) {
     return (
-      <div className="onboarding-overlay onboarding-overlay-video">
+      <div
+        className="onboarding-overlay onboarding-overlay-video"
+        onClick={handleIntro2Click}
+        style={{ cursor: "pointer" }}
+      >
+        <div className="phone-rotate-prompt">
+          <div className="phone-icon-wrapper">
+            <div className="phone-body-icon"></div>
+          </div>
+          <span className="phone-rotate-text">{tx("playerOnboarding.rotatePhoneMessage", "Rotate your phone")}</span>
+        </div>
         {/* Full-screen video player for second intro sequence */}
         <video
           ref={intro2VideoRef}
@@ -497,17 +580,31 @@ export const PlayerOnboarding = ({ onComplete }) => {
           controls={false}
           webkit-playsinline="true"
           onLoadedData={(e) => { e.target.currentTime = 1.0; }}
-          onEnded={() => completeOnboarding(playerData)}
-          onError={() => completeOnboarding(playerData)}
+          onEnded={() => {
+            setIsPaused(false);
+            completeOnboarding(playerData);
+          }}
+          onError={() => {
+            setIsPaused(false);
+            completeOnboarding(playerData);
+          }}
         />
-        {needsTapToPlay && (
+        {(needsTapToPlay || isPaused) && (
           <button
             className="onboarding-tap-to-play"
-            onClick={() => {
-              setNeedsTapToPlay(false);
-              if (intro2VideoRef.current) {
-                intro2VideoRef.current.currentTime = 0;
-                intro2VideoRef.current.play().catch(() => { });
+            onClick={(e) => {
+              e.stopPropagation();
+              if (needsTapToPlay) {
+                setNeedsTapToPlay(false);
+                if (intro2VideoRef.current) {
+                  intro2VideoRef.current.currentTime = 0;
+                  intro2VideoRef.current.play().catch(() => { });
+                }
+              } else if (isPaused) {
+                setIsPaused(false);
+                if (intro2VideoRef.current) {
+                  intro2VideoRef.current.play().catch(() => { });
+                }
               }
             }}
           >

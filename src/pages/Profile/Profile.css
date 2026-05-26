@@ -241,7 +241,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1300;
+  z-index: 9999;
   padding: 1rem;
 }
 
@@ -280,7 +280,7 @@
 
 .classification-quiz-title {
   margin: 0 1.5rem 1rem 0;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   line-height: 1.4;
 }
 
@@ -295,6 +295,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+  z-index: 9999
 }
 
 .classification-quiz-option {

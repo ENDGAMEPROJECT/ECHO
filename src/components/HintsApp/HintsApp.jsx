@@ -47,15 +47,45 @@ export const HintsApp = () => {
   const hintsVideoRef = useRef(null);
   // Show play button overlay by default so user triggers video playback
   const [needsTapToPlay, setNeedsTapToPlay] = useState(true);
+  // Track if hints video is paused during playback
+  const [isPaused, setIsPaused] = useState(false);
 
   // Ensure play button overlay is shown when hints video is active (no autoplay)
   useEffect(() => {
     if (showIntroVideo && hintsVideoRef.current) {
       setNeedsTapToPlay(true);
+      setIsPaused(false);
       const v = hintsVideoRef.current;
       v.load();
     }
   }, [showIntroVideo]);
+
+  // Manage body class for video fullscreen to handle stacking context / z-index
+  useEffect(() => {
+    const isVideoActive = showIntroVideo;
+    if (isVideoActive) {
+      document.body.classList.add("video-fullscreen-active");
+    } else {
+      document.body.classList.remove("video-fullscreen-active");
+    }
+    return () => {
+      document.body.classList.remove("video-fullscreen-active");
+    };
+  }, [showIntroVideo]);
+
+  // Click/tap handler to toggle play/pause on the hints video
+  const handleHintsVideoClick = () => {
+    if (needsTapToPlay) return;
+    if (hintsVideoRef.current) {
+      if (hintsVideoRef.current.paused) {
+        hintsVideoRef.current.play().catch(() => { });
+        setIsPaused(false);
+      } else {
+        hintsVideoRef.current.pause();
+        setIsPaused(true);
+      }
+    }
+  };
 
   /**
    * Determines the active puzzle ID based on player's challenge completion progress
@@ -157,7 +187,11 @@ export const HintsApp = () => {
   if (showIntroVideo) {
     return (
       // Full-screen overlay for video display
-      <div className="hints-intro-overlay">
+      <div
+        className="hints-intro-overlay"
+        onClick={handleHintsVideoClick}
+        style={{ cursor: "pointer" }}
+      >
         {/* 
           Intro video player
           Plays automatically and supports inline playback on mobile
@@ -171,6 +205,7 @@ export const HintsApp = () => {
           playsInline
           onLoadedData={(e) => { e.target.currentTime = 1.0; }}
           onEnded={() => {
+            setIsPaused(false);
             if (showIntroVideo === 1) {
               setShowIntroVideo(2);
             } else {
@@ -179,14 +214,22 @@ export const HintsApp = () => {
           }}
           onError={() => setShowIntroVideo(null)}
         />
-        {needsTapToPlay && (
+        {(needsTapToPlay || isPaused) && (
           <button
             className="hints-tap-to-play"
-            onClick={() => {
-              setNeedsTapToPlay(false);
-              if (hintsVideoRef.current) {
-                hintsVideoRef.current.currentTime = 0;
-                hintsVideoRef.current.play().catch(() => { });
+            onClick={(e) => {
+              e.stopPropagation();
+              if (needsTapToPlay) {
+                setNeedsTapToPlay(false);
+                if (hintsVideoRef.current) {
+                  hintsVideoRef.current.currentTime = 0;
+                  hintsVideoRef.current.play().catch(() => { });
+                }
+              } else if (isPaused) {
+                setIsPaused(false);
+                if (hintsVideoRef.current) {
+                  hintsVideoRef.current.play().catch(() => { });
+                }
               }
             }}
           >
@@ -195,7 +238,10 @@ export const HintsApp = () => {
         )}
         <button
           className="hints-intro-skip"
-          onClick={() => setShowIntroVideo(null)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setShowIntroVideo(null);
+          }}
         >
           {t("hintsApp.skipVideo", "Skip")} →
         </button>

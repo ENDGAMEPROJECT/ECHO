@@ -516,102 +516,103 @@ export const Profile = () => {
           </div>
 
           {/* Classification quiz modal: shown after user classifies account as bot */}
-          {showClassificationQuiz && (
+
+        </main>
+        {showClassificationQuiz && (
+          <div
+            className="classification-quiz-overlay"
+            onClick={() => setShowClassificationQuiz(false)}
+          >
             <div
-              className="classification-quiz-overlay"
-              onClick={() => setShowClassificationQuiz(false)}
+              className="classification-quiz-modal"
+              onClick={(e) => e.stopPropagation()}
             >
-              <div
-                className="classification-quiz-modal"
-                onClick={(e) => e.stopPropagation()}
+              {/* Close button */}
+              <button
+                className="classification-quiz-close"
+                type="button"
+                onClick={() => setShowClassificationQuiz(false)}
+                aria-label={t("profile.closeQuiz")}
               >
-                {/* Close button */}
-                <button
-                  className="classification-quiz-close"
-                  type="button"
-                  onClick={() => setShowClassificationQuiz(false)}
-                  aria-label={t("profile.closeQuiz")}
-                >
-                  ×
-                </button>
-                {/* Quiz header */}
-                <h3 className="classification-quiz-title">
-                  {t("profile.classificationQuizTitle")}
-                </h3>
-                <p className="classification-quiz-subtitle">
-                  {t("profile.classificationQuizSubtitle")}
-                </p>
+                ×
+              </button>
+              {/* Quiz header */}
+              <h3 className="classification-quiz-title">
+                {t("profile.classificationQuizTitle")}
+              </h3>
+              <p className="classification-quiz-subtitle">
+                {t("profile.classificationQuizSubtitle")}
+              </p>
 
-                {/* Quiz options: checkboxes for bot indicators */}
-                <div className="classification-quiz-options">
-                  {QUIZ_INDICATOR_KEYS.map((optionKey) => (
-                    <label
-                      key={optionKey}
-                      className="classification-quiz-option"
-                    >
-                      {/* Checkbox: select indicator */}
-                      <input
-                        type="checkbox"
-                        checked={selectedQuizOptions.includes(optionKey)}
-                        onChange={() => toggleQuizOption(optionKey)}
-                      />
+              {/* Quiz options: checkboxes for bot indicators */}
+              <div className="classification-quiz-options">
+                {QUIZ_INDICATOR_KEYS.map((optionKey) => (
+                  <label
+                    key={optionKey}
+                    className="classification-quiz-option"
+                  >
+                    {/* Checkbox: select indicator */}
+                    <input
+                      type="checkbox"
+                      checked={selectedQuizOptions.includes(optionKey)}
+                      onChange={() => toggleQuizOption(optionKey)}
+                    />
 
-                      <div style={{ display: "flex", flexDirection:"column", gap: "0.5rem" }}>
-                        <div style={{ display: "flex", flexDirection:"row", gap: "0.5rem" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                      <div style={{ display: "flex", flexDirection: "row", gap: "0.5rem" }}>
                         <strong>
                           {/* Indicator label (title only) */}
                           {t(`admin.hintContent.${optionKey}`).split(":")[0]}
-                        
-                        {" "}  {" "} 
-                        <button
-                          type="button"
-                          onClick={() => toggleDescription(optionKey)}
-                          className="hint-toggle-button"
-                        >
-                      
-                          {expandedHints[optionKey]
-                            ? t("profile.classificationQuiz.SeeLess")
-                            : t("profile.classificationQuiz.SeeMore")
-                          }
-                        </button>
+
+                          {" "}  {" "}
+                          <button
+                            type="button"
+                            onClick={() => toggleDescription(optionKey)}
+                            className="hint-toggle-button"
+                          >
+
+                            {expandedHints[optionKey]
+                              ? t("profile.classificationQuiz.SeeLess")
+                              : t("profile.classificationQuiz.SeeMore")
+                            }
+                          </button>
                         </strong>
-                       
-                        </div>
-                   
-                        <span
-                          style={{
-                            color: "#ffffffbb",
-                            fontSize: "0.85rem",
-                            marginTop: "0.25rem",
 
-                            display: expandedHints[optionKey] ? "inline" : "none",
-                          }}
-                        >
-                          {t(`admin.hintContent.${optionKey}`).split(":")[1]}
-                        </span>
                       </div>
-                    </label>
-                  ))}
-                </div>
 
-                {quizError && (
-                  <div className="classification-quiz-error">
-                    <span className="error-icon">⚠</span>
-                    {quizError}
-                  </div>
-                )}
+                      <span
+                        style={{
+                          color: "#ffffffbb",
+                          fontSize: "0.85rem",
+                          marginTop: "0.25rem",
 
-                <button
-                  type="button"
-                  className="classification-quiz-submit"
-                  onClick={handleSubmitQuiz}
-                >
-                  {t("profile.sendQuizAnswer")}
-                </button>
+                          display: expandedHints[optionKey] ? "inline" : "none",
+                        }}
+                      >
+                        {t(`admin.hintContent.${optionKey}`).split(":")[1]}
+                      </span>
+                    </div>
+                  </label>
+                ))}
               </div>
+
+              {quizError && (
+                <div className="classification-quiz-error">
+                  <span className="error-icon">⚠</span>
+                  {quizError}
+                </div>
+              )}
+
+              <button
+                type="button"
+                className="classification-quiz-submit"
+                onClick={handleSubmitQuiz}
+              >
+                {t("profile.sendQuizAnswer")}
+              </button>
             </div>
-          )}
-        </main>
+          </div>
+        )}
         {/* Panel de estadísticas lateral */}
         <aside className="stats-sidebar">
           <StatsPanel />

@@ -15,8 +15,10 @@
   position: relative;
   height: 70vh;
 
-  @supports (-webkit-touch-callout: none) {
-    height: 55vh;
+  @media screen and (max-width: 768px) {
+    @supports (-webkit-touch-callout: none) {
+      height: 55vh;
+    }
   }
 }
 

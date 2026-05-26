@@ -16,6 +16,7 @@ export const fi = {
     "appName": "ECHO"
   },
   "desktop": {
+    "rotatePhoneMessage": "Käännä puhelimesi",
     "apps": {
       "messages": "Viestit",
       "social": "ECHO",
@@ -355,6 +356,7 @@ export const fi = {
     "back": "Takaisin"
   },
   "playerOnboarding": {
+    "rotatePhoneMessage": "Käännä puhelimesi",
     "subtitle": "Tervetuloa ECHOn pakopeliin.",
     "nameLabel": "Pelaajan nimi",
     "namePlaceholder": "Syötä nimesi",

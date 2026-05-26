@@ -55,7 +55,7 @@ function App() {
   const { t } = useTranslation();
   const { sendStatement } = useXAPI();
   const { pauseEscapeTimer, resumeEscapeTimer } = useStats();
-  
+
   const [onboardingComplete, setOnboardingComplete] = useState(false);
   const [showSessionDialog, setShowSessionDialog] = useState(false);
   // Tracks the kind of session detected: "resume" (full game) | "resume-onboarding" (pretest checkpoint)
@@ -117,6 +117,12 @@ function App() {
 
   return (
     <div className="App">
+      <div className="phone-rotate-prompt-app">
+        <div className="phone-icon-wrapper">
+          <div className="phone-body-icon"></div>
+        </div>
+        <span className="phone-rotate-text">{t("desktop.rotatePhoneMessage", "Rotate your phone")}</span>
+      </div>
       {/* Session resume dialog - offer to continue or restart */}
       {showSessionDialog && (
         <div className="session-dialog-overlay">
@@ -137,13 +143,13 @@ function App() {
 
       {/* Onboarding questionnaire - only show if not complete and no session dialog */}
       {!onboardingComplete && !showSessionDialog && <PlayerOnboarding onComplete={handleOnboardingComplete} />}
-      
+
       {/* Scroll to top on route changes */}
       <ScrollToTop />
-      
+
       {/* Desktop OS interface */}
       <Desktop />
-      
+
       {/* Notifications */}
       <Toaster
         position="top-center"

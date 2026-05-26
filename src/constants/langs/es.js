@@ -16,6 +16,7 @@ export const es = {
     "appName": "ECHO"
   },
   "desktop": {
+    "rotatePhoneMessage": "Gira tu móvil",
     "apps": {
       "messages": "Mensajes",
       "social": "ECHO",
@@ -352,6 +353,7 @@ export const es = {
     "back": "Atrás"
   },
   "playerOnboarding": {
+    "rotatePhoneMessage": "Gira tu móvil",
     "subtitle": "Bienvenido al Escape room de ECHO.",
     "nameLabel": "Nombre del jugador",
     "namePlaceholder": "Ingresa tu nombre",

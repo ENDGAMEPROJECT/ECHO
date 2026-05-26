@@ -97,6 +97,8 @@ export const Desktop = () => {
   const [showOutroVideo, setShowOutroVideo] = useState(false);
   // Show play button overlay by default so user triggers video playback
   const [needsTapToPlay, setNeedsTapToPlay] = useState(true);
+  // Track if outro video is paused during playback
+  const [isPaused, setIsPaused] = useState(false);
   // Selected language for outro video (localized version)
   const [outroLanguage, setOutroLanguage] = useState(() => {
     const baseLanguage = i18n.resolvedLanguage || i18n.language || "es";
@@ -108,6 +110,8 @@ export const Desktop = () => {
   const outroTimeoutRef = useRef(null);
   // Reference to video element for auto-play control
   const outroVideoRef = useRef(null);
+  // Timeout for async video playback to prevent seek/play race condition
+  const playTimeoutRef = useRef(null);
   // Countdown is critical (red flashing) when <= 5 minutes remain
   const isCountdownCritical = escapeTimerRemainingMs <= 5 * 60 * 1000;
   // Handler: dismiss boss notification
@@ -377,7 +381,45 @@ export const Desktop = () => {
   useEffect(() => {
     if (!showOutroVideo || !outroVideoRef.current) return;
     setNeedsTapToPlay(true);
+    setIsPaused(false);
+    outroVideoRef.current.load(); // Force load to trigger onLoadedData and show preview
   }, [showOutroVideo, outroVideoSrc]);
+
+  // Manage body class for video fullscreen to handle stacking context / z-index on mobile
+  useEffect(() => {
+    const isVideoActive = showOutroVideo;
+    if (isVideoActive) {
+      document.body.classList.add("video-fullscreen-active");
+    } else {
+      document.body.classList.remove("video-fullscreen-active");
+    }
+    return () => {
+      document.body.classList.remove("video-fullscreen-active");
+    };
+  }, [showOutroVideo]);
+
+  // Cleanup play timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (playTimeoutRef.current) {
+        clearTimeout(playTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Click/tap handler to toggle play/pause on the video
+  const handleOutroVideoClick = () => {
+    if (needsTapToPlay) return;
+    if (outroVideoRef.current) {
+      if (outroVideoRef.current.paused) {
+        outroVideoRef.current.play().catch(() => { });
+        setIsPaused(false);
+      } else {
+        outroVideoRef.current.pause();
+        setIsPaused(true);
+      }
+    }
+  };
 
   // Memoized: format remaining time as MM:SS string
   const countdownText = useMemo(() => {
@@ -639,10 +681,19 @@ export const Desktop = () => {
           </div>
         </div>
       )}
-
       {/* Outro video overlay: plays success/fail video at game completion */}
       {showOutroVideo && outroVideoSrc && (
-        <div className="outro-video-overlay">
+        <div
+          className="outro-video-overlay"
+          onClick={handleOutroVideoClick}
+          style={{ cursor: "pointer" }}
+        >
+          <div className="phone-rotate-prompt">
+            <div className="phone-icon-wrapper">
+              <div className="phone-body-icon"></div>
+            </div>
+            <span className="phone-rotate-text">{t("desktop.rotatePhoneMessage", "Rotate your phone")}</span>
+          </div>
           <video
             ref={outroVideoRef}
             className="outro-video-player"
@@ -655,14 +706,32 @@ export const Desktop = () => {
             onError={handleOutroVideoError}
             onContextMenu={(event) => event.preventDefault()}
           />
-          {needsTapToPlay && (
+          {(needsTapToPlay || isPaused) && (
             <button
               className="outro-tap-to-play"
-              onClick={() => {
-                setNeedsTapToPlay(false);
-                if (outroVideoRef.current) {
-                  outroVideoRef.current.currentTime = 0;
-                  outroVideoRef.current.play().catch(() => { });
+              onClick={(e) => {
+                e.stopPropagation();
+                if (needsTapToPlay) {
+                  setNeedsTapToPlay(false);
+                  if (outroVideoRef.current) {
+                    outroVideoRef.current.currentTime = 0;
+                    const isMobile = window.innerWidth <= 768;
+                    const delay = isMobile ? 1500 : 0;
+                    if (playTimeoutRef.current) {
+                      clearTimeout(playTimeoutRef.current);
+                    }
+                    playTimeoutRef.current = setTimeout(() => {
+                      if (outroVideoRef.current) {
+                        outroVideoRef.current.play().catch(() => { });
+                      }
+                      playTimeoutRef.current = null;
+                    }, delay);
+                  }
+                } else if (isPaused) {
+                  setIsPaused(false);
+                  if (outroVideoRef.current) {
+                    outroVideoRef.current.play().catch(() => { });
+                  }
                 }
               }}
             >

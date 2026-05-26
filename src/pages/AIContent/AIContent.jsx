@@ -56,6 +56,7 @@ export const AIContent = () => {
   const { sendStatement, trackChallengeStarted } = useXAPI();
   const completionSentRef = useRef(false);
   const videoRef = useRef(null);
+  const playTimeoutRef = useRef(null);
   const [step, setStep] = useState("list");
   // Video watched flag (persisted in sessionStorage)
   const [videoEnded, setVideoEnded] = useState(() => {
@@ -68,6 +69,8 @@ export const AIContent = () => {
   const [wrongChoice, setWrongChoice] = useState(null);
   // Show play button overlay by default so user triggers video playback
   const [needsTapToPlay, setNeedsTapToPlay] = useState(true);
+  // Track if video is paused during playback
+  const [isPaused, setIsPaused] = useState(false);
   // Show reconstructed sentence vs. original post (delayed display after completion)
   const [showMatch, setShowMatch] = useState(false);
   // Shuffled answer options for each word position
@@ -131,6 +134,15 @@ export const AIContent = () => {
     };
   }, []);
 
+  // Cleanup play timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (playTimeoutRef.current) {
+        clearTimeout(playTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // Initialize challenge timer (fallback for direct URL access)
   useEffect(() => {
     if (challenge2Completed) return;
@@ -182,8 +194,41 @@ export const AIContent = () => {
   useEffect(() => {
     if (step === "video" && !videoEnded && videoRef.current) {
       setNeedsTapToPlay(true);
+      setIsPaused(false);
+      videoRef.current.load(); // Force load to trigger onLoadedData and show preview
     }
   }, [step, videoEnded]);
+
+  // Manage body class for video fullscreen to handle stacking context / z-index on mobile
+  useEffect(() => {
+    const isMobileVideoActive = step === "video" && !videoEnded;
+    if (isMobileVideoActive) {
+      document.body.classList.add("video-fullscreen-active");
+    } else {
+      document.body.classList.remove("video-fullscreen-active");
+    }
+    return () => {
+      document.body.classList.remove("video-fullscreen-active");
+    };
+  }, [step, videoEnded]);
+
+  // Click/tap handler to toggle play/pause on the AI video
+  const handleVideoClick = () => {
+    if (needsTapToPlay || videoEnded) return;
+    if (playTimeoutRef.current) {
+      clearTimeout(playTimeoutRef.current);
+      playTimeoutRef.current = null;
+    }
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play().catch(() => { });
+        setIsPaused(false);
+      } else {
+        videoRef.current.pause();
+        setIsPaused(true);
+      }
+    }
+  };
 
   // Complete challenge, send Challenge 3 instructions message
   const handleCompletionClose = () => {
@@ -470,54 +515,80 @@ export const AIContent = () => {
                   </div>
 
                   {hasLocalizedVideo && (
-                    <div className="ai-video-container">
-                      <video
-                        ref={videoRef}
-                        width="100%"
-                        controls={false}
-                        playsInline
-                        preload="auto"
-                        onEnded={() => {
-                          sessionStorage.setItem("echo:puzzle2:videoViewed", "true");
-                          setVideoEnded(true);
-                        }}
-                        onPlay={() => setVideoEnded(false)}
-                        onLoadedData={(e) => { e.target.currentTime = 1.0; }}
-                        onError={() => setHasLocalizedVideo(false)}
-                        src={localizedVideoSrc}
-                        style={{ borderRadius: 12, background: "#000" }}
-                      />
-                      {needsTapToPlay && !videoEnded && (
-                        <button
-                          className="ai-tap-to-play"
-                          onClick={() => {
-                            setNeedsTapToPlay(false);
-                            if (videoRef.current) {
-                              videoRef.current.currentTime = 0;
-                              videoRef.current.play().catch(() => { });
-                            }
+                    <div className="ai-video-wrapper">
+                      <div
+                        className={`ai-video-container ${(!needsTapToPlay && !videoEnded) ? "fullscreen-mobile-active" : ""}`}
+                        onClick={handleVideoClick}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <video
+                          ref={videoRef}
+                          width="100%"
+                          controls={false}
+                          playsInline
+                          preload="auto"
+                          onEnded={() => {
+                            sessionStorage.setItem("echo:puzzle2:videoViewed", "true");
+                            setVideoEnded(true);
+                            setIsPaused(false);
                           }}
-                        >
-                          ▶
-                        </button>
-                      )}
-                      {videoEnded && (
-                        <div className="ai-video-replay-overlay">
+                          onPlay={() => setVideoEnded(false)}
+                          onLoadedData={(e) => { e.target.currentTime = 1.0; }}
+                          onError={() => setHasLocalizedVideo(false)}
+                          src={localizedVideoSrc}
+                          style={{ borderRadius: (!needsTapToPlay && !videoEnded) ? 0 : 12, background: "#000" }}
+                        />
+                        {(needsTapToPlay || isPaused) && !videoEnded && (
                           <button
-                            className="ai-video-replay-btn"
-                            type="button"
+                            className="ai-tap-to-play"
                             onClick={(e) => {
-                              const video = e.currentTarget.closest(".ai-video-container").querySelector("video");
-                              if (video) {
-                                video.currentTime = 0;
-                                video.play();
+                              e.stopPropagation();
+                              if (needsTapToPlay) {
+                                setNeedsTapToPlay(false);
+                                if (videoRef.current) {
+                                  videoRef.current.currentTime = 0;
+                                  // Add a little delay on mobile devices to let them rotate the phone
+                                  const isMobile = window.innerWidth <= 768;
+                                  const delay = isMobile ? 1500 : 0;
+                                  if (playTimeoutRef.current) {
+                                    clearTimeout(playTimeoutRef.current);
+                                  }
+                                  playTimeoutRef.current = setTimeout(() => {
+                                    if (videoRef.current) {
+                                      videoRef.current.play().catch(() => { });
+                                    }
+                                    playTimeoutRef.current = null;
+                                  }, delay);
+                                }
+                              } else if (isPaused) {
+                                setIsPaused(false);
+                                if (videoRef.current) {
+                                  videoRef.current.play().catch(() => { });
+                                }
                               }
                             }}
                           >
-                            ▶ {t("aiVideoPage.replayVideo")}
+                            ▶
                           </button>
-                        </div>
-                      )}
+                        )}
+                        {videoEnded && (
+                          <div className="ai-video-replay-overlay" onClick={(e) => e.stopPropagation()}>
+                            <button
+                              className="ai-video-replay-btn"
+                              type="button"
+                              onClick={(e) => {
+                                const video = e.currentTarget.closest(".ai-video-container").querySelector("video");
+                                if (video) {
+                                  video.currentTime = 0;
+                                  video.play();
+                                }
+                              }}
+                            >
+                              ▶ {t("aiVideoPage.replayVideo")}
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
 
