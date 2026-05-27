@@ -566,7 +566,7 @@
   transition: opacity 0.3s ease;
 }
 
-@media (max-width: 768px) and (orientation: portrait) {
+@media (max-width: 956px) and (orientation: portrait) {
   .phone-rotate-prompt {
     display: flex;
   }

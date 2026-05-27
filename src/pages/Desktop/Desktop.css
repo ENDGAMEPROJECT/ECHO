@@ -214,15 +214,15 @@ p {
 
   0%,
   100% {
-    transform: translate(-50%, var(--drawer-translate, 60px)) translateX(0);
+    transform: translate(-50%) translateX(0);
   }
 
   25% {
-    transform: translate(-50%, var(--drawer-translate, 60px)) translateX(-8px);
+    transform: translate(-50%) translateX(-8px);
   }
 
   75% {
-    transform: translate(-50%, var(--drawer-translate, 60px)) translateX(8px);
+    transform: translate(-50%) translateX(8px);
   }
 }
 

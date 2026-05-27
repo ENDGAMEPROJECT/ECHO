@@ -318,7 +318,7 @@ body.video-fullscreen-active .phone-rotate-prompt-app {
   display: none !important;
 }
 
-@media (max-width: 767px) and (orientation: landscape) {
+@media (max-width: 956px) and (orientation: landscape) {
   .phone-rotate-prompt-app {
     display: flex;
     position: absolute;
@@ -340,6 +340,7 @@ body.video-fullscreen-active .phone-rotate-prompt-app {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
     transition: opacity 0.3s ease;
   }
+
 }
 
 @media (max-width: 768px) and (orientation: portrait) {

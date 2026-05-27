@@ -4,10 +4,11 @@
 }
 
 .modal-content .input-container textarea {
- background-color: var(--surface);
+  background-color: var(--surface);
   color: var(--text-color);
   border: 1px solid var(--border-color);
 }
+
 .modal-content .input-container textarea::placeholder {
   color: var(--muted-text);
 }
@@ -43,7 +44,7 @@
   cursor: pointer;
 }
 
-.modal-content .input-btn-container .toolbar-container > * {
+.modal-content .input-btn-container .toolbar-container>* {
   margin-right: 0.5rem;
   font-size: 1.5rem;
 }
@@ -106,6 +107,7 @@
 .modal-emoji-body span {
   cursor: pointer;
 }
+
 .close-emoji-model {
   align-self: flex-end;
   cursor: pointer;

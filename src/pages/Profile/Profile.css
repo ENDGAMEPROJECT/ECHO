@@ -557,7 +557,7 @@
 }
 
 /* Landscape orientation - optimize modal sizing */
-@media (min-width: 768px) and (orientation: landscape) {
+@media (min-width: 956px) and (orientation: landscape) {
   .modal-content {
     width: 50%;
     top: 8%;

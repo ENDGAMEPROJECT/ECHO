@@ -426,7 +426,7 @@
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-radius 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 956px) {
     .ai-video-container.fullscreen-mobile-active {
         position: fixed;
         z-index: 99999;
@@ -458,7 +458,7 @@
     }
 }
 
-@media (max-width: 768px) and (orientation: landscape) {
+@media (max-width: 956px) and (orientation: landscape) {
     .ai-video-container.fullscreen-mobile-active {
         top: 0;
         left: 0;

@@ -548,7 +548,7 @@ export const AIContent = () => {
                                 if (videoRef.current) {
                                   videoRef.current.currentTime = 0;
                                   // Add a little delay on mobile devices to let them rotate the phone
-                                  const isMobile = window.innerWidth <= 768;
+                                  const isMobile = window.innerWidth <= 956;
                                   const delay = isMobile ? 1500 : 0;
                                   if (playTimeoutRef.current) {
                                     clearTimeout(playTimeoutRef.current);
