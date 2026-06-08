@@ -13,7 +13,7 @@ The project is built with React + Vite, uses MirageJS as a simulated in-memory b
 5. The player reads messages from the security team and unlocks the ECHO social network.
 6. Within ECHO, logs in with moderator credentials.
 7. Completes the challenges in order and publishes the final Community Note.
-8. Upon completion, a success or failure video is played and a final survey is shown.
+8. When the final challenge is submitted, a localized success or failure outro video is played and the final survey is shown. If the timer expires before completion, the survey is made available without an outro.
 
 Social app credentials:
 
@@ -60,14 +60,14 @@ The main screen is a desktop with an app drawer:
 
 ## Requirements
 
-- Node.js 18 or higher.
+- Node.js 20.19 or higher, or Node.js 22.12 or higher.
 - npm 9 or higher.
 
 ## Installation
 
 ```bash
-git clone https://github.com/valgonzalez3001/SocialMediaER2.git
-cd SocialMediaER2
+git clone https://github.com/ENDGAMEPROJECT/ECHO
+cd ECHO
 npm install
 ```
 
